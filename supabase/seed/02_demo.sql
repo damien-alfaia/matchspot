@@ -25,7 +25,10 @@ INSERT INTO public.etablissements (
     adresse,
     fuseau_horaire,
     capacite,
-    slug_public
+    slug_public,
+    ville,
+    latitude,
+    longitude
 )
 VALUES (
     '00000000-0000-0000-0000-000000000010',
@@ -34,7 +37,10 @@ VALUES (
     '12 rue de la Coupe, 75011 Paris',
     'Europe/Paris',
     120,
-    'comptoir-des-champions'
+    'comptoir-des-champions',
+    'Paris',
+    48.8625,
+    2.3781
 )
 ON CONFLICT (slug_public) DO NOTHING;
 
@@ -46,7 +52,10 @@ INSERT INTO public.etablissements (
     adresse,
     fuseau_horaire,
     capacite,
-    slug_public
+    slug_public,
+    ville,
+    latitude,
+    longitude
 )
 VALUES (
     '00000000-0000-0000-0000-000000000011',
@@ -55,7 +64,10 @@ VALUES (
     '742 Broadway, New York, NY 10003',
     'America/New_York',
     80,
-    'goal-line-nyc'
+    'goal-line-nyc',
+    'New York',
+    40.7295,
+    -73.9921
 )
 ON CONFLICT (slug_public) DO NOTHING;
 
@@ -67,7 +79,7 @@ ON CONFLICT (organisation_id) DO NOTHING;
 -- =====================================================================
 -- Adhésion automatique
 --
--- Si un utilisateur s'est déjà inscrit avec l'email demo@matchday.test,
+-- Si un utilisateur s'est déjà inscrit avec l'email demo@matchspot.test,
 -- on l'attache automatiquement à l'organisation de démo en tant que
 -- propriétaire. Sinon, ce bloc ne fait rien.
 -- =====================================================================
@@ -77,7 +89,7 @@ DECLARE
 BEGIN
     SELECT id INTO v_user_id
       FROM auth.users
-     WHERE email = 'demo@matchday.test'
+     WHERE email = 'demo@matchspot.test'
      LIMIT 1;
 
     IF v_user_id IS NOT NULL THEN

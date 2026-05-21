@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import type { Reservation } from '../types/base';
+import type { Reservation, StatutReservation } from '../types/base';
 import { formaterDateHeure } from '../utils/fuseaux';
 import {
   classesBadgeReservation,
@@ -17,6 +17,19 @@ interface Props {
 export function PanneauReservations({ diffusionIds, fuseau }: Props) {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [traitementId, setTraitementId] = useState<string | null>(null);
+
+  async function changerStatut(id: string, statut: StatutReservation) {
+    setTraitementId(id);
+    setErreur(null);
+    const { error } = await supabase
+      .from('reservations')
+      .update({ statut })
+      .eq('id', id);
+    if (error) setErreur(error.message);
+    setTraitementId(null);
+    // Pas de mutation locale : l'événement Realtime UPDATE rafraîchira la ligne.
+  }
 
   useEffect(() => {
     if (diffusionIds.length === 0) {
@@ -116,26 +129,64 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                 <th className="px-3 py-2">Email</th>
                 <th className="px-3 py-2">Groupe</th>
                 <th className="px-3 py-2">Statut</th>
+                <th className="px-3 py-2 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 bg-white">
-              {reservations.map((r) => (
-                <tr key={r.id}>
-                  <td className="whitespace-nowrap px-3 py-2 text-slate-600">
-                    {formaterDateHeure(r.cree_le, fuseau)}
-                  </td>
-                  <td className="px-3 py-2 font-medium text-slate-900">
-                    {r.nom_client}
-                  </td>
-                  <td className="px-3 py-2 text-slate-600">{r.email_client}</td>
-                  <td className="px-3 py-2 text-slate-600">{r.taille_groupe}</td>
-                  <td className="px-3 py-2">
-                    <span className={`badge ${classesBadgeReservation(r.statut)}`}>
-                      {libelleStatutReservation[r.statut]}
-                    </span>
-                  </td>
-                </tr>
-              ))}
+              {reservations.map((r) => {
+                const enTraitement = traitementId === r.id;
+                return (
+                  <tr key={r.id}>
+                    <td className="whitespace-nowrap px-3 py-2 text-slate-600">
+                      {formaterDateHeure(r.cree_le, fuseau)}
+                    </td>
+                    <td className="px-3 py-2 font-medium text-slate-900">
+                      {r.nom_client}
+                    </td>
+                    <td className="px-3 py-2 text-slate-600">{r.email_client}</td>
+                    <td className="px-3 py-2 text-slate-600">{r.taille_groupe}</td>
+                    <td className="px-3 py-2">
+                      <span className={`badge ${classesBadgeReservation(r.statut)}`}>
+                        {libelleStatutReservation[r.statut]}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2">
+                      <div className="flex flex-wrap justify-end gap-1.5">
+                        {r.statut !== 'confirmee' && (
+                          <button
+                            type="button"
+                            disabled={enTraitement}
+                            onClick={() => changerStatut(r.id, 'confirmee')}
+                            className="rounded-md bg-bleu-700 px-2.5 py-1 text-xs font-medium text-white transition hover:bg-bleu-800 disabled:opacity-50"
+                          >
+                            Confirmer
+                          </button>
+                        )}
+                        {r.statut !== 'en_attente' && (
+                          <button
+                            type="button"
+                            disabled={enTraitement}
+                            onClick={() => changerStatut(r.id, 'en_attente')}
+                            className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                          >
+                            Remettre en attente
+                          </button>
+                        )}
+                        {r.statut !== 'annulee' && (
+                          <button
+                            type="button"
+                            disabled={enTraitement}
+                            onClick={() => changerStatut(r.id, 'annulee')}
+                            className="rounded-md border border-red-300 bg-white px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50"
+                          >
+                            Annuler
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}

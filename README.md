@@ -1,4 +1,4 @@
-# MatchDay
+# MatchSpot
 
 Plateforme SaaS B2B de gestion des soirées de diffusion des matchs de la
 **Coupe du Monde 2026** pour bars et restaurants. Cible prioritaire :
@@ -84,10 +84,10 @@ Le seed `02_demo.sql` crée :
 Pour devenir propriétaire de l'organisation de démo :
 
 1. Lancer le front, aller sur `/connexion`, cliquer sur « S'inscrire »
-   et créer le compte avec l'email `demo@matchday.test`.
+   et créer le compte avec l'email `demo@matchspot.test`.
 2. Rejouer `supabase/seed/02_demo.sql` (idempotent) : le bloc DO final
    trouvera votre utilisateur et créera l'adhésion.
-3. Se connecter avec `demo@matchday.test` : le tableau de bord liste
+3. Se connecter avec `demo@matchspot.test` : le tableau de bord liste
    les deux établissements.
 
 Si vous préférez un autre email, créez l'adhésion à la main dans l'éditeur
@@ -168,6 +168,83 @@ SELECT (coup_envoi_utc AT TIME ZONE 'America/New_York') AS heure_ny
   spécification explicite.
 - [CALENDRIER.md](docs/CALENDRIER.md) — sources web, méthode de
   conversion en UTC, incertitudes.
+
+## Vague 1 — Évolutions post-MVP (mai 2026)
+
+La plateforme a été enrichie pour permettre un onboarding sans SQL et
+préparer la Coupe du Monde. Voir le détail dans
+[~/.claude/plans/peux-tu-me-faire-gentle-pretzel.md](./).
+
+### Onboarding bar self-service
+
+Route **`/inscription-pro`** : un patron de bar crée son compte + son
+organisation + son premier établissement en deux écrans. La RPC
+`creer_organisation_bar_initial` enchaîne les INSERT en transaction.
+
+### CRUD établissement dans l'UI
+
+- Bouton **« + Nouvel établissement »** depuis le tableau de bord.
+- Bouton **« Éditer le bar »** depuis la page d'un établissement.
+- Champs : nom, adresse, ville, téléphone, fuseau, capacité, slug
+  public, description courte, photo, latitude/longitude.
+- **Géocodage automatique** de l'adresse via Nominatim (OSM) sur perte
+  de focus.
+
+### Page bar enrichie
+
+La page publique `/etablissements/:slug` affiche désormais le bandeau
+photo, la description courte, le téléphone cliquable, un lien
+« Itinéraire » vers Google Maps, et un bouton « Partager » (Web Share
+API sur mobile, copier-coller sur desktop).
+
+### Réinitialisation de mot de passe
+
+Route **`/mot-de-passe-oublie`** : envoie un email Supabase Auth puis
+permet de définir un nouveau mot de passe via le lien reçu.
+
+### Page admin des résultats
+
+Route **`/admin/resultats`** (réservée aux comptes ayant au moins une
+adhésion `proprietaire`) : saisie du vainqueur de chaque match terminé.
+La RPC `propager_qualifies` remplace en cascade les placeholders
+`Vainqueur 16e #N` par les vrais noms d'équipes.
+
+### Notifications email (Resend)
+
+Une Edge Function `notifier_reservation` envoie deux emails à chaque
+nouvelle réservation : un récap au client, une alerte au bar. Best
+effort : si Resend tombe, la résa reste en base et le Realtime du
+dashboard prend le relais.
+
+**Activation :**
+
+```bash
+# 1) Récupérer une clé API sur https://resend.com/api-keys
+# 2) Renseigner les secrets Supabase
+supabase secrets set \
+  RESEND_API_KEY=sk_... \
+  EMAIL_EXPEDITEUR="MatchSpot <noreply@matchspot.fr>" \
+  URL_APP="https://matchspot.fr"
+
+# 3) Déployer la fonction
+supabase functions deploy notifier_reservation
+```
+
+En local, la fonction est servie automatiquement par `supabase start` à
+`http://127.0.0.1:54321/functions/v1/notifier_reservation`.
+
+### SEO + OpenGraph
+
+Composant `EnTeteSEO` injecté sur la page publique de chaque bar. Title,
+description, og:image (photo du bar ou logo MatchSpot par défaut),
+twitter:card. Idéal pour les liens partagés sur Slack, WhatsApp,
+Twitter, Facebook.
+
+### Quick wins
+
+- **Page 404 propre** avec retour à l'accueil.
+- **Badge urgence rouge** « Dépêchez-vous ! » quand il reste < 5 places.
+- **Mot de passe oublié** depuis `/connexion`.
 
 ## Hors périmètre (MVP)
 

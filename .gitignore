@@ -8,3 +8,5 @@ dist
 .idea
 *.log
 .supabase
+supabase/.branches
+supabase/.temp

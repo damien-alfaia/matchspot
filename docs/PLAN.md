@@ -1,4 +1,4 @@
-# Plan d'implémentation — MatchDay
+# Plan d'implémentation — MatchSpot
 
 Plateforme SaaS B2B de gestion de soirées de diffusion des matchs de la
 Coupe du Monde 2026 pour bars et restaurants. Cible prioritaire : France.

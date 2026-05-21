@@ -1,5 +1,5 @@
 -- =====================================================================
--- Migration 0001 — Schéma initial MatchDay
+-- Migration 0001 — Schéma initial MatchSpot
 --
 -- Tables et énumérations du SaaS multi-tenant.
 -- Toutes les heures stockées en UTC (timestamptz).

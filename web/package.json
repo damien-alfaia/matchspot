@@ -1,9 +1,9 @@
 {
-  "name": "matchday-web",
+  "name": "matchspot-web",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Front MatchDay — gestion de soirées Coupe du Monde 2026 pour bars",
+  "description": "Front MatchSpot — gestion de soirées Coupe du Monde 2026 pour bars",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

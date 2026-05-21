@@ -1,7 +1,7 @@
 # Configuration minimale pour la CLI Supabase locale.
 # Voir https://supabase.com/docs/guides/cli/config
 
-project_id = "matchday"
+project_id = "matchspot"
 
 [api]
 enabled = true
@@ -14,6 +14,10 @@ max_rows = 1000
 port = 54322
 shadow_port = 54320
 major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed/01_matchs.sql", "./seed/02_demo.sql"]
 
 [realtime]
 enabled = true
