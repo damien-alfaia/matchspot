@@ -4,6 +4,8 @@ import { supabase } from '../lib/supabase';
 import type { DiffusionAvecMatch, Etablissement } from '../types/base';
 import { Entete } from '../composants/Entete';
 import { FormulaireReservation } from '../composants/FormulaireReservation';
+import { BoutonPartager } from '../composants/BoutonPartager';
+import { EnTeteSEO } from '../composants/EnTeteSEO';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 
@@ -11,6 +13,7 @@ export function PagePublique() {
   const { slug } = useParams<{ slug: string }>();
   const [etablissement, setEtablissement] = useState<Etablissement | null>(null);
   const [diffusions, setDiffusions] = useState<DiffusionAvecMatch[]>([]);
+  const [soldes, setSoldes] = useState<Record<string, number>>({});
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
 
@@ -46,11 +49,34 @@ export function PagePublique() {
 
     if (errDiffs) {
       setErreur(errDiffs.message);
-    } else {
-      const triees = ((diffs ?? []) as DiffusionAvecMatch[]).sort((a, b) =>
-        a.matchs.coup_envoi_utc.localeCompare(b.matchs.coup_envoi_utc),
+      setChargement(false);
+      return;
+    }
+
+    const triees = ((diffs ?? []) as DiffusionAvecMatch[]).sort((a, b) =>
+      a.matchs.coup_envoi_utc.localeCompare(b.matchs.coup_envoi_utc),
+    );
+    setDiffusions(triees);
+
+    if (triees.length > 0) {
+      const { data: soldesData, error: errSoldes } = await supabase.rpc(
+        'soldes_places_diffusions',
+        { _diffusion_ids: triees.map((d) => d.id) },
       );
-      setDiffusions(triees);
+      if (errSoldes) {
+        setErreur(errSoldes.message);
+      } else {
+        const map: Record<string, number> = {};
+        for (const s of (soldesData ?? []) as Array<{
+          diffusion_id: string;
+          places_restantes: number;
+        }>) {
+          map[s.diffusion_id] = s.places_restantes;
+        }
+        setSoldes(map);
+      }
+    } else {
+      setSoldes({});
     }
     setChargement(false);
   }, [slug]);
@@ -84,85 +110,188 @@ export function PagePublique() {
     );
   }
 
+  const lienGoogleMaps = etablissement.adresse
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        etablissement.adresse,
+      )}`
+    : null;
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <Entete />
-      <main className="mx-auto max-w-3xl space-y-8 px-4 py-8">
-        <header>
-          <h1 className="text-3xl font-bold text-slate-900">
+      <EnTeteSEO
+        titre={`${etablissement.nom} — Soirées Coupe du Monde 2026 | MatchSpot`}
+        description={
+          etablissement.description_courte ??
+          `Réservez votre soirée Coupe du Monde 2026 à ${etablissement.nom}${
+            etablissement.ville ? `, ${etablissement.ville}` : ''
+          }. Diffusions, capacité, réservation en ligne.`
+        }
+        ogImage={etablissement.url_photo ?? `${window.location.origin}/logo.png`}
+        ogUrl={typeof window !== 'undefined' ? window.location.href : undefined}
+        type="place"
+      />
+      <div className="bg-heroMarine text-white">
+        <Entete />
+        <header className="mx-auto max-w-3xl px-4 pb-12 pt-8 sm:pb-16">
+          <p className="text-xs font-semibold uppercase tracking-wider text-bleu-200">
+            Bar partenaire MatchSpot
+          </p>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             {etablissement.nom}
           </h1>
           {etablissement.adresse && (
-            <p className="mt-1 text-slate-600">{etablissement.adresse}</p>
+            <p className="mt-2 text-marine-100">{etablissement.adresse}</p>
           )}
-          <p className="mt-2 text-sm text-slate-500">
-            Les horaires ci-dessous sont affichés au fuseau du bar
-            ({etablissement.fuseau_horaire}).
-          </p>
+          {etablissement.description_courte && (
+            <p className="mt-3 text-base text-white/90">
+              {etablissement.description_courte}
+            </p>
+          )}
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+            {etablissement.telephone && (
+              <a
+                href={`tel:${etablissement.telephone.replace(/\s/g, '')}`}
+                className="badge bg-white/10 text-white hover:bg-white/20"
+              >
+                📞 {etablissement.telephone}
+              </a>
+            )}
+            {lienGoogleMaps && (
+              <a
+                href={lienGoogleMaps}
+                target="_blank"
+                rel="noreferrer"
+                className="badge bg-white/10 text-white hover:bg-white/20"
+              >
+                📍 Itinéraire
+              </a>
+            )}
+            <span className="badge bg-white/10 text-white">
+              🕐 {etablissement.fuseau_horaire}
+            </span>
+            <BoutonPartager
+              url={typeof window !== 'undefined' ? window.location.href : ''}
+              titre={`${etablissement.nom} sur MatchSpot`}
+              texte={`Découvrez les soirées Coupe du Monde 2026 à ${etablissement.nom}`}
+              className="badge bg-white text-marine-900 hover:bg-marine-50"
+            />
+          </div>
         </header>
+      </div>
 
+      {etablissement.url_photo && (
+        <div className="mx-auto -mt-6 max-w-3xl px-4">
+          <img
+            src={etablissement.url_photo}
+            alt={`Photo de ${etablissement.nom}`}
+            className="h-48 w-full rounded-2xl border border-marine-100 object-cover shadow-carte sm:h-64"
+          />
+        </div>
+      )}
+
+      <main className="mx-auto mt-6 max-w-3xl space-y-6 px-4 pb-16">
         {erreur && (
-          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {erreur}
           </p>
         )}
 
         <section>
-          <h2 className="text-xl font-semibold text-slate-900">
-            Soirées à venir
-          </h2>
+          <h2 className="text-xl font-bold text-marine-900">Soirées à venir</h2>
           {diffusions.length === 0 ? (
-            <p className="mt-3 text-slate-600">
+            <div className="mt-4 carte text-center text-sm text-marine-600">
               Aucune soirée publiée pour l'instant. Revenez bientôt !
-            </p>
+            </div>
           ) : (
             <ul className="mt-4 space-y-4">
-              {diffusions.map((d) => (
-                <li key={d.id} className="carte">
-                  <p className="text-xs uppercase tracking-wide text-slate-500">
-                    Match #{d.matchs.numero_match} ·{' '}
-                    {libellePhase[d.matchs.phase]}
-                  </p>
-                  <h3 className="mt-1 text-lg font-semibold text-slate-900">
-                    {d.matchs.equipe_domicile}{' '}
-                    <span className="text-slate-400">vs</span>{' '}
-                    {d.matchs.equipe_exterieur}
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-700">
-                    {formaterDateHeure(
-                      d.matchs.coup_envoi_utc,
-                      etablissement.fuseau_horaire,
-                    )}{' '}
-                    <span className="text-slate-400">
-                      (
-                      {libelleFuseau(
-                        d.matchs.coup_envoi_utc,
-                        etablissement.fuseau_horaire,
-                      )}
-                      )
-                    </span>
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    {d.matchs.stade}, {d.matchs.ville_hote}
-                  </p>
-                  <p className="mt-2 text-sm font-medium text-terrain-700">
-                    {d.places_disponibles} places disponibles
-                  </p>
-
-                  <div className="mt-4 border-t border-slate-100 pt-4">
-                    <h4 className="text-sm font-medium text-slate-900">
-                      Réserver pour cette soirée
-                    </h4>
-                    <div className="mt-3">
-                      <FormulaireReservation
-                        diffusionId={d.id}
-                        placesDisponibles={d.places_disponibles}
-                        onReserve={charger}
-                      />
+              {diffusions.map((d) => {
+                const restantes = soldes[d.id] ?? d.places_disponibles;
+                const complet = restantes <= 0;
+                return (
+                  <li
+                    key={d.id}
+                    className="overflow-hidden rounded-2xl border border-marine-100 bg-white shadow-carte"
+                  >
+                    <div className="border-l-4 border-bleu-500 p-5 sm:p-6">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
+                            Match #{d.matchs.numero_match} ·{' '}
+                            {libellePhase[d.matchs.phase]}
+                          </p>
+                          <h3 className="mt-1 text-xl font-bold text-marine-900">
+                            {d.matchs.equipe_domicile}{' '}
+                            <span className="font-normal text-marine-400">vs</span>{' '}
+                            {d.matchs.equipe_exterieur}
+                          </h3>
+                          <p className="mt-2 text-sm text-marine-800">
+                            <span className="font-semibold">
+                              {formaterDateHeure(
+                                d.matchs.coup_envoi_utc,
+                                etablissement.fuseau_horaire,
+                              )}
+                            </span>{' '}
+                            <span className="text-marine-400">
+                              ({libelleFuseau(
+                                d.matchs.coup_envoi_utc,
+                                etablissement.fuseau_horaire,
+                              )}
+                              )
+                            </span>
+                          </p>
+                          <p className="mt-0.5 text-sm text-marine-500">
+                            {d.matchs.stade}, {d.matchs.ville_hote}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          {complet ? (
+                            <span className="badge bg-red-50 text-red-700">
+                              Complet
+                            </span>
+                          ) : (
+                            <>
+                              <p
+                                className={`text-2xl font-bold ${
+                                  restantes < 5
+                                    ? 'text-red-600'
+                                    : 'text-bleu-600'
+                                }`}
+                              >
+                                {restantes}
+                              </p>
+                              <p className="text-xs text-marine-500">
+                                / {d.places_disponibles} places
+                              </p>
+                              {restantes < 5 && (
+                                <span className="mt-1 inline-flex animate-pulse items-center gap-1 rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-700">
+                                  Dépêchez-vous !
+                                </span>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
+
+                    <div className="border-t border-marine-50 bg-marine-50/50 p-5 sm:p-6">
+                      <h4 className="mb-3 text-sm font-bold text-marine-900">
+                        Réserver pour cette soirée
+                      </h4>
+                      {complet ? (
+                        <p className="text-sm text-marine-600">
+                          Plus de place disponible pour cette soirée.
+                        </p>
+                      ) : (
+                        <FormulaireReservation
+                          diffusionId={d.id}
+                          placesRestantes={restantes}
+                          onReserve={charger}
+                        />
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>

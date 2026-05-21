@@ -1,32 +1,48 @@
 import { Link } from 'react-router-dom';
 import { Entete } from '../composants/Entete';
+import { MoteurRecherche } from '../composants/MoteurRecherche';
 
 export function PageAccueil() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <Entete />
-      <main className="mx-auto max-w-3xl px-4 py-16 text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          Gérez vos soirées Coupe du Monde 2026
-          <br />
-          sans casse-tête de fuseau horaire.
-        </h1>
-        <p className="mt-6 text-lg text-slate-600">
-          MatchDay aide les bars et restaurants à choisir les matchs diffusés,
-          à fixer la capacité de chaque soirée et à collecter les réservations
-          de leurs clients. Les horaires des 104 matchs sont automatiquement
-          convertis dans votre fuseau.
-        </p>
-        <div className="mt-8 flex justify-center gap-3">
-          <Link to="/connexion" className="bouton-primaire">
-            Accéder à mon tableau de bord
-          </Link>
+      <div className="bg-heroMarine text-white">
+        <Entete />
+        <section className="mx-auto max-w-3xl px-4 pb-16 pt-10 text-center sm:pb-20 sm:pt-14">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-wider text-bleu-100">
+            Coupe du Monde 2026 · 11 juin → 19 juillet
+          </span>
+          <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+            Où voir le match,
+            <br />
+            <span className="text-bleu-300">près de chez vous</span> ?
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-base text-marine-100 sm:text-lg">
+            MatchSpot trouve les bars et restaurants qui diffusent votre match
+            de la Coupe du Monde, et réserve votre table en quelques clics.
+          </p>
+        </section>
+      </div>
+
+      <main className="relative -mt-16 pb-16">
+        <div className="mx-auto max-w-3xl px-4">
+          <MoteurRecherche />
         </div>
-        <p className="mt-12 text-sm text-slate-500">
-          Vous êtes client ? Trouvez la page publique de votre bar préféré à
-          l'adresse <code className="font-mono">/etablissements/&lt;nom-du-bar&gt;</code>.
-        </p>
       </main>
+
+      <footer className="border-t border-marine-100 bg-white">
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-marine-600 sm:flex-row">
+          <p>© 2026 MatchSpot — fait avec ⚽ et ☕ en France.</p>
+          <p>
+            Vous gérez un bar ou un restaurant ?{' '}
+            <Link
+              to="/connexion"
+              className="font-semibold text-bleu-600 hover:underline"
+            >
+              Accédez à votre espace pro →
+            </Link>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

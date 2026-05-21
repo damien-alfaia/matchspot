@@ -1,4 +1,4 @@
-// Types métier MatchDay.
+// Types métier MatchSpot.
 // Reflètent le schéma de supabase/migrations/0001_schema.sql.
 // À régénérer via `supabase gen types typescript` si le schéma évolue.
 
@@ -37,9 +37,16 @@ export interface Etablissement {
   organisation_id: string;
   nom: string;
   adresse: string | null;
+  ville: string | null;
   fuseau_horaire: string;
   capacite: number;
   slug_public: string;
+  latitude: number | null;
+  longitude: number | null;
+  telephone: string | null;
+  description_courte: string | null;
+  url_photo: string | null;
+  horaires_ouverture: Record<string, string> | null;
   cree_le: string;
 }
 
