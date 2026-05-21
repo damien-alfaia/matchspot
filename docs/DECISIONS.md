@@ -89,6 +89,71 @@ directe, les équipes restent des placeholders calculés (« 1er Groupe A »,
 **Pourquoi.** Format non ambigu, lisible côté UI, sans dépendre des
 sigles FIFA.
 
+## D-010 — Notifications email best-effort via Edge Function
+
+**Décision.** L'envoi des emails (confirmation client + alerte bar) est
+déclenché par le front juste après l'INSERT dans `reservations`, via
+`supabase.functions.invoke('notifier_reservation', { body: { reservation_id } })`.
+Pas de trigger Postgres + `pg_net`.
+
+**Pourquoi.** Plus simple à auditer, moins de surface d'attaque, et le
+Realtime du dashboard reste la source de vérité pour le bar. Si Resend
+est indisponible, la résa est sauvegardée et visible en live ; l'email
+est un confort, pas un canal critique.
+
+**Implications.** L'Edge Function tourne avec la `service_role` pour
+lire la résa et l'email du propriétaire. Elle reçoit uniquement un UUID
+v4 non énumérable. Tout payload supplémentaire venant du client est
+ignoré.
+
+## D-011 — Page admin résultats protégée par adhésion `proprietaire`
+
+**Décision.** La route `/admin/resultats` est accessible à tout
+utilisateur ayant **au moins une adhésion `proprietaire`** dans
+n'importe quelle organisation. Pas de rôle « admin plateforme »
+distinct dans ce MVP.
+
+**Pourquoi.** Suffisant à 3 semaines de la CdM : on peut donner accès à
+l'équipe MatchSpot en créant une organisation interne sans s'embêter
+avec un rôle dédié. À durcir en vague 3 si on ouvre la plateforme à
+beaucoup d'organisations.
+
+**Implications.** Théoriquement un propriétaire d'un vrai bar pourrait
+modifier les résultats. Mitigation : la page n'est pas linkée depuis
+l'UI grand public, et un audit log (à ajouter) permettra de tracer.
+
+## D-012 — SEO via composant léger sans react-helmet
+
+**Décision.** `EnTeteSEO` injecte `<title>`, `<meta description>` et
+les balises OpenGraph/Twitter directement dans `document.head` via
+`useEffect`. Pas de `react-helmet-async`.
+
+**Pourquoi.** Zéro dépendance ajoutée, 30 lignes, suffisant pour les
+crawlers modernes (Googlebot, Bingbot, Slackbot, Twitterbot) qui
+exécutent JS depuis 2019+. À reconsidérer si on a un volume social
+organique important : passer à SSR/SSG.
+
+## D-013 — Onboarding pro via RPC `SECURITY DEFINER`
+
+**Décision.** La création d'une organisation + adhésion propriétaire +
+abonnement gratuit + premier établissement se fait via la RPC
+`creer_organisation_bar_initial`. Pas d'INSERT direct sur
+`organisations` (la table n'a aucune policy INSERT).
+
+**Pourquoi.** Transactionnel (tout réussit ou tout échoue), atomique,
+et seul point d'entrée pour la création d'org → sécurité simple à
+auditer.
+
+## D-014 — Géocodage Nominatim sans clé
+
+**Décision.** L'adresse → lat/lng utilise l'API publique Nominatim
+(OpenStreetMap), gratuite, sans clé. Attribution affichée sous le
+champ « Adresse » dans le formulaire.
+
+**Pourquoi.** Aucun secret à gérer, suffisant pour un MVP. Le 1 req/s
+imposé par Nominatim est respecté par le debounce et le cache local.
+Si on dépasse, basculer sur Mapbox géocodeur (100k/mois gratuit).
+
 ## D-009 — Revue manuelle des policies RLS (phase 5)
 
 **Décision.** Une revue ligne à ligne des policies a été menée. Les
