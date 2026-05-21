@@ -1,56 +1,100 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { Etablissement } from '../types/base';
 import { Entete } from '../composants/Entete';
+import { FormulaireEtablissement } from '../composants/FormulaireEtablissement';
 
 export function PageTableauDeBord() {
   const [etablissements, setEtablissements] = useState<Etablissement[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [organisationId, setOrganisationId] = useState<string | null>(null);
+  const [creationOuverte, setCreationOuverte] = useState(false);
+
+  const charger = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('etablissements')
+      .select('*')
+      .order('nom', { ascending: true });
+    if (error) {
+      setErreur(error.message);
+    } else {
+      const liste = (data ?? []) as Etablissement[];
+      setEtablissements(liste);
+      if (liste.length > 0) setOrganisationId(liste[0].organisation_id);
+      else {
+        // Pas d'établissement : on tente de récupérer une adhésion pour
+        // connaître l'organisation.
+        const { data: adhesions } = await supabase
+          .from('adhesions')
+          .select('organisation_id')
+          .limit(1)
+          .maybeSingle();
+        if (adhesions) setOrganisationId(adhesions.organisation_id);
+      }
+    }
+    setChargement(false);
+  }, []);
 
   useEffect(() => {
-    let actif = true;
-    (async () => {
-      const { data, error } = await supabase
-        .from('etablissements')
-        .select('*')
-        .order('nom', { ascending: true });
-      if (!actif) return;
-      if (error) {
-        setErreur(error.message);
-      } else {
-        setEtablissements(data ?? []);
-      }
-      setChargement(false);
-    })();
-    return () => {
-      actif = false;
-    };
-  }, []);
+    void charger();
+  }, [charger]);
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-5xl px-4 py-8">
-        <h1 className="text-2xl font-bold text-slate-900">Mes établissements</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Sélectionnez un établissement pour gérer ses soirées de diffusion.
-        </p>
+      <main className="mx-auto max-w-5xl px-4 py-10">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
+              Espace pro
+            </p>
+            <h1 className="mt-1 text-3xl font-bold text-marine-900">
+              Mes établissements
+            </h1>
+            <p className="mt-1 text-sm text-marine-600">
+              Sélectionnez un établissement pour piloter ses soirées de diffusion
+              et ses réservations.
+            </p>
+          </div>
+          {organisationId && (
+            <button
+              type="button"
+              onClick={() => setCreationOuverte((x) => !x)}
+              className="bouton-primaire"
+            >
+              {creationOuverte ? 'Fermer' : '+ Nouvel établissement'}
+            </button>
+          )}
+        </div>
 
         {erreur && (
-          <p className="mt-6 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="mt-6 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {erreur}
           </p>
         )}
 
+        {creationOuverte && organisationId && (
+          <div className="mt-6">
+            <FormulaireEtablissement
+              organisationId={organisationId}
+              onTermine={() => {
+                setCreationOuverte(false);
+                void charger();
+              }}
+              onAnnuler={() => setCreationOuverte(false)}
+            />
+          </div>
+        )}
+
         {chargement ? (
-          <p className="mt-8 text-slate-500">Chargement…</p>
+          <p className="mt-10 text-marine-500">Chargement…</p>
         ) : etablissements.length === 0 ? (
-          <div className="mt-8 carte">
-            <p className="text-sm text-slate-600">
-              Aucun établissement n'est rattaché à votre compte. Demandez à
-              votre administrateur de vous ajouter à une organisation.
+          <div className="mt-10 carte text-center">
+            <p className="text-sm text-marine-600">
+              Aucun établissement n'est rattaché à votre compte. Cliquez sur
+              « Nouvel établissement » pour en créer un.
             </p>
           </div>
         ) : (
@@ -59,20 +103,24 @@ export function PageTableauDeBord() {
               <li key={e.id}>
                 <Link
                   to={`/tableau-de-bord/etablissements/${e.id}`}
-                  className="block carte transition hover:shadow-md"
+                  className="carte-interactive group block"
                 >
-                  <h2 className="text-lg font-semibold text-slate-900">{e.nom}</h2>
+                  <div className="flex items-start justify-between gap-3">
+                    <h2 className="text-lg font-bold text-marine-900 group-hover:text-bleu-600">
+                      {e.nom}
+                    </h2>
+                    <span className="badge bg-bleu-50 text-bleu-700">
+                      {e.capacite} places
+                    </span>
+                  </div>
                   {e.adresse && (
-                    <p className="mt-1 text-sm text-slate-500">{e.adresse}</p>
+                    <p className="mt-1 text-sm text-marine-500">{e.adresse}</p>
                   )}
-                  <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-600">
-                    <span className="badge bg-slate-100 border border-slate-200">
-                      Fuseau : {e.fuseau_horaire}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="badge bg-marine-50 text-marine-700">
+                      🕐 {e.fuseau_horaire}
                     </span>
-                    <span className="badge bg-slate-100 border border-slate-200">
-                      Capacité : {e.capacite}
-                    </span>
-                    <span className="badge bg-terrain-50 text-terrain-700 border border-terrain-500/30">
+                    <span className="badge bg-bleu-50 text-bleu-700">
                       /etablissements/{e.slug_public}
                     </span>
                   </div>

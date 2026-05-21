@@ -2,9 +2,13 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { FournisseurSession, useSession } from './contexte/SessionContexte';
 import { PageAccueil } from './pages/PageAccueil';
 import { PageConnexion } from './pages/PageConnexion';
+import { PageInscriptionPro } from './pages/PageInscriptionPro';
+import { PageReinitialisation } from './pages/PageReinitialisation';
 import { PageTableauDeBord } from './pages/PageTableauDeBord';
 import { PageEtablissement } from './pages/PageEtablissement';
 import { PagePublique } from './pages/PagePublique';
+import { PageAdminResultats } from './pages/PageAdminResultats';
+import { Page404 } from './pages/Page404';
 
 function RouteProtegee({ children }: { children: JSX.Element }) {
   const { session, chargement } = useSession();
@@ -31,6 +35,8 @@ export function App() {
       <Routes>
         <Route path="/" element={<PageAccueil />} />
         <Route path="/connexion" element={<PageConnexion />} />
+        <Route path="/inscription-pro" element={<PageInscriptionPro />} />
+        <Route path="/mot-de-passe-oublie" element={<PageReinitialisation />} />
         <Route
           path="/tableau-de-bord"
           element={
@@ -47,8 +53,16 @@ export function App() {
             </RouteProtegee>
           }
         />
+        <Route
+          path="/admin/resultats"
+          element={
+            <RouteProtegee>
+              <PageAdminResultats />
+            </RouteProtegee>
+          }
+        />
         <Route path="/etablissements/:slug" element={<PagePublique />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </FournisseurSession>
   );

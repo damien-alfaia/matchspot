@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useSession } from '../contexte/SessionContexte';
 import { Entete } from '../composants/Entete';
@@ -104,7 +104,7 @@ export function PageConnexion() {
               </p>
             )}
             {message && (
-              <p className="rounded-md bg-terrain-50 px-3 py-2 text-sm text-terrain-700">
+              <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
                 {message}
               </p>
             )}
@@ -118,20 +118,27 @@ export function PageConnexion() {
             </button>
           </form>
 
-          <div className="mt-4 text-center text-sm text-slate-500">
+          <div className="mt-4 flex flex-col items-center gap-2 text-center text-sm text-slate-500">
             {mode === 'connexion' ? (
-              <button
-                type="button"
-                onClick={() => setMode('inscription')}
-                className="text-terrain-700 hover:underline"
-              >
-                Pas encore de compte ? S'inscrire
-              </button>
+              <>
+                <Link
+                  to="/inscription-pro"
+                  className="text-bleu-700 hover:underline"
+                >
+                  Vous êtes un bar ? Créer un compte pro
+                </Link>
+                <Link
+                  to="/mot-de-passe-oublie"
+                  className="text-bleu-700 hover:underline"
+                >
+                  Mot de passe oublié ?
+                </Link>
+              </>
             ) : (
               <button
                 type="button"
                 onClick={() => setMode('connexion')}
-                className="text-terrain-700 hover:underline"
+                className="text-bleu-700 hover:underline"
               >
                 Déjà inscrit ? Se connecter
               </button>

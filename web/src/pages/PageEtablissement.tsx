@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import type { DiffusionAvecMatch, Etablissement } from '../types/base';
 import { Entete } from '../composants/Entete';
 import { FormulaireDiffusion } from '../composants/FormulaireDiffusion';
+import { FormulaireEtablissement } from '../composants/FormulaireEtablissement';
 import { ListeDiffusions } from '../composants/ListeDiffusions';
 import { PanneauReservations } from '../composants/PanneauReservations';
 
@@ -13,6 +14,7 @@ export function PageEtablissement() {
   const [diffusions, setDiffusions] = useState<DiffusionAvecMatch[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [editionOuverte, setEditionOuverte] = useState(false);
 
   const chargerEtablissement = useCallback(async () => {
     if (!etablissementId) return;
@@ -81,7 +83,7 @@ export function PageEtablissement() {
             {erreur ?? 'Établissement introuvable.'}
           </p>
           <p className="mt-4">
-            <Link to="/tableau-de-bord" className="text-terrain-700 hover:underline">
+            <Link to="/tableau-de-bord" className="text-bleu-700 hover:underline">
               ← Retour à la liste
             </Link>
           </p>
@@ -93,51 +95,78 @@ export function PageEtablissement() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-5xl space-y-8 px-4 py-8">
-        <header className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <Link
-              to="/tableau-de-bord"
-              className="text-sm text-terrain-700 hover:underline"
-            >
-              ← Mes établissements
-            </Link>
-            <h1 className="mt-1 text-2xl font-bold text-slate-900">
-              {etablissement.nom}
-            </h1>
-            {etablissement.adresse && (
-              <p className="text-sm text-slate-500">{etablissement.adresse}</p>
-            )}
-          </div>
-          <div className="text-right text-sm text-slate-600">
-            <p>
-              Fuseau :{' '}
-              <span className="font-mono">{etablissement.fuseau_horaire}</span>
-            </p>
-            <p>Capacité : {etablissement.capacite} places</p>
-            <p>
-              Page publique :{' '}
+      <main className="mx-auto max-w-5xl space-y-8 px-4 py-10">
+        <header>
+          <Link
+            to="/tableau-de-bord"
+            className="text-sm font-medium text-bleu-600 hover:text-bleu-700"
+          >
+            ← Mes établissements
+          </Link>
+          <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-marine-900">
+                {etablissement.nom}
+              </h1>
+              {etablissement.adresse && (
+                <p className="mt-0.5 text-sm text-marine-500">
+                  {etablissement.adresse}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <span className="badge bg-marine-50 text-marine-700">
+                🕐 {etablissement.fuseau_horaire}
+              </span>
+              <span className="badge bg-bleu-50 text-bleu-700">
+                {etablissement.capacite} places
+              </span>
               <Link
                 to={`/etablissements/${etablissement.slug_public}`}
-                className="text-terrain-700 hover:underline"
+                className="badge bg-marine-800 text-white hover:bg-marine-900"
                 target="_blank"
                 rel="noreferrer"
               >
-                /etablissements/{etablissement.slug_public}
+                Voir la page publique ↗
               </Link>
-            </p>
+              <button
+                type="button"
+                onClick={() => setEditionOuverte((x) => !x)}
+                className="bouton-secondaire"
+              >
+                {editionOuverte ? 'Fermer l’édition' : 'Éditer le bar'}
+              </button>
+            </div>
           </div>
         </header>
 
         {erreur && (
-          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {erreur}
           </p>
         )}
 
+        {editionOuverte && (
+          <section>
+            <h2 className="mb-3 text-lg font-bold text-marine-900">
+              Modifier les informations
+            </h2>
+            <FormulaireEtablissement
+              initial={etablissement}
+              organisationId={etablissement.organisation_id}
+              modeEdition
+              onTermine={(maj) => {
+                setEtablissement(maj);
+                setEditionOuverte(false);
+              }}
+              onAnnuler={() => setEditionOuverte(false)}
+            />
+          </section>
+        )}
+
         <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-slate-900">
+            <h2 className="mb-3 text-lg font-bold text-marine-900">
               Diffusions programmées
             </h2>
             <ListeDiffusions
