@@ -3,13 +3,13 @@ import { supabase } from '../lib/supabase';
 
 interface Props {
   diffusionId: string;
-  placesDisponibles: number;
+  placesRestantes: number;
   onReserve: () => void;
 }
 
 export function FormulaireReservation({
   diffusionId,
-  placesDisponibles,
+  placesRestantes,
   onReserve,
 }: Props) {
   const [nom, setNom] = useState('');
@@ -24,29 +24,47 @@ export function FormulaireReservation({
     setEnCours(true);
     setErreur(null);
 
-    const { error } = await supabase.from('reservations').insert({
-      diffusion_id: diffusionId,
-      nom_client: nom,
-      email_client: email,
-      taille_groupe: taille,
-      statut: 'en_attente',
-    });
+    const { data, error } = await supabase
+      .from('reservations')
+      .insert({
+        diffusion_id: diffusionId,
+        nom_client: nom,
+        email_client: email,
+        taille_groupe: taille,
+        statut: 'en_attente',
+      })
+      .select('id')
+      .single();
 
-    if (error) {
-      setErreur(error.message);
-    } else {
-      setConfirme(true);
-      setNom('');
-      setEmail('');
-      setTaille(2);
-      onReserve();
+    if (error || !data) {
+      setErreur(error?.message ?? 'Erreur inconnue.');
+      setEnCours(false);
+      return;
     }
+
+    setConfirme(true);
+    setNom('');
+    setEmail('');
+    setTaille(2);
+    onReserve();
     setEnCours(false);
+
+    // Notification email post-insert. Best-effort : si l'Edge Function
+    // est down, la résa est sauvegardée dans Supabase et visible via
+    // Realtime. On n'affiche pas d'erreur au client pour ne pas le
+    // confondre.
+    void supabase.functions
+      .invoke('notifier_reservation', {
+        body: { reservation_id: data.id },
+      })
+      .catch(() => {
+        // Silencieux par design.
+      });
   }
 
   if (confirme) {
     return (
-      <p className="rounded-md bg-terrain-50 px-3 py-2 text-sm text-terrain-700">
+      <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
         Demande de réservation envoyée. Le bar vous confirmera par email.
       </p>
     );
@@ -88,14 +106,14 @@ export function FormulaireReservation({
           <input
             type="number"
             min={1}
-            max={Math.min(placesDisponibles, 20)}
+            max={Math.min(placesRestantes, 20)}
             value={taille}
             onChange={(e) => setTaille(Number(e.target.value))}
             className="champ-saisie"
             required
           />
           <p className="mt-1 text-xs text-slate-500">
-            Places restantes affichées : {placesDisponibles}.
+            Places restantes : {placesRestantes}.
           </p>
         </label>
       </div>
