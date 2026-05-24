@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { DiffusionAvecMatch, Etablissement } from '../types/base';
 import { Entete } from '../composants/Entete';
+import { Footer } from '../composants/Footer';
 import { FormulaireReservation } from '../composants/FormulaireReservation';
 import { BoutonPartager } from '../composants/BoutonPartager';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
@@ -305,6 +306,7 @@ export function PagePublique() {
           )}
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

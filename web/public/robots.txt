@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Espaces privés / techniques
+Disallow: /tableau-de-bord
+Disallow: /admin/
+
+# Sitemap (à générer côté CI avant le déploiement)
+Sitemap: https://matchspot.fr/sitemap.xml

@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { Entete } from '../composants/Entete';
+import { Footer } from '../composants/Footer';
 import { MoteurRecherche } from '../composants/MoteurRecherche';
 
 export function PageAccueil() {
@@ -29,20 +29,7 @@ export function PageAccueil() {
         </div>
       </main>
 
-      <footer className="border-t border-marine-100 bg-white">
-        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-marine-600 sm:flex-row">
-          <p>© 2026 MatchSpot — fait avec ⚽ et ☕ en France.</p>
-          <p>
-            Vous gérez un bar ou un restaurant ?{' '}
-            <Link
-              to="/connexion"
-              className="font-semibold text-bleu-600 hover:underline"
-            >
-              Accédez à votre espace pro →
-            </Link>
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

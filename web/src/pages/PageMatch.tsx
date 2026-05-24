@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { MatchCdm } from '../types/base';
 import { Entete } from '../composants/Entete';
+import { Footer } from '../composants/Footer';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
@@ -296,6 +297,7 @@ export function PageMatch() {
           </dl>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }
