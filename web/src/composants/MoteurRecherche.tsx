@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import type { MatchCdm } from '../types/base';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
+import { slugifierMatch } from '../utils/slugMatch';
 
 interface ResultatBar {
   etablissement_id: string;
@@ -294,10 +295,20 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
 
   return (
     <section>
-      <h2 className="text-lg font-bold text-marine-900">
-        {resultats.length} bar{resultats.length > 1 ? 's' : ''} trouvé
-        {resultats.length > 1 ? 's' : ''}
-      </h2>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 className="text-lg font-bold text-marine-900">
+          {resultats.length} bar{resultats.length > 1 ? 's' : ''} trouvé
+          {resultats.length > 1 ? 's' : ''}
+        </h2>
+        {matchSelectionne && (
+          <Link
+            to={`/matchs/${slugifierMatch(matchSelectionne)}`}
+            className="text-sm font-semibold text-bleu-600 hover:text-bleu-700"
+          >
+            Voir la page du match →
+          </Link>
+        )}
+      </div>
       <ul className="mt-4 space-y-3">
         {resultats.map((r) => {
           const complet = r.places_restantes <= 0;

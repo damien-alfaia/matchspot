@@ -8,6 +8,8 @@ import { BoutonPartager } from '../composants/BoutonPartager';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
+import { slugifierMatch } from '../utils/slugMatch';
+import { Link } from 'react-router-dom';
 
 export function PagePublique() {
   const { slug } = useParams<{ slug: string }>();
@@ -242,6 +244,13 @@ export function PagePublique() {
                           <p className="mt-0.5 text-sm text-marine-500">
                             {d.matchs.stade}, {d.matchs.ville_hote}
                           </p>
+                          <Link
+                            to={`/matchs/${slugifierMatch(d.matchs)}`}
+                            className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-bleu-600 hover:text-bleu-700"
+                          >
+                            Voir tous les bars qui diffusent ce match
+                            <span aria-hidden="true">→</span>
+                          </Link>
                         </div>
                         <div className="text-right">
                           {complet ? (

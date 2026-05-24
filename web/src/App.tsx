@@ -7,6 +7,7 @@ import { PageReinitialisation } from './pages/PageReinitialisation';
 import { PageTableauDeBord } from './pages/PageTableauDeBord';
 import { PageEtablissement } from './pages/PageEtablissement';
 import { PagePublique } from './pages/PagePublique';
+import { PageMatch } from './pages/PageMatch';
 import { PageAdminResultats } from './pages/PageAdminResultats';
 import { Page404 } from './pages/Page404';
 
@@ -62,6 +63,7 @@ export function App() {
           }
         />
         <Route path="/etablissements/:slug" element={<PagePublique />} />
+        <Route path="/matchs/:slugMatch" element={<PageMatch />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     </FournisseurSession>
