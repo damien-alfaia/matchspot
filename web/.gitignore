@@ -10,3 +10,6 @@ dist-ssr
 tsconfig.tsbuildinfo
 coverage
 .DS_Store
+
+# Sitemap généré au build via scripts/generer-sitemap.ts.
+public/sitemap.xml
