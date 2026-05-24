@@ -1,7 +1,35 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
 import { geocoderAdresse } from '../lib/geocodage';
-import type { Etablissement } from '../types/base';
+import type { Etablissement, SonAmbiance } from '../types/base';
+
+// Listes prédéfinies pour les multi-choix. L'utilisateur peut aussi ajouter
+// ses propres tags libres dans equipes_habituelles via le champ texte.
+const AMBIANCES_DISPONIBLES: ReadonlyArray<{ cle: string; libelle: string }> = [
+  { cle: 'supporters', libelle: 'Ambiance supporters' },
+  { cle: 'foule', libelle: 'Salle pleine, ça hurle' },
+  { cle: 'apero', libelle: 'Apéro / convivial' },
+  { cle: 'famille', libelle: 'Famille friendly' },
+  { cle: 'chill', libelle: 'Chill / posé' },
+  { cle: 'branche', libelle: 'Branché / cocktail' },
+];
+
+const NIVEAUX_SON: ReadonlyArray<{ valeur: SonAmbiance; libelle: string }> = [
+  { valeur: 'calme', libelle: 'Calme (on parle facilement)' },
+  { valeur: 'normal', libelle: 'Normal (un peu de bruit)' },
+  { valeur: 'fort', libelle: 'Fort (faut hausser la voix)' },
+  { valeur: 'crowd', libelle: 'Crowd (on ne s\'entend plus quand ça marque)' },
+];
+
+const JOURS_SEMAINE: ReadonlyArray<{ cle: string; libelle: string }> = [
+  { cle: 'lundi', libelle: 'Lundi' },
+  { cle: 'mardi', libelle: 'Mardi' },
+  { cle: 'mercredi', libelle: 'Mercredi' },
+  { cle: 'jeudi', libelle: 'Jeudi' },
+  { cle: 'vendredi', libelle: 'Vendredi' },
+  { cle: 'samedi', libelle: 'Samedi' },
+  { cle: 'dimanche', libelle: 'Dimanche' },
+];
 
 // Quelques fuseaux courants pour la France et l'Amérique du Nord.
 // L'utilisateur peut taper un autre fuseau IANA s'il veut.
@@ -29,10 +57,17 @@ export interface ValeursEtablissement {
   telephone: string;
   description_courte: string;
   url_photo: string;
+  nombre_ecrans: number | null;
+  taille_ecrans: string;
+  son_ambiance: SonAmbiance | null;
+  type_ambiance: string[];
+  equipes_habituelles: string[];
+  photos_supplementaires: string[];
+  horaires_ouverture: Record<string, string>;
 }
 
 interface Props {
-  initial?: Partial<Etablissement> & { telephone?: string | null; description_courte?: string | null; url_photo?: string | null };
+  initial?: Partial<Etablissement>;
   // Si fourni, le formulaire écrit lui-même en base et appelle onTermine.
   // Sinon, il déclègue à onSoumettre (utilisé par PageInscriptionPro).
   organisationId?: string;
@@ -72,7 +107,15 @@ export function FormulaireEtablissement({
     telephone: initial?.telephone ?? '',
     description_courte: initial?.description_courte ?? '',
     url_photo: initial?.url_photo ?? '',
+    nombre_ecrans: initial?.nombre_ecrans ?? null,
+    taille_ecrans: initial?.taille_ecrans ?? '',
+    son_ambiance: initial?.son_ambiance ?? null,
+    type_ambiance: initial?.type_ambiance ?? [],
+    equipes_habituelles: initial?.equipes_habituelles ?? [],
+    photos_supplementaires: initial?.photos_supplementaires ?? [],
+    horaires_ouverture: initial?.horaires_ouverture ?? {},
   });
+  const [equipeEnSaisie, setEquipeEnSaisie] = useState('');
   const [enCours, setEnCours] = useState(false);
   const [enGeocodage, setEnGeocodage] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
@@ -108,7 +151,7 @@ export function FormulaireEtablissement({
     setInfo(`Position trouvée : ${r.latitude.toFixed(4)}, ${r.longitude.toFixed(4)}.`);
   }
 
-  async function uploaderPhoto(fichier: File) {
+  async function uploaderVersStorage(fichier: File): Promise<string | null> {
     setEnUpload(true);
     setErreur(null);
     const ext = fichier.name.split('.').pop() ?? 'jpg';
@@ -119,12 +162,76 @@ export function FormulaireEtablissement({
     setEnUpload(false);
     if (errUp) {
       setErreur(`Upload échoué : ${errUp.message}`);
-      return;
+      return null;
     }
     const { data } = supabase.storage
       .from('etablissements-photos')
       .getPublicUrl(chemin);
-    setV((x) => ({ ...x, url_photo: data.publicUrl }));
+    return data.publicUrl;
+  }
+
+  async function uploaderPhoto(fichier: File) {
+    const url = await uploaderVersStorage(fichier);
+    if (url) setV((x) => ({ ...x, url_photo: url }));
+  }
+
+  async function uploaderPhotoSupplementaire(fichier: File) {
+    const url = await uploaderVersStorage(fichier);
+    if (url) {
+      setV((x) => ({
+        ...x,
+        photos_supplementaires: [...x.photos_supplementaires, url],
+      }));
+    }
+  }
+
+  function supprimerPhotoSupplementaire(url: string) {
+    setV((x) => ({
+      ...x,
+      photos_supplementaires: x.photos_supplementaires.filter((u) => u !== url),
+    }));
+  }
+
+  function basculerAmbiance(cle: string) {
+    setV((x) => ({
+      ...x,
+      type_ambiance: x.type_ambiance.includes(cle)
+        ? x.type_ambiance.filter((c) => c !== cle)
+        : [...x.type_ambiance, cle],
+    }));
+  }
+
+  function ajouterEquipe() {
+    const t = equipeEnSaisie.trim();
+    if (!t) return;
+    if (v.equipes_habituelles.includes(t)) {
+      setEquipeEnSaisie('');
+      return;
+    }
+    setV((x) => ({
+      ...x,
+      equipes_habituelles: [...x.equipes_habituelles, t],
+    }));
+    setEquipeEnSaisie('');
+  }
+
+  function retirerEquipe(t: string) {
+    setV((x) => ({
+      ...x,
+      equipes_habituelles: x.equipes_habituelles.filter((e) => e !== t),
+    }));
+  }
+
+  function changerHoraireJour(cle: string, valeur: string) {
+    setV((x) => {
+      const next = { ...x.horaires_ouverture };
+      if (!valeur.trim()) {
+        delete next[cle];
+      } else {
+        next[cle] = valeur;
+      }
+      return { ...x, horaires_ouverture: next };
+    });
   }
 
   async function soumettre(e: FormEvent) {
@@ -163,6 +270,18 @@ export function FormulaireEtablissement({
       telephone: v.telephone || null,
       description_courte: v.description_courte || null,
       url_photo: v.url_photo || null,
+      nombre_ecrans: v.nombre_ecrans,
+      taille_ecrans: v.taille_ecrans || null,
+      son_ambiance: v.son_ambiance,
+      type_ambiance: v.type_ambiance.length > 0 ? v.type_ambiance : null,
+      equipes_habituelles:
+        v.equipes_habituelles.length > 0 ? v.equipes_habituelles : null,
+      photos_supplementaires:
+        v.photos_supplementaires.length > 0 ? v.photos_supplementaires : null,
+      horaires_ouverture:
+        Object.keys(v.horaires_ouverture).length > 0
+          ? v.horaires_ouverture
+          : null,
     };
 
     let resultat;
@@ -351,6 +470,226 @@ export function FormulaireEtablissement({
           </div>
         </label>
       </div>
+
+      <fieldset className="border-t border-marine-100 pt-5">
+        <legend className="text-base font-bold text-marine-900">
+          Le bar pour la diffusion
+        </legend>
+        <p className="mt-1 text-xs text-marine-500">
+          Tous ces champs sont facultatifs mais améliorent fortement votre
+          conversion : les clients veulent savoir avant de venir.
+        </p>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <label className="block">
+            <span className="mb-1 block text-sm font-semibold text-marine-800">
+              Nombre d'écrans
+            </span>
+            <input
+              type="number"
+              min={0}
+              max={50}
+              value={v.nombre_ecrans ?? ''}
+              onChange={(e) =>
+                setV({
+                  ...v,
+                  nombre_ecrans: e.target.value === '' ? null : Number(e.target.value),
+                })
+              }
+              className="champ-saisie"
+              placeholder="Ex : 5"
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-sm font-semibold text-marine-800">
+              Taille / disposition (texte libre)
+            </span>
+            <input
+              type="text"
+              value={v.taille_ecrans}
+              onChange={(e) => setV({ ...v, taille_ecrans: e.target.value })}
+              className="champ-saisie"
+              placeholder="1 grand écran 3m + 4 écrans 55 pouces"
+            />
+          </label>
+
+          <div className="block sm:col-span-2">
+            <span className="mb-2 block text-sm font-semibold text-marine-800">
+              Niveau sonore les soirs de match
+            </span>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {NIVEAUX_SON.map((n) => (
+                <label
+                  key={n.valeur}
+                  className={`flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-xs transition ${
+                    v.son_ambiance === n.valeur
+                      ? 'border-bleu-500 bg-bleu-50 text-bleu-700'
+                      : 'border-marine-200 bg-white text-marine-700 hover:border-marine-300'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="son_ambiance"
+                    value={n.valeur}
+                    checked={v.son_ambiance === n.valeur}
+                    onChange={() => setV({ ...v, son_ambiance: n.valeur })}
+                    className="mt-0.5"
+                  />
+                  <span>{n.libelle}</span>
+                </label>
+              ))}
+            </div>
+            {v.son_ambiance && (
+              <button
+                type="button"
+                onClick={() => setV({ ...v, son_ambiance: null })}
+                className="mt-2 text-xs text-marine-500 underline hover:text-marine-700"
+              >
+                Effacer le choix
+              </button>
+            )}
+          </div>
+
+          <div className="block sm:col-span-2">
+            <span className="mb-2 block text-sm font-semibold text-marine-800">
+              Type d'ambiance (plusieurs choix possibles)
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {AMBIANCES_DISPONIBLES.map((a) => {
+                const actif = v.type_ambiance.includes(a.cle);
+                return (
+                  <button
+                    key={a.cle}
+                    type="button"
+                    onClick={() => basculerAmbiance(a.cle)}
+                    className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+                      actif
+                        ? 'border-bleu-500 bg-bleu-500 text-white'
+                        : 'border-marine-200 bg-white text-marine-700 hover:border-marine-300'
+                    }`}
+                  >
+                    {actif ? '✓ ' : '+ '}
+                    {a.libelle}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="block sm:col-span-2">
+            <span className="mb-2 block text-sm font-semibold text-marine-800">
+              Autres compétitions habituellement diffusées
+            </span>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={equipeEnSaisie}
+                onChange={(e) => setEquipeEnSaisie(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    ajouterEquipe();
+                  }
+                }}
+                className="champ-saisie flex-1"
+                placeholder="Ligue 1, Champions League, NBA, Six Nations…"
+              />
+              <button
+                type="button"
+                onClick={ajouterEquipe}
+                disabled={!equipeEnSaisie.trim()}
+                className="bouton-secondaire whitespace-nowrap"
+              >
+                + Ajouter
+              </button>
+            </div>
+            {v.equipes_habituelles.length > 0 && (
+              <ul className="mt-2 flex flex-wrap gap-2">
+                {v.equipes_habituelles.map((t) => (
+                  <li
+                    key={t}
+                    className="inline-flex items-center gap-1 rounded-full border border-marine-200 bg-white px-2.5 py-0.5 text-xs text-marine-700"
+                  >
+                    {t}
+                    <button
+                      type="button"
+                      onClick={() => retirerEquipe(t)}
+                      className="text-marine-400 hover:text-red-600"
+                      aria-label={`Retirer ${t}`}
+                    >
+                      ×
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="block sm:col-span-2">
+            <span className="mb-2 block text-sm font-semibold text-marine-800">
+              Horaires d'ouverture
+            </span>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {JOURS_SEMAINE.map((j) => (
+                <label key={j.cle} className="flex items-center gap-2">
+                  <span className="w-20 text-xs text-marine-600">{j.libelle}</span>
+                  <input
+                    type="text"
+                    value={v.horaires_ouverture[j.cle] ?? ''}
+                    onChange={(e) => changerHoraireJour(j.cle, e.target.value)}
+                    className="champ-saisie flex-1 text-sm"
+                    placeholder="17h-2h ou fermé"
+                  />
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="block sm:col-span-2">
+            <span className="mb-2 block text-sm font-semibold text-marine-800">
+              Photos supplémentaires (max 6, affichage carrousel)
+            </span>
+            <div className="flex flex-wrap items-center gap-3">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f && v.photos_supplementaires.length < 6) {
+                    void uploaderPhotoSupplementaire(f);
+                  }
+                  // reset l'input pour réuploader le même fichier si besoin
+                  e.currentTarget.value = '';
+                }}
+                disabled={enUpload || v.photos_supplementaires.length >= 6}
+                className="text-sm"
+              />
+              {enUpload && <span className="text-xs text-marine-500">Upload…</span>}
+            </div>
+            {v.photos_supplementaires.length > 0 && (
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {v.photos_supplementaires.map((url) => (
+                  <li key={url} className="group relative">
+                    <img
+                      src={url}
+                      alt="Photo supplémentaire"
+                      className="h-16 w-24 rounded-md border border-marine-200 object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => supprimerPhotoSupplementaire(url)}
+                      className="absolute right-0 top-0 -mr-1 -mt-1 rounded-full bg-red-600 px-1.5 text-xs text-white opacity-0 transition group-hover:opacity-100"
+                      aria-label="Supprimer la photo"
+                    >
+                      ×
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </fieldset>
 
       {(v.latitude !== null || v.longitude !== null) && (
         <div className="rounded-lg bg-bleu-50 px-3 py-2 text-xs text-bleu-700">

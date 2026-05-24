@@ -192,12 +192,35 @@ export function PagePublique() {
         </div>
       )}
 
+      {etablissement.photos_supplementaires &&
+        etablissement.photos_supplementaires.length > 0 && (
+          <div className="mx-auto mt-4 max-w-3xl px-4">
+            <ul className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+              {etablissement.photos_supplementaires.map((url) => (
+                <li
+                  key={url}
+                  className="shrink-0 snap-start"
+                >
+                  <img
+                    src={url}
+                    alt={`${etablissement.nom} — photo`}
+                    className="h-32 w-48 rounded-xl border border-marine-100 object-cover shadow-carte sm:h-40 sm:w-60"
+                    loading="lazy"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
       <main className="mx-auto mt-6 max-w-3xl space-y-6 px-4 pb-16">
         {erreur && (
           <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {erreur}
           </p>
         )}
+
+        <DetailsBar etablissement={etablissement} />
 
         <section>
           <h2 className="text-xl font-bold text-marine-900">Soirées à venir</h2>
@@ -308,5 +331,125 @@ export function PagePublique() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+const LIBELLES_AMBIANCE: Record<string, string> = {
+  supporters: 'Supporters',
+  foule: 'Salle pleine',
+  apero: 'Apéro',
+  famille: 'Famille',
+  chill: 'Chill',
+  branche: 'Branché',
+};
+
+const LIBELLES_SON: Record<string, string> = {
+  calme: 'Calme — on parle facilement',
+  normal: 'Normal — un peu de bruit',
+  fort: 'Fort — faut hausser la voix',
+  crowd: 'Crowd — on ne s\'entend plus quand ça marque',
+};
+
+interface DetailsBarProps {
+  etablissement: Etablissement;
+}
+
+function DetailsBar({ etablissement: e }: DetailsBarProps) {
+  const aDesDetailsEcrans = e.nombre_ecrans !== null || e.taille_ecrans;
+  const aDesDetailsAmbiance = e.son_ambiance || (e.type_ambiance && e.type_ambiance.length > 0);
+  const aDesEquipes = e.equipes_habituelles && e.equipes_habituelles.length > 0;
+  const aDesHoraires = e.horaires_ouverture && Object.keys(e.horaires_ouverture).length > 0;
+
+  if (
+    !aDesDetailsEcrans &&
+    !aDesDetailsAmbiance &&
+    !aDesEquipes &&
+    !aDesHoraires
+  ) {
+    return null;
+  }
+
+  return (
+    <section className="carte">
+      <h2 className="text-lg font-bold text-marine-900">Le bar</h2>
+
+      <div className="mt-4 grid gap-5 sm:grid-cols-2">
+        {aDesDetailsEcrans && (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
+              Écrans
+            </p>
+            <p className="mt-1 text-sm text-marine-800">
+              {e.nombre_ecrans !== null && (
+                <span className="font-medium">
+                  {e.nombre_ecrans} écran{e.nombre_ecrans > 1 ? 's' : ''}
+                </span>
+              )}
+              {e.nombre_ecrans !== null && e.taille_ecrans && ' — '}
+              {e.taille_ecrans && <span>{e.taille_ecrans}</span>}
+            </p>
+          </div>
+        )}
+
+        {aDesDetailsAmbiance && (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
+              Ambiance
+            </p>
+            {e.son_ambiance && (
+              <p className="mt-1 text-sm text-marine-800">
+                {LIBELLES_SON[e.son_ambiance] ?? e.son_ambiance}
+              </p>
+            )}
+            {e.type_ambiance && e.type_ambiance.length > 0 && (
+              <ul className="mt-2 flex flex-wrap gap-1.5">
+                {e.type_ambiance.map((tag) => (
+                  <li
+                    key={tag}
+                    className="rounded-full bg-bleu-50 px-2.5 py-0.5 text-xs font-medium text-bleu-700"
+                  >
+                    {LIBELLES_AMBIANCE[tag] ?? tag}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+
+        {aDesEquipes && (
+          <div className="sm:col-span-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
+              Autres compétitions habituellement diffusées
+            </p>
+            <ul className="mt-2 flex flex-wrap gap-1.5">
+              {e.equipes_habituelles!.map((c) => (
+                <li
+                  key={c}
+                  className="rounded-full border border-marine-200 bg-white px-2.5 py-0.5 text-xs text-marine-700"
+                >
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {aDesHoraires && (
+          <div className="sm:col-span-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
+              Horaires d'ouverture
+            </p>
+            <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm sm:grid-cols-3">
+              {Object.entries(e.horaires_ouverture!).map(([jour, h]) => (
+                <div key={jour} className="flex justify-between gap-3">
+                  <dt className="capitalize text-marine-600">{jour}</dt>
+                  <dd className="font-medium text-marine-900">{h}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

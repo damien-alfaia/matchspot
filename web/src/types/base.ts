@@ -32,6 +32,8 @@ export interface Adhesion {
   cree_le: string;
 }
 
+export type SonAmbiance = 'calme' | 'normal' | 'fort' | 'crowd';
+
 export interface Etablissement {
   id: string;
   organisation_id: string;
@@ -47,6 +49,12 @@ export interface Etablissement {
   description_courte: string | null;
   url_photo: string | null;
   horaires_ouverture: Record<string, string> | null;
+  nombre_ecrans: number | null;
+  taille_ecrans: string | null;
+  son_ambiance: SonAmbiance | null;
+  type_ambiance: string[] | null;
+  equipes_habituelles: string[] | null;
+  photos_supplementaires: string[] | null;
   cree_le: string;
 }
 
