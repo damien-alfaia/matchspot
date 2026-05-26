@@ -45,19 +45,25 @@ jobs:
           SITE_URL: https://matchspot.fr
         run: npm run build
 
-      - name: Configurer la clé SSH
+      # Action officielle pour SSH-agent : gère correctement la clé multi-ligne
+      # (CRLF, BOM, newline final manquant) sans toucher au filesystem.
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+
+      - name: Ajouter le VPS aux known_hosts
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -T 10 -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+          echo "known_hosts ajouté : $(wc -l < ~/.ssh/known_hosts) entrée(s)"
 
       - name: Déploiement rsync vers le VPS
         # Cible : /var/www/matchspot/dist/ (le container nginx monte ce dossier
         # en lecture seule via /etc/matchspot/docker-compose.yml).
+        # La clé SSH est gérée par ssh-agent, pas besoin de -i.
         run: |
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new" \
             web/dist/ \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/matchspot/dist/
 
@@ -72,7 +78,3 @@ jobs:
             exit 1
           fi
           echo "OK : https://matchspot.fr répond 200"
-
-      - name: Nettoyage clé SSH
-        if: always()
-        run: rm -f ~/.ssh/deploy_key
