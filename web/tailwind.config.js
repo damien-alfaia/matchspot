@@ -49,6 +49,12 @@ export default {
       backgroundImage: {
         heroMarine:
           'radial-gradient(circle at 20% 20%, rgba(30,91,255,0.18) 0, transparent 50%), radial-gradient(circle at 80% 0%, rgba(30,91,255,0.12) 0, transparent 45%), linear-gradient(180deg, #0f1f3d 0%, #152d50 100%)',
+        // Hero photo : dégradé bleu nuit qui assombrit le haut pour la
+        // lisibilité du titre, puis allège vers le bas pour laisser
+        // respirer l'ambiance bistrot. Les halos bleus radiaux du
+        // heroMarine sont conservés en overlay pour la cohérence palette.
+        heroPhoto:
+          "radial-gradient(circle at 20% 20%, rgba(30,91,255,0.18) 0, transparent 50%), radial-gradient(circle at 80% 0%, rgba(30,91,255,0.12) 0, transparent 45%), linear-gradient(180deg, rgba(15,31,61,0.88) 0%, rgba(15,31,61,0.65) 45%, rgba(21,45,80,0.55) 100%), url('/hero-bg.webp')",
       },
     },
   },

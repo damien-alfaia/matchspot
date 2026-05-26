@@ -5,7 +5,7 @@ import { MoteurRecherche } from '../composants/MoteurRecherche';
 export function PageAccueil() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="bg-heroMarine text-white">
+      <div className="bg-heroPhoto bg-cover bg-center text-white">
         <Entete />
         <section className="mx-auto max-w-3xl px-4 pb-16 pt-10 text-center sm:pb-20 sm:pt-14">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-wider text-bleu-100">
