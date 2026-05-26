@@ -104,63 +104,101 @@ Deno.serve(async (req: Request) => {
 
     const urlBar = `${URL_APP}/etablissements/${e.slug_public}`;
     const urlDashboard = `${URL_APP}/tableau-de-bord/etablissements/${e.id}`;
+    const matchLibelle = `${m.equipe_domicile} vs ${m.equipe_exterieur}`;
 
-    // Email client.
-    const mailClient = {
-      from: EMAIL_EXPEDITEUR,
-      to: r.email_client,
-      subject: `Votre réservation à ${e.nom} — ${m.equipe_domicile} vs ${m.equipe_exterieur}`,
-      html: `
-        <p>Bonjour ${escapeHtml(r.nom_client)},</p>
-        <p>Votre demande de réservation a bien été enregistrée pour <strong>${m.equipe_domicile} vs ${m.equipe_exterieur}</strong>, le ${heureLocale} (heure du bar).</p>
-        <p>
-          <strong>${escapeHtml(e.nom)}</strong><br>
-          ${e.adresse ? escapeHtml(e.adresse) + '<br>' : ''}
-          ${e.telephone ? '📞 ' + escapeHtml(e.telephone) + '<br>' : ''}
-        </p>
-        <p>Groupe de ${r.taille_groupe} personne(s). Le bar vous confirmera par email ou téléphone.</p>
-        <p><a href="${urlBar}">Voir la page du bar →</a></p>
-        <p style="color:#888;font-size:12px;margin-top:24px">MatchSpot — où voir le match ?</p>
-      `,
-    };
-
-    // Récupération de l'email du propriétaire pour notifier le bar.
-    const { data: adhesions } = await supa
-      .from('adhesions')
-      .select('utilisateur_id')
-      .eq('organisation_id', e.organisation_id)
-      .eq('role', 'proprietaire')
-      .limit(1)
-      .maybeSingle();
-
+    // Récupération de l'email du propriétaire (utilisé seulement pour le
+    // statut 'en_attente' qui notifie aussi le bar de la nouvelle résa).
     const emailsBar: string[] = [];
-    if (adhesions) {
-      const { data: u } = await supa.auth.admin.getUserById(
-        adhesions.utilisateur_id,
-      );
-      if (u?.user?.email) emailsBar.push(u.user.email);
+    if (r.statut === 'en_attente') {
+      const { data: adhesions } = await supa
+        .from('adhesions')
+        .select('utilisateur_id')
+        .eq('organisation_id', e.organisation_id)
+        .eq('role', 'proprietaire')
+        .limit(1)
+        .maybeSingle();
+      if (adhesions) {
+        const { data: u } = await supa.auth.admin.getUserById(
+          adhesions.utilisateur_id,
+        );
+        if (u?.user?.email) emailsBar.push(u.user.email);
+      }
     }
 
-    const mailBar = emailsBar.length > 0
-      ? {
+    // Construction des mails à envoyer selon le statut courant de la résa.
+    // - en_attente  : 2 mails (récap client + alerte bar).
+    // - confirmee   : 1 mail au client (confirmation).
+    // - annulee     : 1 mail au client (annulation).
+    const envois: Array<Promise<void>> = [];
+
+    if (r.statut === 'en_attente') {
+      envois.push(envoyerResend({
+        from: EMAIL_EXPEDITEUR,
+        to: r.email_client,
+        subject: `Votre réservation à ${e.nom} — ${matchLibelle}`,
+        html: `
+          <p>Bonjour ${escapeHtml(r.nom_client)},</p>
+          <p>Votre demande de réservation a bien été enregistrée pour <strong>${matchLibelle}</strong>, le ${heureLocale} (heure du bar).</p>
+          <p>
+            <strong>${escapeHtml(e.nom)}</strong><br>
+            ${e.adresse ? escapeHtml(e.adresse) + '<br>' : ''}
+            ${e.telephone ? '📞 ' + escapeHtml(e.telephone) + '<br>' : ''}
+          </p>
+          <p>Groupe de ${r.taille_groupe} personne(s). Le bar vous confirmera par email ou téléphone.</p>
+          <p><a href="${urlBar}">Voir la page du bar →</a></p>
+          <p style="color:#888;font-size:12px;margin-top:24px">MatchSpot — où voir le match ?</p>
+        `,
+      }));
+
+      if (emailsBar.length > 0) {
+        envois.push(envoyerResend({
           from: EMAIL_EXPEDITEUR,
           to: emailsBar,
-          subject: `Nouvelle réservation à ${e.nom} — ${m.equipe_domicile} vs ${m.equipe_exterieur}`,
+          subject: `Nouvelle réservation à ${e.nom} — ${matchLibelle}`,
           html: `
             <p>Une nouvelle réservation vient d'arriver :</p>
             <ul>
               <li><strong>Client :</strong> ${escapeHtml(r.nom_client)} (${escapeHtml(r.email_client)})</li>
               <li><strong>Groupe :</strong> ${r.taille_groupe} personne(s)</li>
-              <li><strong>Match :</strong> ${m.equipe_domicile} vs ${m.equipe_exterieur}</li>
+              <li><strong>Match :</strong> ${matchLibelle}</li>
               <li><strong>Heure locale :</strong> ${heureLocale}</li>
             </ul>
             <p><a href="${urlDashboard}">Ouvrir le dashboard →</a></p>
           `,
-        }
-      : null;
-
-    const envois = [envoyerResend(mailClient)];
-    if (mailBar) envois.push(envoyerResend(mailBar));
+        }));
+      }
+    } else if (r.statut === 'confirmee') {
+      envois.push(envoyerResend({
+        from: EMAIL_EXPEDITEUR,
+        to: r.email_client,
+        subject: `Confirmé ! Votre table à ${e.nom} pour ${matchLibelle}`,
+        html: `
+          <p>Bonjour ${escapeHtml(r.nom_client)},</p>
+          <p>Bonne nouvelle : <strong>${escapeHtml(e.nom)}</strong> vient de confirmer votre réservation pour <strong>${matchLibelle}</strong>, le ${heureLocale} (heure du bar).</p>
+          <p>Votre groupe de ${r.taille_groupe} personne(s) est attendu sur place. Pensez à arriver un peu en avance pour bien vous installer.</p>
+          <p>
+            <strong>${escapeHtml(e.nom)}</strong><br>
+            ${e.adresse ? escapeHtml(e.adresse) + '<br>' : ''}
+            ${e.telephone ? '📞 ' + escapeHtml(e.telephone) + '<br>' : ''}
+          </p>
+          <p><a href="${urlBar}">Revoir la page du bar →</a></p>
+          <p style="color:#888;font-size:12px;margin-top:24px">MatchSpot — où voir le match ?</p>
+        `,
+      }));
+    } else if (r.statut === 'annulee') {
+      envois.push(envoyerResend({
+        from: EMAIL_EXPEDITEUR,
+        to: r.email_client,
+        subject: `Réservation annulée — ${e.nom} pour ${matchLibelle}`,
+        html: `
+          <p>Bonjour ${escapeHtml(r.nom_client)},</p>
+          <p>Votre réservation pour <strong>${matchLibelle}</strong> à <strong>${escapeHtml(e.nom)}</strong> a été annulée.</p>
+          <p>Si vous voulez en savoir plus sur la raison, contactez directement le bar${e.telephone ? ` au ${escapeHtml(e.telephone)}` : ''}.</p>
+          <p>Vous pouvez chercher un autre bar diffusant ce match sur <a href="${URL_APP}">MatchSpot</a>.</p>
+          <p style="color:#888;font-size:12px;margin-top:24px">MatchSpot — où voir le match ?</p>
+        `,
+      }));
+    }
     const resultats = await Promise.allSettled(envois);
 
     const erreurs = resultats

@@ -29,6 +29,18 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
     if (error) setErreur(error.message);
     setTraitementId(null);
     // Pas de mutation locale : l'événement Realtime UPDATE rafraîchira la ligne.
+
+    // Notification email post-update (best-effort).
+    // L'Edge Function lit le nouveau statut de la résa et envoie le bon
+    // mail (confirmation / annulation au client). Si elle est down, la
+    // résa est déjà à jour en base, on n'affiche pas d'erreur au staff.
+    if (!error) {
+      void supabase.functions
+        .invoke('notifier_reservation', { body: { reservation_id: id } })
+        .catch(() => {
+          // Silencieux par design.
+        });
+    }
   }
 
   useEffect(() => {
