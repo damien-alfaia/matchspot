@@ -24,7 +24,7 @@ export function Entete() {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2.5">
           <img
-            src="/logo.png"
+            src="/logo.svg"
             alt="Logo MatchSpot"
             className="h-9 w-9 object-contain"
           />
