@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { geocoderAdresse } from '../lib/geocodage';
 import type { MatchCdm } from '../types/base';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
@@ -132,10 +133,21 @@ export function MoteurRecherche() {
       _match_id: matchId,
       _rayon_km: rayon,
     };
-    if (ville.trim()) params._ville = ville.trim();
+
     if (geoloc.type === 'ok') {
       params._lat = geoloc.lat;
       params._lng = geoloc.lng;
+    } else if (ville.trim()) {
+      // Géocoder la ville saisie pour appliquer le rayon autour de son
+      // centre. Si le géocodage échoue, on retombe sur un match par nom
+      // de ville (sans contrainte géographique).
+      const r = await geocoderAdresse(ville.trim());
+      if (r) {
+        params._lat = r.latitude;
+        params._lng = r.longitude;
+      } else {
+        params._ville = ville.trim();
+      }
     }
 
     const { data, error } = await supabase.rpc('rechercher_bars', params);
@@ -237,7 +249,7 @@ export function MoteurRecherche() {
           </div>
         </div>
 
-        {geoloc.type === 'ok' && (
+        {(geoloc.type === 'ok' || ville.trim() !== '') && (
           <label className="mt-5 block">
             <span className="mb-1.5 flex items-center justify-between text-sm font-semibold text-marine-800">
               Rayon de recherche
@@ -251,6 +263,7 @@ export function MoteurRecherche() {
               value={rayon}
               onChange={(e) => setRayon(Number(e.target.value))}
               className="w-full accent-bleu-500"
+              aria-label={`Rayon de recherche : ${rayon} kilomètres`}
             />
           </label>
         )}
