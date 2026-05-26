@@ -140,6 +140,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                 <th className="px-3 py-2">Client</th>
                 <th className="px-3 py-2">Email</th>
                 <th className="px-3 py-2">Groupe</th>
+                <th className="px-3 py-2">Arrivée</th>
                 <th className="px-3 py-2">Statut</th>
                 <th className="px-3 py-2 text-right">Actions</th>
               </tr>
@@ -157,6 +158,9 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                     </td>
                     <td className="px-3 py-2 text-slate-600">{r.email_client}</td>
                     <td className="px-3 py-2 text-slate-600">{r.taille_groupe}</td>
+                    <td className="px-3 py-2 text-slate-600">
+                      {r.heure_arrivee ? r.heure_arrivee.slice(0, 5) : '—'}
+                    </td>
                     <td className="px-3 py-2">
                       <span className={`badge ${classesBadgeReservation(r.statut)}`}>
                         {libelleStatutReservation[r.statut]}

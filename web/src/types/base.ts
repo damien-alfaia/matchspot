@@ -93,6 +93,7 @@ export interface Reservation {
   nom_client: string;
   email_client: string;
   taille_groupe: number;
+  heure_arrivee: string | null;
   statut: StatutReservation;
   cree_le: string;
 }

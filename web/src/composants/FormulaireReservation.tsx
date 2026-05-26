@@ -16,6 +16,7 @@ export function FormulaireReservation({
   const [nom, setNom] = useState('');
   const [email, setEmail] = useState('');
   const [taille, setTaille] = useState(2);
+  const [heureArrivee, setHeureArrivee] = useState('');
   const [enCours, setEnCours] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [confirme, setConfirme] = useState(false);
@@ -42,6 +43,7 @@ export function FormulaireReservation({
       nom_client: nom,
       email_client: email,
       taille_groupe: taille,
+      heure_arrivee: heureArrivee || null,
       statut: 'en_attente',
     });
 
@@ -55,6 +57,7 @@ export function FormulaireReservation({
     setNom('');
     setEmail('');
     setTaille(2);
+    setHeureArrivee('');
     onReserve();
     setEnCours(false);
 
@@ -110,7 +113,7 @@ export function FormulaireReservation({
             autoComplete="email"
           />
         </label>
-        <label className="block sm:col-span-2">
+        <label className="block">
           <span className="mb-1 block text-sm font-medium text-slate-700">
             Taille du groupe
           </span>
@@ -125,6 +128,21 @@ export function FormulaireReservation({
           />
           <p className="mt-1 text-xs text-slate-500">
             Places restantes : {placesRestantes}.
+          </p>
+        </label>
+        <label className="block">
+          <span className="mb-1 block text-sm font-medium text-slate-700">
+            Heure d'arrivée prévue
+            <span className="font-normal text-slate-500"> (optionnel)</span>
+          </span>
+          <input
+            type="time"
+            value={heureArrivee}
+            onChange={(e) => setHeureArrivee(e.target.value)}
+            className="champ-saisie"
+          />
+          <p className="mt-1 text-xs text-slate-500">
+            Le bar pourra dimensionner le service.
           </p>
         </label>
       </div>
