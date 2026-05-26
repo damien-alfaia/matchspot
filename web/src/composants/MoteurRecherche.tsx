@@ -8,6 +8,7 @@ import { libellePhase } from '../utils/libelles';
 import { slugifierMatch } from '../utils/slugMatch';
 import { IconePin, IconeBallon } from './ui/Icone';
 import { Spinner } from './ui/Spinner';
+import { BadgeMatchPhare } from './ui/BadgeMatchPhare';
 
 interface ResultatBar {
   etablissement_id: string;
@@ -277,10 +278,13 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
   return (
     <section>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-lg font-bold text-marine-900">
-          {resultats.length} bar{resultats.length > 1 ? 's' : ''} trouvé
-          {resultats.length > 1 ? 's' : ''}
-        </h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className="text-lg font-bold text-marine-900">
+            {resultats.length} bar{resultats.length > 1 ? 's' : ''} trouvé
+            {resultats.length > 1 ? 's' : ''}
+          </h2>
+          {matchSelectionne && <BadgeMatchPhare match={matchSelectionne} />}
+        </div>
         {matchSelectionne && (
           <Link
             to={`/matchs/${slugifierMatch(matchSelectionne)}`}

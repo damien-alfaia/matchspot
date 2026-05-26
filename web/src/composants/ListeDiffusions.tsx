@@ -7,6 +7,7 @@ import {
   libellePhase,
   libelleStatutDiffusion,
 } from '../utils/libelles';
+import { BadgeMatchPhare } from './ui/BadgeMatchPhare';
 
 interface Props {
   etablissement: Etablissement;
@@ -71,9 +72,12 @@ export function ListeDiffusions({ etablissement, diffusions, onChangement }: Pro
           <article key={d.id} className="carte">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500">
-                  Match #{m.numero_match} · {libellePhase[m.phase]}
-                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-xs uppercase tracking-wide text-slate-500">
+                    Match #{m.numero_match} · {libellePhase[m.phase]}
+                  </p>
+                  <BadgeMatchPhare match={m} compact />
+                </div>
                 <h3 className="mt-1 text-base font-semibold text-slate-900">
                   {m.equipe_domicile} <span className="text-slate-400">vs</span>{' '}
                   {m.equipe_exterieur}

@@ -8,6 +8,8 @@ import { FormulaireReservation } from '../composants/FormulaireReservation';
 import { BoutonPartager } from '../composants/BoutonPartager';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
 import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
+import { BadgeMatchPhare } from '../composants/ui/BadgeMatchPhare';
+import { estMatchPhare } from '../utils/matchPhare';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 import { slugifierMatch } from '../utils/slugMatch';
@@ -247,15 +249,28 @@ export function PagePublique() {
                 return (
                   <li
                     key={d.id}
-                    className="overflow-hidden rounded-2xl border border-marine-100 bg-white shadow-carte"
+                    className={`overflow-hidden rounded-2xl border bg-white shadow-carte ${
+                      estMatchPhare(d.matchs)
+                        ? 'border-amber-200'
+                        : 'border-marine-100'
+                    }`}
                   >
-                    <div className="border-l-4 border-bleu-500 p-5 sm:p-6">
+                    <div
+                      className={`border-l-4 p-5 sm:p-6 ${
+                        estMatchPhare(d.matchs)
+                          ? 'border-amber-500'
+                          : 'border-bleu-500'
+                      }`}
+                    >
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
-                            Match #{d.matchs.numero_match} ·{' '}
-                            {libellePhase[d.matchs.phase]}
-                          </p>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
+                              Match #{d.matchs.numero_match} ·{' '}
+                              {libellePhase[d.matchs.phase]}
+                            </p>
+                            <BadgeMatchPhare match={d.matchs} />
+                          </div>
                           <h3 className="mt-1 text-xl font-bold text-marine-900">
                             {d.matchs.equipe_domicile}{' '}
                             <span className="font-normal text-marine-600">vs</span>{' '}

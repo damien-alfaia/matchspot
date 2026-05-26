@@ -6,6 +6,7 @@ import { Entete } from '../composants/Entete';
 import { Footer } from '../composants/Footer';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
 import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
+import { BadgeMatchPhare } from '../composants/ui/BadgeMatchPhare';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 import { extraireNumeroMatch, slugifierMatch } from '../utils/slugMatch';
@@ -147,11 +148,12 @@ export function PageMatch() {
       <div className="bg-heroMarine text-white">
         <Entete />
         <header className="mx-auto max-w-3xl px-4 pb-12 pt-8 sm:pb-16">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-bleu-200">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-bleu-200">
             <span className="rounded-full bg-white/10 px-2.5 py-0.5">
               Match #{match.numero_match}
             </span>
             <span>{libellePhase[match.phase]}</span>
+            <BadgeMatchPhare match={match} />
           </div>
           <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
             {match.equipe_domicile}{' '}
