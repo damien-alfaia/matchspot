@@ -1,0 +1,76 @@
+name: Déploiement MatchSpot
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permet aussi de relancer manuellement
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false # on attend la fin du précédent pour éviter les corruptions
+
+jobs:
+  build-et-deployer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installation Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Installation des dépendances
+        working-directory: web
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Type-check
+        working-directory: web
+        run: npx tsc --noEmit
+
+      - name: Tests unitaires
+        working-directory: web
+        run: npm test
+
+      - name: Build production (sitemap + bundle)
+        working-directory: web
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          SITE_URL: https://matchspot.fr
+        run: npm run build
+
+      - name: Configurer la clé SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Déploiement rsync vers le VPS
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new" \
+            web/dist/ \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/matchspot/
+
+      - name: Smoke test post-déploiement
+        run: |
+          # Attend 3 secondes que Nginx serve la nouvelle version (pas de reload nécessaire,
+          # les fichiers sont remplacés atomiquement par rsync).
+          sleep 3
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://matchspot.fr)
+          if [ "$STATUS" != "200" ]; then
+            echo "Smoke test échoué : status $STATUS"
+            exit 1
+          fi
+          echo "OK : https://matchspot.fr répond 200"
+
+      - name: Nettoyage clé SSH
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
