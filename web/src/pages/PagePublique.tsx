@@ -94,7 +94,7 @@ export function PagePublique() {
 
   if (chargement) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main
           id="contenu-principal"
@@ -113,13 +113,13 @@ export function PagePublique() {
 
   if (!etablissement) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-3xl px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold text-slate-900">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-marine-50">
             Établissement introuvable
           </h1>
-          <p className="mt-2 text-slate-600">
+          <p className="mt-2 text-slate-600 dark:text-marine-300">
             Vérifiez l'URL ou contactez le bar directement.
           </p>
         </main>
@@ -134,7 +134,7 @@ export function PagePublique() {
     : null;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <EnTeteSEO
         titre={`${etablissement.nom} — Soirées Coupe du Monde 2026 | MatchSpot`}
         description={
@@ -168,7 +168,7 @@ export function PagePublique() {
             {etablissement.telephone && (
               <a
                 href={`tel:${etablissement.telephone.replace(/\s/g, '')}`}
-                className="badge bg-white/10 text-white hover:bg-white/20"
+                className="badge bg-white dark:bg-marine-800/10 text-white hover:bg-white dark:bg-marine-800/20"
               >
                 📞 {etablissement.telephone}
               </a>
@@ -178,19 +178,19 @@ export function PagePublique() {
                 href={lienGoogleMaps}
                 target="_blank"
                 rel="noreferrer"
-                className="badge bg-white/10 text-white hover:bg-white/20"
+                className="badge bg-white dark:bg-marine-800/10 text-white hover:bg-white dark:bg-marine-800/20"
               >
                 📍 Itinéraire
               </a>
             )}
-            <span className="badge bg-white/10 text-white">
+            <span className="badge bg-white dark:bg-marine-800/10 text-white">
               🕐 {etablissement.fuseau_horaire}
             </span>
             <BoutonPartager
               url={typeof window !== 'undefined' ? window.location.href : ''}
               titre={`${etablissement.nom} sur MatchSpot`}
               texte={`Découvrez les soirées Coupe du Monde 2026 à ${etablissement.nom}`}
-              className="badge bg-white text-marine-900 hover:bg-marine-50"
+              className="badge bg-white dark:bg-marine-800 text-marine-900 dark:text-marine-50 hover:bg-marine-50 dark:bg-marine-800"
             />
           </div>
         </header>
@@ -201,7 +201,7 @@ export function PagePublique() {
           <img
             src={etablissement.url_photo}
             alt={`Photo de ${etablissement.nom}`}
-            className="h-48 w-full rounded-2xl border border-marine-100 object-cover shadow-carte sm:h-64"
+            className="h-48 w-full rounded-2xl border border-marine-100 dark:border-marine-700 object-cover shadow-carte sm:h-64"
           />
         </div>
       )}
@@ -218,7 +218,7 @@ export function PagePublique() {
                   <img
                     src={url}
                     alt={`${etablissement.nom} — photo`}
-                    className="h-32 w-48 rounded-xl border border-marine-100 object-cover shadow-carte sm:h-40 sm:w-60"
+                    className="h-32 w-48 rounded-xl border border-marine-100 dark:border-marine-700 object-cover shadow-carte sm:h-40 sm:w-60"
                     loading="lazy"
                   />
                 </li>
@@ -237,9 +237,9 @@ export function PagePublique() {
         <DetailsBar etablissement={etablissement} />
 
         <section>
-          <h2 className="text-xl font-bold text-marine-900">Soirées à venir</h2>
+          <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">Soirées à venir</h2>
           {diffusions.length === 0 ? (
-            <div className="mt-4 carte text-center text-sm text-marine-600">
+            <div className="mt-4 carte text-center text-sm text-marine-600 dark:text-marine-300">
               Aucune soirée publiée pour l'instant. Revenez bientôt !
             </div>
           ) : (
@@ -250,10 +250,10 @@ export function PagePublique() {
                 return (
                   <li
                     key={d.id}
-                    className={`overflow-hidden rounded-2xl border bg-white shadow-carte ${
+                    className={`overflow-hidden rounded-2xl border bg-white dark:bg-marine-800 shadow-carte ${
                       estMatchPhare(d.matchs)
                         ? 'border-amber-200'
-                        : 'border-marine-100'
+                        : 'border-marine-100 dark:border-marine-700'
                     }`}
                   >
                     <div
@@ -272,25 +272,25 @@ export function PagePublique() {
                             </p>
                             <BadgeMatchPhare match={d.matchs} />
                           </div>
-                          <h3 className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xl font-bold text-marine-900">
+                          <h3 className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xl font-bold text-marine-900 dark:text-marine-50">
                             <span className="inline-flex items-center gap-2">
                               <DrapeauEquipe nom={d.matchs.equipe_domicile} taille="md" />
                               {d.matchs.equipe_domicile}
                             </span>
-                            <span className="font-normal text-marine-600">vs</span>
+                            <span className="font-normal text-marine-600 dark:text-marine-300">vs</span>
                             <span className="inline-flex items-center gap-2">
                               <DrapeauEquipe nom={d.matchs.equipe_exterieur} taille="md" />
                               {d.matchs.equipe_exterieur}
                             </span>
                           </h3>
-                          <p className="mt-2 text-sm text-marine-800">
+                          <p className="mt-2 text-sm text-marine-800 dark:text-marine-100">
                             <span className="font-semibold">
                               {formaterDateHeure(
                                 d.matchs.coup_envoi_utc,
                                 etablissement.fuseau_horaire,
                               )}
                             </span>{' '}
-                            <span className="text-marine-600">
+                            <span className="text-marine-600 dark:text-marine-300">
                               ({libelleFuseau(
                                 d.matchs.coup_envoi_utc,
                                 etablissement.fuseau_horaire,
@@ -298,7 +298,7 @@ export function PagePublique() {
                               )
                             </span>
                           </p>
-                          <p className="mt-0.5 text-sm text-marine-500">
+                          <p className="mt-0.5 text-sm text-marine-500 dark:text-marine-400">
                             {d.matchs.stade}, {d.matchs.ville_hote}
                           </p>
                           <Link
@@ -325,7 +325,7 @@ export function PagePublique() {
                               >
                                 {restantes}
                               </p>
-                              <p className="text-xs text-marine-500">
+                              <p className="text-xs text-marine-500 dark:text-marine-400">
                                 / {d.places_disponibles} places
                               </p>
                               {restantes < 5 && (
@@ -339,12 +339,12 @@ export function PagePublique() {
                       </div>
                     </div>
 
-                    <div className="border-t border-marine-50 bg-marine-50/50 p-5 sm:p-6">
-                      <h4 className="mb-3 text-sm font-bold text-marine-900">
+                    <div className="border-t border-marine-50 dark:border-marine-800 bg-marine-50/50 p-5 sm:p-6">
+                      <h4 className="mb-3 text-sm font-bold text-marine-900 dark:text-marine-50">
                         Réserver pour cette soirée
                       </h4>
                       {complet ? (
-                        <p className="text-sm text-marine-600">
+                        <p className="text-sm text-marine-600 dark:text-marine-300">
                           Plus de place disponible pour cette soirée.
                         </p>
                       ) : etablissement.mode_reservation === 'telephone' ? (
@@ -409,18 +409,18 @@ function ContactReservation({
   fallback,
 }: PropsContactReservation) {
   if (!valeur || !href) {
-    return <p className="text-sm text-marine-600">{fallback}</p>;
+    return <p className="text-sm text-marine-600 dark:text-marine-300">{fallback}</p>;
   }
   return (
     <a
       href={href}
-      className="inline-flex items-center gap-3 rounded-lg border border-bleu-200 bg-white px-4 py-3 text-sm font-semibold text-bleu-700 transition hover:border-bleu-300 hover:bg-bleu-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-2"
+      className="inline-flex items-center gap-3 rounded-lg border border-bleu-200 bg-white dark:bg-marine-800 px-4 py-3 text-sm font-semibold text-bleu-700 transition hover:border-bleu-300 hover:bg-bleu-50 dark:bg-bleu-950/40 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-2"
     >
       <span aria-hidden="true" className="text-xl">
         {icone}
       </span>
       <span className="flex flex-col items-start">
-        <span className="text-xs font-medium uppercase tracking-wider text-marine-600">
+        <span className="text-xs font-medium uppercase tracking-wider text-marine-600 dark:text-marine-300">
           {libelle}
         </span>
         <span>{valeur}</span>
@@ -466,7 +466,7 @@ function DetailsBar({ etablissement: e }: DetailsBarProps) {
 
   return (
     <section className="carte">
-      <h2 className="text-lg font-bold text-marine-900">Le bar</h2>
+      <h2 className="text-lg font-bold text-marine-900 dark:text-marine-50">Le bar</h2>
 
       <div className="mt-4 grid gap-5 sm:grid-cols-2">
         {aDesDetailsEcrans && (
@@ -474,7 +474,7 @@ function DetailsBar({ etablissement: e }: DetailsBarProps) {
             <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
               Écrans
             </p>
-            <p className="mt-1 text-sm text-marine-800">
+            <p className="mt-1 text-sm text-marine-800 dark:text-marine-100">
               {e.nombre_ecrans !== null && (
                 <span className="font-medium">
                   {e.nombre_ecrans} écran{e.nombre_ecrans > 1 ? 's' : ''}
@@ -492,7 +492,7 @@ function DetailsBar({ etablissement: e }: DetailsBarProps) {
               Ambiance
             </p>
             {e.son_ambiance && (
-              <p className="mt-1 text-sm text-marine-800">
+              <p className="mt-1 text-sm text-marine-800 dark:text-marine-100">
                 {LIBELLES_SON[e.son_ambiance] ?? e.son_ambiance}
               </p>
             )}
@@ -501,7 +501,7 @@ function DetailsBar({ etablissement: e }: DetailsBarProps) {
                 {e.type_ambiance.map((tag) => (
                   <li
                     key={tag}
-                    className="rounded-full bg-bleu-50 px-2.5 py-0.5 text-xs font-medium text-bleu-700"
+                    className="rounded-full bg-bleu-50 dark:bg-bleu-950/40 px-2.5 py-0.5 text-xs font-medium text-bleu-700"
                   >
                     {LIBELLES_AMBIANCE[tag] ?? tag}
                   </li>
@@ -520,7 +520,7 @@ function DetailsBar({ etablissement: e }: DetailsBarProps) {
               {e.equipes_habituelles!.map((c) => (
                 <li
                   key={c}
-                  className="rounded-full border border-marine-200 bg-white px-2.5 py-0.5 text-xs text-marine-700"
+                  className="rounded-full border border-marine-200 dark:border-marine-700 bg-white dark:bg-marine-800 px-2.5 py-0.5 text-xs text-marine-700 dark:text-marine-200"
                 >
                   {c}
                 </li>
@@ -537,8 +537,8 @@ function DetailsBar({ etablissement: e }: DetailsBarProps) {
             <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm sm:grid-cols-3">
               {Object.entries(e.horaires_ouverture!).map(([jour, h]) => (
                 <div key={jour} className="flex justify-between gap-3">
-                  <dt className="capitalize text-marine-600">{jour}</dt>
-                  <dd className="font-medium text-marine-900">{h}</dd>
+                  <dt className="capitalize text-marine-600 dark:text-marine-300">{jour}</dt>
+                  <dd className="font-medium text-marine-900 dark:text-marine-50">{h}</dd>
                 </div>
               ))}
             </dl>

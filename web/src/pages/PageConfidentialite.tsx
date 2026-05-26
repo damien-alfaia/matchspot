@@ -5,7 +5,7 @@ import { EnTeteSEO } from '../composants/EnTeteSEO';
 
 export function PageConfidentialite() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <EnTeteSEO
         titre="Politique de confidentialité | MatchSpot"
         description="Comment MatchSpot collecte, utilise et protège vos données personnelles. Conformité RGPD, finalités, durées de conservation, droits d'accès."
@@ -15,16 +15,16 @@ export function PageConfidentialite() {
         <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
           Légal
         </p>
-        <h1 className="mt-1 text-4xl font-extrabold text-marine-900">
+        <h1 className="mt-1 text-4xl font-extrabold text-marine-900 dark:text-marine-50">
           Politique de confidentialité
         </h1>
-        <p className="mt-3 text-sm text-marine-500">
+        <p className="mt-3 text-sm text-marine-500 dark:text-marine-400">
           Version applicable au 25 mai 2026.
         </p>
 
-        <div className="mt-10 space-y-8 text-marine-700">
+        <div className="mt-10 space-y-8 text-marine-700 dark:text-marine-200">
           <section>
-            <h2 className="text-xl font-bold text-marine-900">En résumé</h2>
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">En résumé</h2>
             <ul className="mt-2 list-inside list-disc space-y-1">
               <li>
                 On collecte le strict minimum : votre email, votre nom, et
@@ -53,7 +53,7 @@ export function PageConfidentialite() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Responsable du traitement
             </h2>
             <p className="mt-2">
@@ -70,12 +70,12 @@ export function PageConfidentialite() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Données collectées et finalités
             </h2>
             <table className="mt-3 w-full border-collapse text-sm">
-              <thead className="text-left text-xs uppercase tracking-wider text-marine-500">
-                <tr className="border-b border-marine-100">
+              <thead className="text-left text-xs uppercase tracking-wider text-marine-500 dark:text-marine-400">
+                <tr className="border-b border-marine-100 dark:border-marine-700">
                   <th className="py-2 pr-3">Donnée</th>
                   <th className="py-2 pr-3">Finalité</th>
                   <th className="py-2">Base légale</th>
@@ -83,49 +83,49 @@ export function PageConfidentialite() {
               </thead>
               <tbody className="divide-y divide-marine-50">
                 <tr>
-                  <td className="py-2 pr-3 font-medium text-marine-900">
+                  <td className="py-2 pr-3 font-medium text-marine-900 dark:text-marine-50">
                     Email (compte pro)
                   </td>
                   <td className="py-2 pr-3">
                     Authentification, notifications de réservation
                   </td>
-                  <td className="py-2 text-marine-600">Contrat</td>
+                  <td className="py-2 text-marine-600 dark:text-marine-300">Contrat</td>
                 </tr>
                 <tr>
-                  <td className="py-2 pr-3 font-medium text-marine-900">
+                  <td className="py-2 pr-3 font-medium text-marine-900 dark:text-marine-50">
                     Email + nom (client final)
                   </td>
                   <td className="py-2 pr-3">
                     Confirmation de la réservation, contact si nécessaire
                   </td>
-                  <td className="py-2 text-marine-600">Contrat</td>
+                  <td className="py-2 text-marine-600 dark:text-marine-300">Contrat</td>
                 </tr>
                 <tr>
-                  <td className="py-2 pr-3 font-medium text-marine-900">
+                  <td className="py-2 pr-3 font-medium text-marine-900 dark:text-marine-50">
                     Taille du groupe
                   </td>
                   <td className="py-2 pr-3">
                     Décompte des places restantes affiché côté public
                   </td>
-                  <td className="py-2 text-marine-600">Contrat</td>
+                  <td className="py-2 text-marine-600 dark:text-marine-300">Contrat</td>
                 </tr>
                 <tr>
-                  <td className="py-2 pr-3 font-medium text-marine-900">
+                  <td className="py-2 pr-3 font-medium text-marine-900 dark:text-marine-50">
                     Coordonnées du bar
                   </td>
                   <td className="py-2 pr-3">
                     Affichage public, géolocalisation, partage social
                   </td>
-                  <td className="py-2 text-marine-600">Contrat</td>
+                  <td className="py-2 text-marine-600 dark:text-marine-300">Contrat</td>
                 </tr>
                 <tr>
-                  <td className="py-2 pr-3 font-medium text-marine-900">
+                  <td className="py-2 pr-3 font-medium text-marine-900 dark:text-marine-50">
                     Adresse IP (logs serveur)
                   </td>
                   <td className="py-2 pr-3">
                     Sécurité, prévention des abus
                   </td>
-                  <td className="py-2 text-marine-600">Intérêt légitime</td>
+                  <td className="py-2 text-marine-600 dark:text-marine-300">Intérêt légitime</td>
                 </tr>
               </tbody>
             </table>
@@ -140,7 +140,7 @@ export function PageConfidentialite() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Sous-traitants et transferts
             </h2>
             <p className="mt-2">
@@ -190,7 +190,7 @@ export function PageConfidentialite() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Durées de conservation
             </h2>
             <ul className="mt-2 list-inside list-disc space-y-1">
@@ -211,7 +211,7 @@ export function PageConfidentialite() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">Vos droits</h2>
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">Vos droits</h2>
             <p className="mt-2">
               Conformément au Règlement Général sur la Protection des
               Données (RGPD) et à la loi Informatique et Libertés, vous
@@ -257,7 +257,7 @@ export function PageConfidentialite() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Mises à jour de cette politique
             </h2>
             <p className="mt-2">

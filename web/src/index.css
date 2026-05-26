@@ -12,35 +12,44 @@
     background-color: #f8fafc;
     color: #0f1f3d;
   }
+  .dark body {
+    background-color: #0a1730;
+    color: #d6e0f0;
+  }
   h1, h2, h3 {
     color: #0f1f3d;
     letter-spacing: -0.01em;
+  }
+  .dark h1,
+  .dark h2,
+  .dark h3 {
+    color: #eef2f8;
   }
 }
 
 @layer components {
   .bouton-primaire {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-bleu-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-bleu-600 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-bleu-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-bleu-600 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-bleu-500 dark:hover:bg-bleu-400 dark:focus:ring-offset-marine-900;
   }
 
   .bouton-secondaire {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-marine-200 bg-white px-4 py-2.5 text-sm font-semibold text-marine-800 shadow-sm transition hover:border-marine-300 hover:bg-marine-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-2 disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-marine-200 bg-white px-4 py-2.5 text-sm font-semibold text-marine-800 shadow-sm transition hover:border-marine-300 hover:bg-marine-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-2 disabled:opacity-50 dark:border-marine-700 dark:bg-marine-800 dark:text-marine-100 dark:hover:border-marine-600 dark:hover:bg-marine-700 dark:focus:ring-offset-marine-900;
   }
 
   .bouton-ghost {
-    @apply inline-flex items-center justify-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-marine-700 transition hover:bg-marine-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1;
+    @apply inline-flex items-center justify-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-marine-700 transition hover:bg-marine-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 dark:text-marine-200 dark:hover:bg-marine-800 dark:focus:ring-offset-marine-900;
   }
 
   .bouton-danger {
-    @apply inline-flex items-center justify-center gap-1 rounded-md border border-red-200 bg-white px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-1 rounded-md border border-red-200 bg-white px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50 dark:border-red-900/60 dark:bg-marine-800 dark:text-red-300 dark:hover:bg-red-950/40;
   }
 
   .champ-saisie {
-    @apply block w-full rounded-lg border border-marine-200 bg-white px-3 py-2.5 text-sm text-marine-900 shadow-sm placeholder:text-marine-300 focus:border-bleu-500 focus:outline-none focus:ring-2 focus:ring-bleu-500/30;
+    @apply block w-full rounded-lg border border-marine-200 bg-white px-3 py-2.5 text-sm text-marine-900 shadow-sm placeholder:text-marine-300 focus:border-bleu-500 focus:outline-none focus:ring-2 focus:ring-bleu-500/30 dark:border-marine-700 dark:bg-marine-800 dark:text-marine-50 dark:placeholder:text-marine-400 dark:focus:border-bleu-400;
   }
 
   .carte {
-    @apply rounded-2xl border border-marine-100 bg-white p-5 shadow-carte;
+    @apply rounded-2xl border border-marine-100 bg-white p-5 shadow-carte dark:border-marine-700 dark:bg-marine-800;
   }
 
   .carte-interactive {
@@ -52,7 +61,7 @@
   }
 
   .pastille-distance {
-    @apply inline-flex items-center gap-1 rounded-full bg-bleu-50 px-2.5 py-1 text-xs font-semibold text-bleu-700;
+    @apply inline-flex items-center gap-1 rounded-full bg-bleu-50 px-2.5 py-1 text-xs font-semibold text-bleu-700 dark:bg-bleu-900/40 dark:text-bleu-200;
   }
 
   /* Skip-link a11y : caché visuellement mais focusable au clavier (Tab). */

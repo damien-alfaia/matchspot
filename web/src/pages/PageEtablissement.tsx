@@ -90,7 +90,7 @@ export function PageEtablissement() {
 
   if (chargement) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main
           id="contenu-principal"
@@ -108,7 +108,7 @@ export function PageEtablissement() {
 
   if (!etablissement) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-8">
           <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -125,7 +125,7 @@ export function PageEtablissement() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <Entete />
       <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl space-y-8 px-4 py-10">
         <header>
@@ -137,20 +137,20 @@ export function PageEtablissement() {
           </Link>
           <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-marine-900">
+              <h1 className="text-3xl font-bold text-marine-900 dark:text-marine-50">
                 {etablissement.nom}
               </h1>
               {etablissement.adresse && (
-                <p className="mt-0.5 text-sm text-marine-500">
+                <p className="mt-0.5 text-sm text-marine-500 dark:text-marine-400">
                   {etablissement.adresse}
                 </p>
               )}
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="badge bg-marine-50 text-marine-700">
+              <span className="badge bg-marine-50 dark:bg-marine-800 text-marine-700 dark:text-marine-200">
                 🕐 {etablissement.fuseau_horaire}
               </span>
-              <span className="badge bg-bleu-50 text-bleu-700">
+              <span className="badge bg-bleu-50 dark:bg-bleu-950/40 text-bleu-700">
                 {etablissement.capacite} places
               </span>
               <Link
@@ -188,7 +188,7 @@ export function PageEtablissement() {
 
         {editionOuverte && (
           <section>
-            <h2 className="mb-3 text-lg font-bold text-marine-900">
+            <h2 className="mb-3 text-lg font-bold text-marine-900 dark:text-marine-50">
               Modifier les informations
             </h2>
             <FormulaireEtablissement
@@ -206,7 +206,7 @@ export function PageEtablissement() {
 
         <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
           <section>
-            <h2 className="mb-3 text-lg font-bold text-marine-900">
+            <h2 className="mb-3 text-lg font-bold text-marine-900 dark:text-marine-50">
               Diffusions programmées
             </h2>
             <ListeDiffusions

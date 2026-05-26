@@ -17,8 +17,8 @@ function Etape({ numero, titre, children }: EtapeProps) {
       <span className="absolute left-0 top-0 inline-flex h-9 w-9 items-center justify-center rounded-full bg-bleu-500 text-sm font-bold text-white">
         {numero}
       </span>
-      <h3 className="text-lg font-bold text-marine-900">{titre}</h3>
-      <div className="mt-1 text-marine-700">{children}</div>
+      <h3 className="text-lg font-bold text-marine-900 dark:text-marine-50">{titre}</h3>
+      <div className="mt-1 text-marine-700 dark:text-marine-200">{children}</div>
     </li>
   );
 }
@@ -30,21 +30,21 @@ interface FaqItemProps {
 
 function FaqItem({ question, children }: FaqItemProps) {
   return (
-    <details className="group rounded-xl border border-marine-100 bg-white p-4 open:shadow-carte">
-      <summary className="cursor-pointer list-none font-semibold text-marine-900 marker:hidden">
+    <details className="group rounded-xl border border-marine-100 dark:border-marine-700 bg-white dark:bg-marine-800 p-4 open:shadow-carte">
+      <summary className="cursor-pointer list-none font-semibold text-marine-900 dark:text-marine-50 marker:hidden">
         <span className="mr-2 inline-block text-bleu-500 transition group-open:rotate-90">
           ›
         </span>
         {question}
       </summary>
-      <div className="mt-3 text-sm text-marine-700">{children}</div>
+      <div className="mt-3 text-sm text-marine-700 dark:text-marine-200">{children}</div>
     </details>
   );
 }
 
 export function PageCommentCaMarche() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <EnTeteSEO
         titre="Comment ça marche pour les bars | MatchSpot"
         description="Inscrivez votre bar gratuitement sur MatchSpot pour la Coupe du Monde 2026. Diffusions, capacité, réservations en ligne. Sans engagement, sans paperasse."
@@ -68,7 +68,7 @@ export function PageCommentCaMarche() {
           <div className="mt-6 flex justify-center gap-3">
             <Link
               to="/inscription-pro"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-3 text-base font-semibold text-marine-900 shadow-sm transition hover:bg-marine-50"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-white dark:bg-marine-800 px-5 py-3 text-base font-semibold text-marine-900 dark:text-marine-50 shadow-sm transition hover:bg-marine-50 dark:bg-marine-800"
             >
               Inscrire mon bar
             </Link>
@@ -78,7 +78,7 @@ export function PageCommentCaMarche() {
 
       <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-3xl space-y-12 px-4 py-12">
         <section>
-          <h2 className="text-2xl font-bold text-marine-900">
+          <h2 className="text-2xl font-bold text-marine-900 dark:text-marine-50">
             Comment ça marche, en 4 étapes
           </h2>
           <ol className="mt-6 space-y-6">
@@ -125,7 +125,7 @@ export function PageCommentCaMarche() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-marine-900">
+          <h2 className="text-2xl font-bold text-marine-900 dark:text-marine-50">
             Questions fréquentes
           </h2>
           <div className="mt-6 space-y-3">

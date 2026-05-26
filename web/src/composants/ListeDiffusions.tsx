@@ -39,7 +39,7 @@ export function ListeDiffusions({ etablissement, diffusions, onChangement }: Pro
 
   if (diffusions.length === 0) {
     return (
-      <div className="carte text-sm text-slate-600">
+      <div className="carte text-sm text-slate-600 dark:text-marine-300">
         Aucune diffusion pour l'instant. Utilisez le formulaire pour en créer
         une.
       </div>
@@ -61,29 +61,29 @@ export function ListeDiffusions({ etablissement, diffusions, onChangement }: Pro
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-xs uppercase tracking-wide text-slate-500">
+                  <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-marine-400">
                     Match #{m.numero_match} · {libellePhase[m.phase]}
                   </p>
                   <BadgeMatchPhare match={m} compact />
                 </div>
-                <h3 className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-base font-semibold text-slate-900">
+                <h3 className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-base font-semibold text-slate-900 dark:text-marine-50">
                   <span className="inline-flex items-center gap-1.5">
                     <DrapeauEquipe nom={m.equipe_domicile} taille="sm" />
                     {m.equipe_domicile}
                   </span>
-                  <span className="text-slate-400">vs</span>
+                  <span className="text-slate-400 dark:text-marine-500">vs</span>
                   <span className="inline-flex items-center gap-1.5">
                     <DrapeauEquipe nom={m.equipe_exterieur} taille="sm" />
                     {m.equipe_exterieur}
                   </span>
                 </h3>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-slate-600 dark:text-marine-300">
                   {formaterDateHeure(m.coup_envoi_utc, etablissement.fuseau_horaire)}{' '}
-                  <span className="text-slate-400">
+                  <span className="text-slate-400 dark:text-marine-500">
                     ({libelleFuseau(m.coup_envoi_utc, etablissement.fuseau_horaire)})
                   </span>
                 </p>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-marine-400">
                   {m.stade} — {m.ville_hote}
                 </p>
               </div>
@@ -91,7 +91,7 @@ export function ListeDiffusions({ etablissement, diffusions, onChangement }: Pro
                 <span className={`badge ${classesBadgeDiffusion(d.statut)}`}>
                   {libelleStatutDiffusion[d.statut]}
                 </span>
-                <span className="text-sm text-slate-600">
+                <span className="text-sm text-slate-600 dark:text-marine-300">
                   {d.places_disponibles} places
                 </span>
               </div>

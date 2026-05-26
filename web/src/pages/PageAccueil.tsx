@@ -4,11 +4,11 @@ import { MoteurRecherche } from '../composants/MoteurRecherche';
 
 export function PageAccueil() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <div className="bg-heroPhoto bg-cover bg-center text-white">
         <Entete />
         <section className="mx-auto max-w-3xl px-4 pb-16 pt-10 text-center sm:pb-20 sm:pt-14">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-wider text-bleu-100">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white dark:bg-marine-800/5 px-3 py-1 text-xs font-medium uppercase tracking-wider text-bleu-100">
             Coupe du Monde 2026 · 11 juin → 19 juillet
           </span>
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">

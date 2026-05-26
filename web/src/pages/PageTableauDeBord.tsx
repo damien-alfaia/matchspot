@@ -43,7 +43,7 @@ export function PageTableauDeBord() {
   }, [charger]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <Entete />
       <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-10">
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -51,10 +51,10 @@ export function PageTableauDeBord() {
             <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
               Espace pro
             </p>
-            <h1 className="mt-1 text-3xl font-bold text-marine-900">
+            <h1 className="mt-1 text-3xl font-bold text-marine-900 dark:text-marine-50">
               Mes établissements
             </h1>
-            <p className="mt-1 text-sm text-marine-600">
+            <p className="mt-1 text-sm text-marine-600 dark:text-marine-300">
               Sélectionnez un établissement pour piloter ses soirées de diffusion
               et ses réservations.
             </p>
@@ -95,11 +95,11 @@ export function PageTableauDeBord() {
           </div>
         ) : etablissements.length === 0 && !organisationId ? (
           <div className="mt-10 carte text-center">
-            <p className="text-base font-semibold text-marine-900">
+            <p className="text-base font-semibold text-marine-900 dark:text-marine-50">
               Finalisez votre inscription pour créer votre premier
               établissement.
             </p>
-            <p className="mt-2 text-sm text-marine-600">
+            <p className="mt-2 text-sm text-marine-600 dark:text-marine-300">
               Votre compte est créé mais aucune organisation n'y est encore
               rattachée. Continuez votre inscription pour configurer votre
               bar (nom, adresse, capacité, fuseau).
@@ -110,7 +110,7 @@ export function PageTableauDeBord() {
           </div>
         ) : etablissements.length === 0 ? (
           <div className="mt-10 carte text-center">
-            <p className="text-sm text-marine-600">
+            <p className="text-sm text-marine-600 dark:text-marine-300">
               Aucun établissement n'est rattaché à votre compte. Cliquez sur
               « Nouvel établissement » pour en créer un.
             </p>
@@ -124,21 +124,21 @@ export function PageTableauDeBord() {
                   className="carte-interactive group block"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <h2 className="text-lg font-bold text-marine-900 group-hover:text-bleu-600">
+                    <h2 className="text-lg font-bold text-marine-900 dark:text-marine-50 group-hover:text-bleu-600">
                       {e.nom}
                     </h2>
-                    <span className="badge bg-bleu-50 text-bleu-700">
+                    <span className="badge bg-bleu-50 dark:bg-bleu-950/40 text-bleu-700">
                       {e.capacite} places
                     </span>
                   </div>
                   {e.adresse && (
-                    <p className="mt-1 text-sm text-marine-500">{e.adresse}</p>
+                    <p className="mt-1 text-sm text-marine-500 dark:text-marine-400">{e.adresse}</p>
                   )}
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="badge bg-marine-50 text-marine-700">
+                    <span className="badge bg-marine-50 dark:bg-marine-800 text-marine-700 dark:text-marine-200">
                       🕐 {e.fuseau_horaire}
                     </span>
-                    <span className="badge bg-bleu-50 text-bleu-700">
+                    <span className="badge bg-bleu-50 dark:bg-bleu-950/40 text-bleu-700">
                       /etablissements/{e.slug_public}
                     </span>
                   </div>

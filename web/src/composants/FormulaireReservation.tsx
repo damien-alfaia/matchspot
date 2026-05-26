@@ -78,7 +78,7 @@ export function FormulaireReservation({
 
   if (confirme) {
     return (
-      <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
+      <p className="rounded-md bg-bleu-50 dark:bg-bleu-950/40 px-3 py-2 text-sm text-bleu-700">
         Demande de réservation envoyée. Le bar vous confirmera par email.
       </p>
     );
@@ -88,7 +88,7 @@ export function FormulaireReservation({
     <form onSubmit={soumettre} className="space-y-3">
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">
+          <span className="mb-1 block text-sm font-medium text-slate-700 dark:text-marine-200">
             Votre nom
           </span>
           <input
@@ -101,7 +101,7 @@ export function FormulaireReservation({
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">
+          <span className="mb-1 block text-sm font-medium text-slate-700 dark:text-marine-200">
             Votre email
           </span>
           <input
@@ -114,7 +114,7 @@ export function FormulaireReservation({
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">
+          <span className="mb-1 block text-sm font-medium text-slate-700 dark:text-marine-200">
             Taille du groupe
           </span>
           <input
@@ -126,14 +126,14 @@ export function FormulaireReservation({
             className="champ-saisie"
             required
           />
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-slate-500 dark:text-marine-400">
             Places restantes : {placesRestantes}.
           </p>
         </label>
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">
+          <span className="mb-1 block text-sm font-medium text-slate-700 dark:text-marine-200">
             Heure d'arrivée prévue
-            <span className="font-normal text-slate-500"> (optionnel)</span>
+            <span className="font-normal text-slate-500 dark:text-marine-400"> (optionnel)</span>
           </span>
           <input
             type="time"
@@ -141,7 +141,7 @@ export function FormulaireReservation({
             onChange={(e) => setHeureArrivee(e.target.value)}
             className="champ-saisie"
           />
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-slate-500 dark:text-marine-400">
             Le bar pourra dimensionner le service.
           </p>
         </label>

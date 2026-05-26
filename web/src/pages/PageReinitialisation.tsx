@@ -64,11 +64,11 @@ export function PageReinitialisation() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <Entete />
       <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-md px-4 py-12">
         <div className="carte">
-          <h1 className="text-xl font-bold text-marine-900">
+          <h1 className="text-xl font-bold text-marine-900 dark:text-marine-50">
             {mode === 'demande'
               ? 'Mot de passe oublié'
               : 'Définir un nouveau mot de passe'}
@@ -77,7 +77,7 @@ export function PageReinitialisation() {
           {mode === 'demande' ? (
             <form onSubmit={demanderLien} className="mt-6 space-y-4">
               <label className="block">
-                <span className="mb-1 block text-sm font-semibold text-marine-800">
+                <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                   Email
                 </span>
                 <input
@@ -96,7 +96,7 @@ export function PageReinitialisation() {
                 </p>
               )}
               {info && (
-                <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
+                <p className="rounded-md bg-bleu-50 dark:bg-bleu-950/40 px-3 py-2 text-sm text-bleu-700">
                   {info}
                 </p>
               )}
@@ -112,7 +112,7 @@ export function PageReinitialisation() {
           ) : (
             <form onSubmit={definirNouveauMdp} className="mt-6 space-y-4">
               <label className="block">
-                <span className="mb-1 block text-sm font-semibold text-marine-800">
+                <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                   Nouveau mot de passe (8 caractères min.)
                 </span>
                 <input
@@ -132,7 +132,7 @@ export function PageReinitialisation() {
                 </p>
               )}
               {info && (
-                <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
+                <p className="rounded-md bg-bleu-50 dark:bg-bleu-950/40 px-3 py-2 text-sm text-bleu-700">
                   {info}
                 </p>
               )}
@@ -147,7 +147,7 @@ export function PageReinitialisation() {
             </form>
           )}
 
-          <p className="mt-4 text-center text-sm text-marine-500">
+          <p className="mt-4 text-center text-sm text-marine-500 dark:text-marine-400">
             <Link to="/connexion" className="text-bleu-600 hover:underline">
               ← Retour à la connexion
             </Link>

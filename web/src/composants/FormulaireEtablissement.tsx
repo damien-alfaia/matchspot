@@ -388,7 +388,7 @@ export function FormulaireEtablissement({
     <form onSubmit={soumettre} className="carte space-y-5">
       {/* Barre de progression : 4 étapes, cliquable en mode édition. */}
       <ol
-        className="flex flex-wrap items-center gap-2 border-b border-marine-100 pb-4"
+        className="flex flex-wrap items-center gap-2 border-b border-marine-100 dark:border-marine-700 pb-4"
         aria-label="Étapes du formulaire"
       >
         {ETAPES.map((e, idx) => {
@@ -404,10 +404,10 @@ export function FormulaireEtablissement({
                 aria-current={actif ? 'step' : undefined}
                 className={`group flex w-full items-center gap-2 rounded-lg border px-2.5 py-2 text-left transition ${
                   actif
-                    ? 'border-bleu-500 bg-bleu-50'
+                    ? 'border-bleu-500 bg-bleu-50 dark:bg-bleu-950/40'
                     : fait
-                      ? 'border-marine-200 bg-white hover:border-marine-300'
-                      : 'border-marine-100 bg-white'
+                      ? 'border-marine-200 dark:border-marine-700 bg-white dark:bg-marine-800 hover:border-marine-300'
+                      : 'border-marine-100 dark:border-marine-700 bg-white dark:bg-marine-800'
                 } ${accessible ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
               >
                 <span
@@ -416,7 +416,7 @@ export function FormulaireEtablissement({
                       ? 'bg-bleu-500 text-white'
                       : fait
                         ? 'bg-marine-800 text-white'
-                        : 'bg-marine-100 text-marine-600'
+                        : 'bg-marine-100 text-marine-600 dark:text-marine-300'
                   }`}
                   aria-hidden="true"
                 >
@@ -425,12 +425,12 @@ export function FormulaireEtablissement({
                 <span className="min-w-0">
                   <span
                     className={`block text-xs font-semibold ${
-                      actif ? 'text-bleu-700' : 'text-marine-800'
+                      actif ? 'text-bleu-700' : 'text-marine-800 dark:text-marine-100'
                     }`}
                   >
                     {e.titre}
                   </span>
-                  <span className="hidden text-[11px] text-marine-600 sm:block">
+                  <span className="hidden text-[11px] text-marine-600 dark:text-marine-300 sm:block">
                     {e.resume}
                   </span>
                 </span>
@@ -450,7 +450,7 @@ export function FormulaireEtablissement({
       {etape === 1 && (
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block sm:col-span-2">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Nom de l'établissement
             </span>
             <input
@@ -463,7 +463,7 @@ export function FormulaireEtablissement({
           </label>
 
           <label className="block">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Téléphone
             </span>
             <input
@@ -476,7 +476,7 @@ export function FormulaireEtablissement({
           </label>
 
           <label className="block">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Fuseau horaire (IANA)
             </span>
             <input
@@ -495,7 +495,7 @@ export function FormulaireEtablissement({
           </label>
 
           <label className="block">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Capacité (places)
             </span>
             <input
@@ -509,7 +509,7 @@ export function FormulaireEtablissement({
           </label>
 
           <label className="block sm:col-span-2">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Slug public (URL : /etablissements/<i>slug</i>)
             </span>
             <input
@@ -526,7 +526,7 @@ export function FormulaireEtablissement({
           </label>
 
           <label className="block sm:col-span-2">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Description courte (280 caractères max.)
             </span>
             <textarea
@@ -537,13 +537,13 @@ export function FormulaireEtablissement({
               className="champ-saisie"
               placeholder="Bar sportif à Bastille, 3 écrans géants, snack…"
             />
-            <p className="mt-1 text-right text-xs text-marine-600">
+            <p className="mt-1 text-right text-xs text-marine-600 dark:text-marine-300">
               {v.description_courte.length}/280
             </p>
           </label>
 
           <div className="block sm:col-span-2">
-            <span className="mb-2 block text-sm font-semibold text-marine-800">
+            <span className="mb-2 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Comment souhaitez-vous recevoir les réservations&nbsp;?
             </span>
             <div className="grid gap-2 sm:grid-cols-3">
@@ -568,8 +568,8 @@ export function FormulaireEtablissement({
                   key={opt.valeur}
                   className={`flex cursor-pointer flex-col gap-1 rounded-lg border p-3 text-xs transition ${
                     v.mode_reservation === opt.valeur
-                      ? 'border-bleu-500 bg-bleu-50 text-bleu-700'
-                      : 'border-marine-200 bg-white text-marine-700 hover:border-marine-300'
+                      ? 'border-bleu-500 bg-bleu-50 dark:bg-bleu-950/40 text-bleu-700'
+                      : 'border-marine-200 dark:border-marine-700 bg-white dark:bg-marine-800 text-marine-700 dark:text-marine-200 hover:border-marine-300'
                   }`}
                 >
                   <span className="flex items-center gap-2">
@@ -584,7 +584,7 @@ export function FormulaireEtablissement({
                     />
                     <span className="font-semibold">{opt.titre}</span>
                   </span>
-                  <span className="text-marine-600">{opt.detail}</span>
+                  <span className="text-marine-600 dark:text-marine-300">{opt.detail}</span>
                 </label>
               ))}
             </div>
@@ -598,7 +598,7 @@ export function FormulaireEtablissement({
 
             {v.mode_reservation === 'email' && (
               <label className="mt-3 block">
-                <span className="mb-1 block text-xs font-semibold text-marine-800">
+                <span className="mb-1 block text-xs font-semibold text-marine-800 dark:text-marine-100">
                   Email pour les réservations (optionnel, sinon votre email
                   de compte sera utilisé)
                 </span>
@@ -621,7 +621,7 @@ export function FormulaireEtablissement({
       {etape === 2 && (
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block sm:col-span-2">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Adresse complète
             </span>
             <input
@@ -631,7 +631,7 @@ export function FormulaireEtablissement({
               className="champ-saisie"
               placeholder="12 rue de la Coupe, 75011 Paris"
             />
-            <p className="mt-1 flex items-center gap-2 text-xs text-marine-600">
+            <p className="mt-1 flex items-center gap-2 text-xs text-marine-600 dark:text-marine-300">
               <span>© OpenStreetMap contributors — géocodage automatique via Nominatim.</span>
               {enGeocodage && (
                 <span className="text-bleu-700" aria-live="polite">
@@ -642,7 +642,7 @@ export function FormulaireEtablissement({
           </label>
 
           <label className="block sm:col-span-2">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Ville
             </span>
             <input
@@ -655,12 +655,12 @@ export function FormulaireEtablissement({
           </label>
 
           {(v.latitude !== null || v.longitude !== null) && (
-            <div className="sm:col-span-2 rounded-lg bg-bleu-50 px-3 py-2 text-xs text-bleu-700">
+            <div className="sm:col-span-2 rounded-lg bg-bleu-50 dark:bg-bleu-950/40 px-3 py-2 text-xs text-bleu-700">
               Position : {v.latitude?.toFixed(5)}, {v.longitude?.toFixed(5)}
             </div>
           )}
           {info && (
-            <p className="sm:col-span-2 rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
+            <p className="sm:col-span-2 rounded-md bg-bleu-50 dark:bg-bleu-950/40 px-3 py-2 text-sm text-bleu-700">
               {info}
             </p>
           )}
@@ -670,17 +670,17 @@ export function FormulaireEtablissement({
       {/* Étape 3 : Le bar */}
       {etape === 3 && (
         <fieldset>
-          <legend className="text-base font-bold text-marine-900">
+          <legend className="text-base font-bold text-marine-900 dark:text-marine-50">
             Le bar pour la diffusion
           </legend>
-          <p className="mt-1 text-xs text-marine-600">
+          <p className="mt-1 text-xs text-marine-600 dark:text-marine-300">
             Tous ces champs sont facultatifs mais améliorent fortement votre
             conversion : les clients veulent savoir avant de venir.
           </p>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="mb-1 block text-sm font-semibold text-marine-800">
+              <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Nombre d'écrans
               </span>
               <input
@@ -699,7 +699,7 @@ export function FormulaireEtablissement({
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-semibold text-marine-800">
+              <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Taille / disposition (texte libre)
               </span>
               <input
@@ -712,7 +712,7 @@ export function FormulaireEtablissement({
             </label>
 
             <div className="block sm:col-span-2">
-              <span className="mb-2 block text-sm font-semibold text-marine-800">
+              <span className="mb-2 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Niveau sonore les soirs de match
               </span>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -721,8 +721,8 @@ export function FormulaireEtablissement({
                     key={n.valeur}
                     className={`flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-xs transition ${
                       v.son_ambiance === n.valeur
-                        ? 'border-bleu-500 bg-bleu-50 text-bleu-700'
-                        : 'border-marine-200 bg-white text-marine-700 hover:border-marine-300'
+                        ? 'border-bleu-500 bg-bleu-50 dark:bg-bleu-950/40 text-bleu-700'
+                        : 'border-marine-200 dark:border-marine-700 bg-white dark:bg-marine-800 text-marine-700 dark:text-marine-200 hover:border-marine-300'
                     }`}
                   >
                     <input
@@ -741,7 +741,7 @@ export function FormulaireEtablissement({
                 <button
                   type="button"
                   onClick={() => setV({ ...v, son_ambiance: null })}
-                  className="mt-2 text-xs text-marine-600 underline hover:text-marine-800"
+                  className="mt-2 text-xs text-marine-600 dark:text-marine-300 underline hover:text-marine-800 dark:text-marine-100"
                 >
                   Effacer le choix
                 </button>
@@ -749,7 +749,7 @@ export function FormulaireEtablissement({
             </div>
 
             <div className="block sm:col-span-2">
-              <span className="mb-2 block text-sm font-semibold text-marine-800">
+              <span className="mb-2 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Type d'ambiance (plusieurs choix possibles)
               </span>
               <div className="flex flex-wrap gap-2">
@@ -763,7 +763,7 @@ export function FormulaireEtablissement({
                       className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
                         actif
                           ? 'border-bleu-500 bg-bleu-500 text-white'
-                          : 'border-marine-200 bg-white text-marine-700 hover:border-marine-300'
+                          : 'border-marine-200 dark:border-marine-700 bg-white dark:bg-marine-800 text-marine-700 dark:text-marine-200 hover:border-marine-300'
                       }`}
                     >
                       {actif ? '✓ ' : '+ '}
@@ -775,7 +775,7 @@ export function FormulaireEtablissement({
             </div>
 
             <div className="block sm:col-span-2">
-              <span className="mb-2 block text-sm font-semibold text-marine-800">
+              <span className="mb-2 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Autres compétitions habituellement diffusées
               </span>
               <div className="flex gap-2">
@@ -806,13 +806,13 @@ export function FormulaireEtablissement({
                   {v.equipes_habituelles.map((t) => (
                     <li
                       key={t}
-                      className="inline-flex items-center gap-1 rounded-full border border-marine-200 bg-white px-2.5 py-0.5 text-xs text-marine-700"
+                      className="inline-flex items-center gap-1 rounded-full border border-marine-200 dark:border-marine-700 bg-white dark:bg-marine-800 px-2.5 py-0.5 text-xs text-marine-700 dark:text-marine-200"
                     >
                       {t}
                       <button
                         type="button"
                         onClick={() => retirerEquipe(t)}
-                        className="text-marine-600 hover:text-red-600"
+                        className="text-marine-600 dark:text-marine-300 hover:text-red-600"
                         aria-label={`Retirer ${t}`}
                       >
                         ×
@@ -824,13 +824,13 @@ export function FormulaireEtablissement({
             </div>
 
             <div className="block sm:col-span-2">
-              <span className="mb-2 block text-sm font-semibold text-marine-800">
+              <span className="mb-2 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Horaires d'ouverture
               </span>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {JOURS_SEMAINE.map((j) => (
                   <label key={j.cle} className="flex items-center gap-2">
-                    <span className="w-20 text-xs text-marine-700">{j.libelle}</span>
+                    <span className="w-20 text-xs text-marine-700 dark:text-marine-200">{j.libelle}</span>
                     <input
                       type="text"
                       value={v.horaires_ouverture[j.cle] ?? ''}
@@ -850,7 +850,7 @@ export function FormulaireEtablissement({
       {etape === 4 && (
         <div className="grid gap-4">
           <label className="block">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Photo (bandeau de la page publique)
             </span>
             <div className="flex flex-wrap items-center gap-3">
@@ -871,12 +871,12 @@ export function FormulaireEtablissement({
                   className="h-12 w-20 rounded object-cover"
                 />
               )}
-              {enUpload && <span className="text-xs text-marine-600">Upload…</span>}
+              {enUpload && <span className="text-xs text-marine-600 dark:text-marine-300">Upload…</span>}
             </div>
           </label>
 
           <div className="block">
-            <span className="mb-2 block text-sm font-semibold text-marine-800">
+            <span className="mb-2 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Photos supplémentaires (max 6, affichage carrousel)
             </span>
             <div className="flex flex-wrap items-center gap-3">
@@ -894,7 +894,7 @@ export function FormulaireEtablissement({
                 disabled={enUpload || v.photos_supplementaires.length >= 6}
                 className="text-sm"
               />
-              {enUpload && <span className="text-xs text-marine-600">Upload…</span>}
+              {enUpload && <span className="text-xs text-marine-600 dark:text-marine-300">Upload…</span>}
             </div>
             {v.photos_supplementaires.length > 0 && (
               <ul className="mt-3 flex flex-wrap gap-2">
@@ -903,7 +903,7 @@ export function FormulaireEtablissement({
                     <img
                       src={url}
                       alt="Photo supplémentaire de l'établissement"
-                      className="h-16 w-24 rounded-md border border-marine-200 object-cover"
+                      className="h-16 w-24 rounded-md border border-marine-200 dark:border-marine-700 object-cover"
                     />
                     <button
                       type="button"
@@ -928,7 +928,7 @@ export function FormulaireEtablissement({
       )}
 
       {/* Barre de navigation : Précédent / Suivant ou Soumettre à la dernière étape. */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-marine-100 pt-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-marine-100 dark:border-marine-700 pt-4">
         <div className="flex gap-2">
           {onAnnuler && (
             <button type="button" onClick={onAnnuler} className="bouton-ghost">

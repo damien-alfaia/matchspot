@@ -79,10 +79,10 @@ export function FormulaireDiffusion({
   return (
     <form onSubmit={soumettre} className="carte space-y-4">
       <div>
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-marine-50">
           Ajouter une diffusion
         </h2>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-slate-500 dark:text-marine-400">
           Choisissez un match parmi les 104 de la Coupe du Monde. Les horaires
           ci-dessous sont affichés dans le fuseau de l'établissement
           ({etablissement.fuseau_horaire}).
@@ -90,7 +90,7 @@ export function FormulaireDiffusion({
       </div>
 
       <label className="block">
-        <span className="mb-1 block text-sm font-medium text-slate-700">Match</span>
+        <span className="mb-1 block text-sm font-medium text-slate-700 dark:text-marine-200">Match</span>
         <select
           className="champ-saisie"
           value={matchId}
@@ -110,7 +110,7 @@ export function FormulaireDiffusion({
       </label>
 
       <label className="block">
-        <span className="mb-1 block text-sm font-medium text-slate-700">
+        <span className="mb-1 block text-sm font-medium text-slate-700 dark:text-marine-200">
           Places disponibles
         </span>
         <input
@@ -122,7 +122,7 @@ export function FormulaireDiffusion({
           className="champ-saisie"
           required
         />
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-xs text-slate-500 dark:text-marine-400">
           Capacité totale de l'établissement : {etablissement.capacite}.
         </p>
       </label>

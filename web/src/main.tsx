@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
+import { FournisseurTheme } from './contexte/ThemeContexte';
 import './index.css';
 
 const racine = document.getElementById('racine');
@@ -12,7 +13,9 @@ if (!racine) {
 createRoot(racine).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <FournisseurTheme>
+        <App />
+      </FournisseurTheme>
     </BrowserRouter>
   </StrictMode>,
 );

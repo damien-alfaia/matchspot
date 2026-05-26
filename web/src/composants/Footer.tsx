@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
-    <footer className="border-t border-marine-100 bg-white">
-      <div className="mx-auto max-w-5xl px-4 py-8 text-sm text-marine-600">
+    <footer className="border-t border-marine-100 dark:border-marine-700 bg-white dark:bg-marine-800">
+      <div className="mx-auto max-w-5xl px-4 py-8 text-sm text-marine-600 dark:text-marine-300">
         <div className="grid gap-6 sm:grid-cols-3">
           <div>
-            <p className="flex items-center gap-2 font-bold text-marine-900">
+            <p className="flex items-center gap-2 font-bold text-marine-900 dark:text-marine-50">
               <img
                 src="/logo.svg"
                 alt=""
@@ -15,7 +15,7 @@ export function Footer() {
               />
               Match<span className="text-bleu-500">Spot</span>
             </p>
-            <p className="mt-2 text-xs text-marine-500">
+            <p className="mt-2 text-xs text-marine-500 dark:text-marine-400">
               Où voir le match, près de chez vous.
               <br />
               Coupe du Monde 2026.
@@ -23,7 +23,7 @@ export function Footer() {
           </div>
 
           <nav>
-            <p className="text-xs font-semibold uppercase tracking-wider text-marine-500">
+            <p className="text-xs font-semibold uppercase tracking-wider text-marine-500 dark:text-marine-400">
               À propos
             </p>
             <ul className="mt-2 space-y-1">
@@ -49,7 +49,7 @@ export function Footer() {
           </nav>
 
           <nav>
-            <p className="text-xs font-semibold uppercase tracking-wider text-marine-500">
+            <p className="text-xs font-semibold uppercase tracking-wider text-marine-500 dark:text-marine-400">
               Légal
             </p>
             <ul className="mt-2 space-y-1">
@@ -75,7 +75,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-8 border-t border-marine-50 pt-4 text-xs text-marine-500">
+        <div className="mt-8 border-t border-marine-50 dark:border-marine-800 pt-4 text-xs text-marine-500 dark:text-marine-400">
           © 2026 MatchSpot — fait avec ⚽ et ☕ en France.
         </div>
       </div>

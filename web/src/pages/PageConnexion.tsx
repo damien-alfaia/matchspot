@@ -44,18 +44,18 @@ export function PageConnexion() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <Entete />
       <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-md px-4 py-12">
         <div className="carte">
-          <h1 className="text-xl font-semibold text-marine-900">Connexion</h1>
-          <p className="mt-1 text-sm text-marine-500">
+          <h1 className="text-xl font-semibold text-marine-900 dark:text-marine-50">Connexion</h1>
+          <p className="mt-1 text-sm text-marine-500 dark:text-marine-400">
             Espace réservé au staff des bars et restaurants partenaires.
           </p>
 
           <form onSubmit={soumettre} className="mt-6 space-y-4">
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-marine-700">
+              <span className="mb-1 block text-sm font-medium text-marine-700 dark:text-marine-200">
                 Email
               </span>
               <input
@@ -68,7 +68,7 @@ export function PageConnexion() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-marine-700">
+              <span className="mb-1 block text-sm font-medium text-marine-700 dark:text-marine-200">
                 Mot de passe
               </span>
               <input
@@ -97,7 +97,7 @@ export function PageConnexion() {
             </button>
           </form>
 
-          <div className="mt-4 flex flex-col items-center gap-2 text-center text-sm text-marine-500">
+          <div className="mt-4 flex flex-col items-center gap-2 text-center text-sm text-marine-500 dark:text-marine-400">
             <Link
               to="/mot-de-passe-oublie"
               className="text-bleu-700 hover:underline"

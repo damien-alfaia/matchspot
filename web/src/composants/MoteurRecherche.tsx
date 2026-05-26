@@ -132,10 +132,10 @@ export function MoteurRecherche() {
     <div className="space-y-6">
       <form
         onSubmit={rechercher}
-        className="rounded-2xl border border-marine-100 bg-white p-6 shadow-carte sm:p-7"
+        className="rounded-2xl border border-marine-100 dark:border-marine-700 bg-white dark:bg-marine-800 p-6 shadow-carte sm:p-7"
       >
         <label className="block">
-          <span className="mb-1.5 flex items-center gap-1.5 text-sm font-semibold text-marine-800">
+          <span className="mb-1.5 flex items-center gap-1.5 text-sm font-semibold text-marine-800 dark:text-marine-100">
             <IconeBallon className="h-4 w-4 text-bleu-500" />
             Quel match cherchez-vous ?
           </span>
@@ -155,18 +155,18 @@ export function MoteurRecherche() {
           </select>
           {matchSelectionne && (
             <>
-              <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-marine-800">
+              <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-marine-800 dark:text-marine-100">
                 <span className="inline-flex items-center gap-1.5">
                   <DrapeauEquipe nom={matchSelectionne.equipe_domicile} taille="sm" />
                   {matchSelectionne.equipe_domicile}
                 </span>
-                <span className="font-normal text-marine-500">vs</span>
+                <span className="font-normal text-marine-500 dark:text-marine-400">vs</span>
                 <span className="inline-flex items-center gap-1.5">
                   <DrapeauEquipe nom={matchSelectionne.equipe_exterieur} taille="sm" />
                   {matchSelectionne.equipe_exterieur}
                 </span>
               </p>
-              <p className="mt-1 text-xs text-marine-600">
+              <p className="mt-1 text-xs text-marine-600 dark:text-marine-300">
                 Coup d'envoi :{' '}
                 {formaterDateHeure(
                   matchSelectionne.coup_envoi_utc,
@@ -184,7 +184,7 @@ export function MoteurRecherche() {
 
         <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
           <label className="block">
-            <span className="mb-1.5 flex items-center gap-1.5 text-sm font-semibold text-marine-800">
+            <span className="mb-1.5 flex items-center gap-1.5 text-sm font-semibold text-marine-800 dark:text-marine-100">
               <IconePin className="h-4 w-4 text-bleu-500" />
               Ville (optionnel)
             </span>
@@ -204,7 +204,7 @@ export function MoteurRecherche() {
               disabled={geoloc.type === 'demande'}
               className={
                 geoloc.type === 'ok'
-                  ? 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-bleu-200 bg-bleu-50 px-4 py-2.5 text-sm font-semibold text-bleu-700 transition hover:bg-bleu-100'
+                  ? 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-bleu-200 bg-bleu-50 dark:bg-bleu-950/40 px-4 py-2.5 text-sm font-semibold text-bleu-700 transition hover:bg-bleu-100'
                   : 'bouton-secondaire whitespace-nowrap'
               }
             >
@@ -222,7 +222,7 @@ export function MoteurRecherche() {
               <button
                 type="button"
                 onClick={() => setGeoloc({ type: 'aucune' })}
-                className="text-xs text-marine-500 underline hover:text-marine-700"
+                className="text-xs text-marine-500 dark:text-marine-400 underline hover:text-marine-700 dark:text-marine-200"
               >
                 effacer ma position
               </button>
@@ -232,7 +232,7 @@ export function MoteurRecherche() {
 
         {(geoloc.type === 'ok' || ville.trim() !== '') && (
           <label className="mt-5 block">
-            <span className="mb-1.5 flex items-center justify-between text-sm font-semibold text-marine-800">
+            <span className="mb-1.5 flex items-center justify-between text-sm font-semibold text-marine-800 dark:text-marine-100">
               Rayon de recherche
               <span className="text-bleu-600">{rayon} km</span>
             </span>
@@ -281,7 +281,7 @@ interface PropsListe {
 function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
   if (resultats.length === 0) {
     return (
-      <div className="carte text-center text-sm text-marine-600">
+      <div className="carte text-center text-sm text-marine-600 dark:text-marine-300">
         Aucun bar ne diffuse encore ce match dans le périmètre choisi.
         <br />
         Élargissez la zone ou choisissez un autre match.
@@ -293,7 +293,7 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
     <section>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className="text-lg font-bold text-marine-900">
+          <h2 className="text-lg font-bold text-marine-900 dark:text-marine-50">
             {resultats.length} bar{resultats.length > 1 ? 's' : ''} trouvé
             {resultats.length > 1 ? 's' : ''}
           </h2>
@@ -314,28 +314,28 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
           return (
             <li
               key={r.diffusion_id}
-              className="group relative overflow-hidden rounded-2xl border border-marine-100 bg-white shadow-carte transition hover:-translate-y-0.5 hover:shadow-carteHover"
+              className="group relative overflow-hidden rounded-2xl border border-marine-100 dark:border-marine-700 bg-white dark:bg-marine-800 shadow-carte transition hover:-translate-y-0.5 hover:shadow-carteHover"
             >
               <div className="absolute inset-y-0 left-0 w-1.5 bg-bleu-500" />
               <div className="flex flex-wrap items-start justify-between gap-3 p-5 pl-6">
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-base font-bold text-marine-900">{r.nom}</h3>
+                  <h3 className="text-base font-bold text-marine-900 dark:text-marine-50">{r.nom}</h3>
                   {r.adresse && (
-                    <p className="mt-0.5 flex items-center gap-1 text-sm text-marine-500">
+                    <p className="mt-0.5 flex items-center gap-1 text-sm text-marine-500 dark:text-marine-400">
                       <IconePin className="h-3.5 w-3.5 shrink-0" />
                       {r.adresse}
                     </p>
                   )}
                   {matchSelectionne && (
-                    <p className="mt-2 text-sm text-marine-700">
-                      <span className="text-marine-500">Coup d'envoi local : </span>
+                    <p className="mt-2 text-sm text-marine-700 dark:text-marine-200">
+                      <span className="text-marine-500 dark:text-marine-400">Coup d'envoi local : </span>
                       <span className="font-medium">
                         {formaterDateHeure(
                           matchSelectionne.coup_envoi_utc,
                           r.fuseau_horaire,
                         )}
                       </span>{' '}
-                      <span className="text-marine-600">
+                      <span className="text-marine-600 dark:text-marine-300">
                         ({libelleFuseau(
                           matchSelectionne.coup_envoi_utc,
                           r.fuseau_horaire,
@@ -359,13 +359,13 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
                       Complet
                     </span>
                   ) : (
-                    <span className="text-xs font-medium text-marine-600">
+                    <span className="text-xs font-medium text-marine-600 dark:text-marine-300">
                       {r.places_restantes}/{r.places_disponibles} places
                     </span>
                   )}
                 </div>
               </div>
-              <div className="border-t border-marine-50 bg-marine-50/40 px-5 py-3 pl-6">
+              <div className="border-t border-marine-50 dark:border-marine-800 bg-marine-50/40 px-5 py-3 pl-6">
                 <Link
                   to={`/etablissements/${r.slug_public}`}
                   className="inline-flex items-center gap-1 text-sm font-semibold text-bleu-600 hover:text-bleu-700"

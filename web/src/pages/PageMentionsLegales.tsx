@@ -7,7 +7,7 @@ import { EnTeteSEO } from '../composants/EnTeteSEO';
 
 export function PageMentionsLegales() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <EnTeteSEO
         titre="Mentions légales | MatchSpot"
         description="Mentions légales de MatchSpot, plateforme française de gestion de soirées de diffusion des matchs de la Coupe du Monde 2026."
@@ -17,16 +17,16 @@ export function PageMentionsLegales() {
         <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
           Légal
         </p>
-        <h1 className="mt-1 text-4xl font-extrabold text-marine-900">
+        <h1 className="mt-1 text-4xl font-extrabold text-marine-900 dark:text-marine-50">
           Mentions légales
         </h1>
-        <p className="mt-3 text-sm text-marine-500">
+        <p className="mt-3 text-sm text-marine-500 dark:text-marine-400">
           Dernière mise à jour : mai 2026.
         </p>
 
-        <div className="mt-10 space-y-8 text-marine-700">
+        <div className="mt-10 space-y-8 text-marine-700 dark:text-marine-200">
           <section>
-            <h2 className="text-xl font-bold text-marine-900">Éditeur du site</h2>
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">Éditeur du site</h2>
             <p className="mt-2">
               <strong>Damien ALFAIA</strong>
               <br />
@@ -57,7 +57,7 @@ export function PageMentionsLegales() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">Hébergement</h2>
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">Hébergement</h2>
             <p className="mt-2">
               Le site MatchSpot est hébergé par :
             </p>
@@ -82,7 +82,7 @@ export function PageMentionsLegales() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Propriété intellectuelle
             </h2>
             <p className="mt-2">
@@ -123,7 +123,7 @@ export function PageMentionsLegales() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Limitation de responsabilité
             </h2>
             <p className="mt-2">
@@ -143,7 +143,7 @@ export function PageMentionsLegales() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Loi applicable et juridiction
             </h2>
             <p className="mt-2">
@@ -155,7 +155,7 @@ export function PageMentionsLegales() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-marine-900">
+            <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
               Données personnelles
             </h2>
             <p className="mt-2">

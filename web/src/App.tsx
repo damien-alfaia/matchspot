@@ -28,7 +28,7 @@ function RouteProtegee({ children }: { children: JSX.Element }) {
 
 function EcranChargement() {
   return (
-    <div className="flex min-h-screen items-center justify-center text-slate-500">
+    <div className="flex min-h-screen items-center justify-center text-slate-500 dark:text-marine-400">
       Chargement…
     </div>
   );

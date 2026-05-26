@@ -125,23 +125,23 @@ export function PageInscriptionPro() {
 
   if (session && etape === 'bar') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-3xl px-4 py-10">
           <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
             Inscription pro — étape 2 sur 2
           </p>
-          <h1 className="mt-1 text-3xl font-bold text-marine-900">
+          <h1 className="mt-1 text-3xl font-bold text-marine-900 dark:text-marine-50">
             Créez votre premier établissement
           </h1>
-          <p className="mt-2 text-marine-600">
+          <p className="mt-2 text-marine-600 dark:text-marine-300">
             On configure votre bar : adresse, capacité, fuseau, photo. Vous
             pourrez ajouter d'autres établissements ensuite depuis le tableau
             de bord.
           </p>
 
           <label className="mt-6 block">
-            <span className="mb-1 block text-sm font-semibold text-marine-800">
+            <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
               Nom de votre groupe / société (optionnel — par défaut, même nom
               que le bar)
             </span>
@@ -167,24 +167,24 @@ export function PageInscriptionPro() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <Entete />
       <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-md px-4 py-12">
         <div className="carte">
           <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
             Inscription pro — étape 1 sur 2
           </p>
-          <h1 className="mt-1 text-2xl font-bold text-marine-900">
+          <h1 className="mt-1 text-2xl font-bold text-marine-900 dark:text-marine-50">
             Créez votre compte
           </h1>
-          <p className="mt-1 text-sm text-marine-600">
+          <p className="mt-1 text-sm text-marine-600 dark:text-marine-300">
             Réservé aux bars et restaurants qui veulent diffuser la Coupe du
             Monde 2026.
           </p>
 
           <form onSubmit={creerCompte} className="mt-6 space-y-4">
             <label className="block">
-              <span className="mb-1 block text-sm font-semibold text-marine-800">
+              <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Email professionnel
               </span>
               <input
@@ -197,7 +197,7 @@ export function PageInscriptionPro() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-semibold text-marine-800">
+              <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Mot de passe (8 caractères min.)
               </span>
               <input
@@ -217,7 +217,7 @@ export function PageInscriptionPro() {
               </p>
             )}
             {info && (
-              <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
+              <p className="rounded-md bg-bleu-50 dark:bg-bleu-950/40 px-3 py-2 text-sm text-bleu-700">
                 {info}
               </p>
             )}
@@ -227,7 +227,7 @@ export function PageInscriptionPro() {
             </button>
           </form>
 
-          <p className="mt-4 text-center text-sm text-marine-500">
+          <p className="mt-4 text-center text-sm text-marine-500 dark:text-marine-400">
             Déjà inscrit ?{' '}
             <Link to="/connexion" className="font-semibold text-bleu-600 hover:underline">
               Se connecter

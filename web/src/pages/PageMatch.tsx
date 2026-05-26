@@ -89,14 +89,14 @@ export function PageMatch() {
 
   if (introuvable) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-16 text-center">
           <p className="text-6xl">⚽</p>
-          <h1 className="mt-6 text-3xl font-bold text-marine-900">
+          <h1 className="mt-6 text-3xl font-bold text-marine-900 dark:text-marine-50">
             Match introuvable
           </h1>
-          <p className="mt-2 text-marine-600">
+          <p className="mt-2 text-marine-600 dark:text-marine-300">
             Le match demandé n'existe pas dans le calendrier de la Coupe du
             Monde 2026.
           </p>
@@ -110,7 +110,7 @@ export function PageMatch() {
 
   if (chargement || !match) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main
           id="contenu-principal"
@@ -135,7 +135,7 @@ export function PageMatch() {
     `au ${match.stade} à ${match.ville_hote}. Réservez votre table.`;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <EnTeteSEO
         titre={titreSEO}
         description={descriptionSEO}
@@ -150,7 +150,7 @@ export function PageMatch() {
         <Entete />
         <header className="mx-auto max-w-3xl px-4 pb-12 pt-8 sm:pb-16">
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-bleu-200">
-            <span className="rounded-full bg-white/10 px-2.5 py-0.5">
+            <span className="rounded-full bg-white dark:bg-marine-800/10 px-2.5 py-0.5">
               Match #{match.numero_match}
             </span>
             <span>{libellePhase[match.phase]}</span>
@@ -189,14 +189,14 @@ export function PageMatch() {
         )}
 
         <section>
-          <h2 className="text-xl font-bold text-marine-900">
+          <h2 className="text-xl font-bold text-marine-900 dark:text-marine-50">
             {bars.length === 0
               ? 'Aucun bar partenaire ne diffuse encore ce match'
               : `${bars.length} bar${bars.length > 1 ? 's' : ''} partenaire${bars.length > 1 ? 's' : ''} diffuse${bars.length > 1 ? 'nt' : ''} ce match`}
           </h2>
 
           {bars.length === 0 ? (
-            <div className="mt-4 carte text-center text-sm text-marine-600">
+            <div className="mt-4 carte text-center text-sm text-marine-600 dark:text-marine-300">
               <p>
                 Aucun bar inscrit sur MatchSpot ne diffuse encore{' '}
                 {match.equipe_domicile} – {match.equipe_exterieur}.
@@ -218,25 +218,25 @@ export function PageMatch() {
                 return (
                   <li
                     key={b.diffusion_id}
-                    className="group relative overflow-hidden rounded-2xl border border-marine-100 bg-white shadow-carte transition hover:-translate-y-0.5 hover:shadow-carteHover"
+                    className="group relative overflow-hidden rounded-2xl border border-marine-100 dark:border-marine-700 bg-white dark:bg-marine-800 shadow-carte transition hover:-translate-y-0.5 hover:shadow-carteHover"
                   >
                     <div className="absolute inset-y-0 left-0 w-1.5 bg-bleu-500" />
                     <div className="flex flex-wrap items-start justify-between gap-3 p-5 pl-6">
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-base font-bold text-marine-900">
+                        <h3 className="text-base font-bold text-marine-900 dark:text-marine-50">
                           {b.nom}
                         </h3>
                         {b.adresse && (
-                          <p className="mt-0.5 text-sm text-marine-500">
+                          <p className="mt-0.5 text-sm text-marine-500 dark:text-marine-400">
                             {b.adresse}
                           </p>
                         )}
-                        <p className="mt-2 text-sm text-marine-700">
-                          <span className="text-marine-500">Coup d'envoi local : </span>
+                        <p className="mt-2 text-sm text-marine-700 dark:text-marine-200">
+                          <span className="text-marine-500 dark:text-marine-400">Coup d'envoi local : </span>
                           <span className="font-medium">
                             {formaterDateHeure(match.coup_envoi_utc, b.fuseau_horaire)}
                           </span>{' '}
-                          <span className="text-marine-600">
+                          <span className="text-marine-600 dark:text-marine-300">
                             ({libelleFuseau(match.coup_envoi_utc, b.fuseau_horaire)})
                           </span>
                         </p>
@@ -257,7 +257,7 @@ export function PageMatch() {
                             >
                               {b.places_restantes}
                             </p>
-                            <p className="text-xs text-marine-500">
+                            <p className="text-xs text-marine-500 dark:text-marine-400">
                               / {b.places_disponibles} places
                             </p>
                             {b.places_restantes < 5 && (
@@ -269,7 +269,7 @@ export function PageMatch() {
                         )}
                       </div>
                     </div>
-                    <div className="border-t border-marine-50 bg-marine-50/40 px-5 py-3 pl-6">
+                    <div className="border-t border-marine-50 dark:border-marine-800 bg-marine-50/40 px-5 py-3 pl-6">
                       <Link
                         to={`/etablissements/${b.slug_public}`}
                         className="inline-flex items-center gap-1 text-sm font-semibold text-bleu-600 hover:text-bleu-700"
@@ -286,31 +286,31 @@ export function PageMatch() {
         </section>
 
         <section className="carte">
-          <h2 className="text-lg font-bold text-marine-900">À propos du match</h2>
+          <h2 className="text-lg font-bold text-marine-900 dark:text-marine-50">À propos du match</h2>
           <dl className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
             <div>
-              <dt className="text-marine-500">Phase</dt>
-              <dd className="font-medium text-marine-900">
+              <dt className="text-marine-500 dark:text-marine-400">Phase</dt>
+              <dd className="font-medium text-marine-900 dark:text-marine-50">
                 {libellePhase[match.phase]}
               </dd>
             </div>
             <div>
-              <dt className="text-marine-500">Match numéro</dt>
-              <dd className="font-medium text-marine-900">
+              <dt className="text-marine-500 dark:text-marine-400">Match numéro</dt>
+              <dd className="font-medium text-marine-900 dark:text-marine-50">
                 #{match.numero_match} / 104
               </dd>
             </div>
             <div>
-              <dt className="text-marine-500">Stade</dt>
-              <dd className="font-medium text-marine-900">{match.stade}</dd>
+              <dt className="text-marine-500 dark:text-marine-400">Stade</dt>
+              <dd className="font-medium text-marine-900 dark:text-marine-50">{match.stade}</dd>
             </div>
             <div>
-              <dt className="text-marine-500">Ville hôte</dt>
-              <dd className="font-medium text-marine-900">{match.ville_hote}</dd>
+              <dt className="text-marine-500 dark:text-marine-400">Ville hôte</dt>
+              <dd className="font-medium text-marine-900 dark:text-marine-50">{match.ville_hote}</dd>
             </div>
             <div className="sm:col-span-2">
-              <dt className="text-marine-500">Coup d'envoi (UTC)</dt>
-              <dd className="font-mono text-xs text-marine-700">
+              <dt className="text-marine-500 dark:text-marine-400">Coup d'envoi (UTC)</dt>
+              <dd className="font-mono text-xs text-marine-700 dark:text-marine-200">
                 {match.coup_envoi_utc}
               </dd>
             </div>

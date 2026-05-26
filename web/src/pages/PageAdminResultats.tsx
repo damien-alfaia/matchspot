@@ -97,7 +97,7 @@ export function PageAdminResultats() {
 
   if (chargement) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main
           id="contenu-principal"
@@ -113,12 +113,12 @@ export function PageAdminResultats() {
 
   if (autorise === false) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-12">
           <div className="carte text-center">
-            <h1 className="text-xl font-bold text-marine-900">Accès refusé</h1>
-            <p className="mt-2 text-sm text-marine-600">
+            <h1 className="text-xl font-bold text-marine-900 dark:text-marine-50">Accès refusé</h1>
+            <p className="mt-2 text-sm text-marine-600 dark:text-marine-300">
               Cette page est réservée aux propriétaires d'organisations
               MatchSpot.
             </p>
@@ -132,17 +132,17 @@ export function PageAdminResultats() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <Entete />
       <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl space-y-8 px-4 py-10">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
             Admin MatchSpot
           </p>
-          <h1 className="mt-1 text-3xl font-bold text-marine-900">
+          <h1 className="mt-1 text-3xl font-bold text-marine-900 dark:text-marine-50">
             Résultats des matchs
           </h1>
-          <p className="mt-1 text-sm text-marine-600">
+          <p className="mt-1 text-sm text-marine-600 dark:text-marine-300">
             Saisissez le vainqueur et le perdant de chaque match terminé. Les
             placeholders « Vainqueur 16e #N » des matchs suivants sont
             automatiquement résolus.
@@ -150,12 +150,12 @@ export function PageAdminResultats() {
         </div>
 
         <form onSubmit={soumettre} className="carte space-y-4">
-          <h2 className="text-lg font-bold text-marine-900">
+          <h2 className="text-lg font-bold text-marine-900 dark:text-marine-50">
             Saisir un résultat
           </h2>
           <div className="grid gap-3 sm:grid-cols-3">
             <label className="block">
-              <span className="mb-1 block text-sm font-semibold text-marine-800">
+              <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Match
               </span>
               <select
@@ -183,7 +183,7 @@ export function PageAdminResultats() {
               </select>
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-semibold text-marine-800">
+              <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Vainqueur
               </span>
               <input
@@ -196,7 +196,7 @@ export function PageAdminResultats() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-semibold text-marine-800">
+              <span className="mb-1 block text-sm font-semibold text-marine-800 dark:text-marine-100">
                 Perdant
               </span>
               <input
@@ -216,7 +216,7 @@ export function PageAdminResultats() {
             </p>
           )}
           {info && (
-            <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
+            <p className="rounded-md bg-bleu-50 dark:bg-bleu-950/40 px-3 py-2 text-sm text-bleu-700">
               {info}
             </p>
           )}
@@ -229,11 +229,11 @@ export function PageAdminResultats() {
         </form>
 
         <section>
-          <h2 className="mb-3 text-lg font-bold text-marine-900">
+          <h2 className="mb-3 text-lg font-bold text-marine-900 dark:text-marine-50">
             Résultats déjà saisis ({resultats.length})
           </h2>
           {resultats.length === 0 ? (
-            <p className="text-sm text-marine-600">Aucun résultat enregistré.</p>
+            <p className="text-sm text-marine-600 dark:text-marine-300">Aucun résultat enregistré.</p>
           ) : (
             <ul className="space-y-2 text-sm">
               {resultats.map((r) => {
@@ -241,18 +241,18 @@ export function PageAdminResultats() {
                 return (
                   <li key={r.numero_match} className="carte flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="font-semibold text-marine-900">
+                      <p className="font-semibold text-marine-900 dark:text-marine-50">
                         Match #{r.numero_match}
                         {m && (
-                          <span className="ml-2 text-marine-500">
+                          <span className="ml-2 text-marine-500 dark:text-marine-400">
                             ({libellePhase[m.phase]} ·{' '}
                             {formaterDateHeure(m.coup_envoi_utc, 'Europe/Paris')})
                           </span>
                         )}
                       </p>
-                      <p className="text-marine-700">
+                      <p className="text-marine-700 dark:text-marine-200">
                         <span className="font-medium text-bleu-700">{r.gagnant}</span>{' '}
-                        <span className="text-marine-600">bat</span>{' '}
+                        <span className="text-marine-600 dark:text-marine-300">bat</span>{' '}
                         {r.perdant}
                       </p>
                     </div>

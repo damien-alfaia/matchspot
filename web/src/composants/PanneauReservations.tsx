@@ -113,10 +113,10 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
 
   return (
     <section>
-      <h2 className="text-lg font-semibold text-slate-900">
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-marine-50">
         Réservations (live)
       </h2>
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-slate-500 dark:text-marine-400">
         Mises à jour en temps réel via Supabase Realtime. Les nouvelles
         réservations apparaissent ici sans rafraîchissement.
       </p>
@@ -129,12 +129,12 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
 
       <div className="mt-4 overflow-x-auto">
         {reservations.length === 0 ? (
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 dark:text-marine-400">
             Aucune réservation reçue pour l'instant.
           </p>
         ) : (
-          <table className="min-w-full divide-y divide-slate-200 text-sm">
-            <thead className="bg-slate-100 text-left text-xs uppercase tracking-wide text-slate-500">
+          <table className="min-w-full divide-y divide-slate-200 dark:divide-marine-700 text-sm">
+            <thead className="bg-slate-100 dark:bg-marine-800 text-left text-xs uppercase tracking-wide text-slate-500 dark:text-marine-400">
               <tr>
                 <th className="px-3 py-2">Reçue le</th>
                 <th className="px-3 py-2">Client</th>
@@ -145,20 +145,20 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                 <th className="px-3 py-2 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 bg-white">
+            <tbody className="divide-y divide-slate-100 dark:divide-marine-800 bg-white dark:bg-marine-800">
               {reservations.map((r) => {
                 const enTraitement = traitementId === r.id;
                 return (
                   <tr key={r.id}>
-                    <td className="whitespace-nowrap px-3 py-2 text-slate-600">
+                    <td className="whitespace-nowrap px-3 py-2 text-slate-600 dark:text-marine-300">
                       {formaterDateHeure(r.cree_le, fuseau)}
                     </td>
-                    <td className="px-3 py-2 font-medium text-slate-900">
+                    <td className="px-3 py-2 font-medium text-slate-900 dark:text-marine-50">
                       {r.nom_client}
                     </td>
-                    <td className="px-3 py-2 text-slate-600">{r.email_client}</td>
-                    <td className="px-3 py-2 text-slate-600">{r.taille_groupe}</td>
-                    <td className="px-3 py-2 text-slate-600">
+                    <td className="px-3 py-2 text-slate-600 dark:text-marine-300">{r.email_client}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-marine-300">{r.taille_groupe}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-marine-300">
                       {r.heure_arrivee ? r.heure_arrivee.slice(0, 5) : '—'}
                     </td>
                     <td className="px-3 py-2">
@@ -183,7 +183,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                             type="button"
                             disabled={enTraitement}
                             onClick={() => changerStatut(r.id, 'en_attente')}
-                            className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 disabled:opacity-50"
+                            className="rounded-md border border-slate-300 dark:border-marine-700 bg-white dark:bg-marine-800 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-marine-200 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 disabled:opacity-50"
                           >
                             Remettre en attente
                           </button>
@@ -193,7 +193,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                             type="button"
                             disabled={enTraitement}
                             onClick={() => changerStatut(r.id, 'annulee')}
-                            className="rounded-md border border-red-300 bg-white px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 disabled:opacity-50"
+                            className="rounded-md border border-red-300 bg-white dark:bg-marine-800 px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 disabled:opacity-50"
                           >
                             Annuler
                           </button>

@@ -5,8 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MatchSpot — Soirées Coupe du Monde 2026</title>
     <meta name="description" content="Plateforme de gestion des soirées de diffusion des matchs de la Coupe du Monde 2026 pour bars et restaurants." />
+    <script>
+      // Anti-flash : applique la classe .dark sur <html> avant le mount
+      // de React, pour éviter un éclair de thème incorrect.
+      (function () {
+        try {
+          var stocke = localStorage.getItem('matchspot.theme');
+          var sombre =
+            stocke === 'sombre' ||
+            ((stocke === 'systeme' || !stocke) &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (sombre) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="bg-slate-50 text-slate-900 antialiased">
+  <body class="bg-slate-50 text-slate-900 antialiased dark:bg-marine-900 dark:text-marine-100">
     <div id="racine"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -5,7 +5,7 @@ import { EnTeteSEO } from '../composants/EnTeteSEO';
 
 export function PageAPropos() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
       <EnTeteSEO
         titre="À propos | MatchSpot"
         description="MatchSpot est une plateforme française qui aide bars et clients à se trouver autour des matchs de la Coupe du Monde 2026. Notre histoire, notre mission."
@@ -15,13 +15,13 @@ export function PageAPropos() {
         <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
           À propos
         </p>
-        <h1 className="mt-1 text-4xl font-extrabold text-marine-900">
+        <h1 className="mt-1 text-4xl font-extrabold text-marine-900 dark:text-marine-50">
           Trouver un bar pour le match
           <br />
           ne devrait pas être un casse-tête.
         </h1>
 
-        <div className="prose prose-marine mt-8 max-w-none space-y-5 text-marine-700">
+        <div className="prose prose-marine mt-8 max-w-none space-y-5 text-marine-700 dark:text-marine-200">
           <p>
             La Coupe du Monde 2026 se joue en Amérique du Nord. Les matchs
             commencent tard pour nous, parfois à 3 h du matin. Trouver un bar
@@ -44,7 +44,7 @@ export function PageAPropos() {
             continuera sur l'Euro 2028 et les autres grandes compétitions.
           </p>
 
-          <h2 className="mt-10 text-2xl font-bold text-marine-900">
+          <h2 className="mt-10 text-2xl font-bold text-marine-900 dark:text-marine-50">
             Ce qu'on ne fait pas
           </h2>
           <p>
@@ -63,7 +63,7 @@ export function PageAPropos() {
             vous laisser tester.
           </p>
 
-          <h2 className="mt-10 text-2xl font-bold text-marine-900">
+          <h2 className="mt-10 text-2xl font-bold text-marine-900 dark:text-marine-50">
             Comment c'est financé
           </h2>
           <p>
@@ -74,7 +74,7 @@ export function PageAPropos() {
             gratuites pour ne pas créer de barrière à l'entrée.
           </p>
 
-          <h2 className="mt-10 text-2xl font-bold text-marine-900">
+          <h2 className="mt-10 text-2xl font-bold text-marine-900 dark:text-marine-50">
             Qui est derrière
           </h2>
           <p>
