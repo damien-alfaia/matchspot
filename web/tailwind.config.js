@@ -56,6 +56,16 @@ export default {
         // heroMarine sont conservés en overlay pour la cohérence palette.
         heroPhoto:
           "radial-gradient(circle at 20% 20%, rgba(30,91,255,0.18) 0, transparent 50%), radial-gradient(circle at 80% 0%, rgba(30,91,255,0.12) 0, transparent 45%), linear-gradient(180deg, rgba(15,31,61,0.88) 0%, rgba(15,31,61,0.65) 45%, rgba(21,45,80,0.55) 100%), url('/hero-bg.webp')",
+        // Fond plein écran de la page d'accueil : photo verticale d'une
+        // rue parisienne au format portrait. Overlay dégradé en deux
+        // points pour ASSOMBRIR le centre (où s'affiche le formulaire de
+        // recherche, sur fond clair) et ALLÉGER les bords (pour laisser
+        // respirer l'image). Mode clair : overlay plus dense pour le
+        // contraste. Mode sombre : overlay plus subtil, l'image respire.
+        pageAccueil:
+          "linear-gradient(180deg, rgba(15,31,61,0.55) 0%, rgba(15,31,61,0.35) 35%, rgba(15,31,61,0.55) 70%, rgba(15,31,61,0.8) 100%), url('/page-accueil-bg.webp')",
+        pageAccueilDark:
+          "linear-gradient(180deg, rgba(10,23,48,0.45) 0%, rgba(10,23,48,0.3) 35%, rgba(10,23,48,0.5) 70%, rgba(10,23,48,0.75) 100%), url('/page-accueil-bg.webp')",
       },
     },
   },
