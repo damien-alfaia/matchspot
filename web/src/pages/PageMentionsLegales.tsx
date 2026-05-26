@@ -32,16 +32,16 @@ export function PageMentionsLegales() {
               <br />
               Entrepreneur Individuel (EI)
               <br />
-              [à compléter : adresse postale du siège]
+              4 rue Bernard Courtois
               <br />
-              France
+              66000 Perpignan, France
             </p>
             <p className="mt-2">
               SIRET : 933 001 331 00018
               <br />
               SIREN : 933 001 331
               <br />
-              TVA intracommunautaire : [à compléter : numéro FR…]
+              TVA intracommunautaire : FR38 933001331
             </p>
             <p className="mt-2">
               Directeur de la publication : Damien ALFAIA
