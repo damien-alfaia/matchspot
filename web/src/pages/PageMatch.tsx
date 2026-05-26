@@ -183,7 +183,7 @@ export function PageMatch() {
 
       <main id="contenu-principal" tabIndex={-1} className="mx-auto -mt-8 max-w-3xl space-y-6 px-4 pb-16">
         {erreur && (
-          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-lg bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {erreur}
           </p>
         )}
@@ -243,7 +243,7 @@ export function PageMatch() {
                       </div>
                       <div className="text-right">
                         {complet ? (
-                          <span className="badge bg-red-50 text-red-700">
+                          <span className="badge bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300">
                             Complet
                           </span>
                         ) : (
@@ -251,7 +251,7 @@ export function PageMatch() {
                             <p
                               className={`text-2xl font-bold ${
                                 b.places_restantes < 5
-                                  ? 'text-red-600'
+                                  ? 'text-red-600 dark:text-red-300'
                                   : 'text-bleu-600'
                               }`}
                             >
@@ -261,7 +261,7 @@ export function PageMatch() {
                               / {b.places_disponibles} places
                             </p>
                             {b.places_restantes < 5 && (
-                              <span className="mt-1 inline-flex animate-pulse items-center gap-1 rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-700">
+                              <span className="mt-1 inline-flex animate-pulse items-center gap-1 rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-700 dark:text-red-300">
                                 Vite !
                               </span>
                             )}
@@ -269,7 +269,7 @@ export function PageMatch() {
                         )}
                       </div>
                     </div>
-                    <div className="border-t border-marine-50 dark:border-marine-800 bg-marine-50/40 px-5 py-3 pl-6">
+                    <div className="border-t border-marine-100 bg-marine-50/40 px-5 py-3 pl-6 dark:border-marine-700 dark:bg-marine-900/40">
                       <Link
                         to={`/etablissements/${b.slug_public}`}
                         className="inline-flex items-center gap-1 text-sm font-semibold text-bleu-600 hover:text-bleu-700"

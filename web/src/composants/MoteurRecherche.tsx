@@ -216,7 +216,7 @@ export function MoteurRecherche() {
                   : 'Autour de moi'}
             </button>
             {geoloc.type === 'refusee' && (
-              <p className="text-xs text-amber-700">{geoloc.raison}</p>
+              <p className="text-xs text-amber-700 dark:text-amber-300">{geoloc.raison}</p>
             )}
             {geoloc.type === 'ok' && (
               <button
@@ -250,7 +250,7 @@ export function MoteurRecherche() {
         )}
 
         {erreur && (
-          <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="mt-4 rounded-lg bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {erreur}
           </p>
         )}
@@ -355,7 +355,7 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
                     </span>
                   )}
                   {complet ? (
-                    <span className="badge bg-red-50 text-red-700">
+                    <span className="badge bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300">
                       Complet
                     </span>
                   ) : (
@@ -365,7 +365,7 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
                   )}
                 </div>
               </div>
-              <div className="border-t border-marine-50 dark:border-marine-800 bg-marine-50/40 px-5 py-3 pl-6">
+              <div className="border-t border-marine-100 bg-marine-50/40 px-5 py-3 pl-6 dark:border-marine-700 dark:bg-marine-900/40">
                 <Link
                   to={`/etablissements/${r.slug_public}`}
                   className="inline-flex items-center gap-1 text-sm font-semibold text-bleu-600 hover:text-bleu-700"

@@ -229,7 +229,7 @@ export function PagePublique() {
 
       <main id="contenu-principal" tabIndex={-1} className="mx-auto mt-6 max-w-3xl space-y-6 px-4 pb-16">
         {erreur && (
-          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-lg bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {erreur}
           </p>
         )}
@@ -252,7 +252,7 @@ export function PagePublique() {
                     key={d.id}
                     className={`overflow-hidden rounded-2xl border bg-white dark:bg-marine-800 shadow-carte ${
                       estMatchPhare(d.matchs)
-                        ? 'border-amber-200'
+                        ? 'border-amber-200 dark:border-amber-800/40'
                         : 'border-marine-100 dark:border-marine-700'
                     }`}
                   >
@@ -311,7 +311,7 @@ export function PagePublique() {
                         </div>
                         <div className="text-right">
                           {complet ? (
-                            <span className="badge bg-red-50 text-red-700">
+                            <span className="badge bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300">
                               Complet
                             </span>
                           ) : (
@@ -319,7 +319,7 @@ export function PagePublique() {
                               <p
                                 className={`text-2xl font-bold ${
                                   restantes < 5
-                                    ? 'text-red-600'
+                                    ? 'text-red-600 dark:text-red-300'
                                     : 'text-bleu-600'
                                 }`}
                               >
@@ -329,7 +329,7 @@ export function PagePublique() {
                                 / {d.places_disponibles} places
                               </p>
                               {restantes < 5 && (
-                                <span className="mt-1 inline-flex animate-pulse items-center gap-1 rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-700">
+                                <span className="mt-1 inline-flex animate-pulse items-center gap-1 rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-700 dark:text-red-300">
                                   Dépêchez-vous !
                                 </span>
                               )}

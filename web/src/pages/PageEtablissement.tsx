@@ -111,7 +111,7 @@ export function PageEtablissement() {
       <div className="min-h-screen bg-slate-50 dark:bg-marine-900">
         <Entete />
         <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-8">
-          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-md bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {erreur ?? 'Établissement introuvable.'}
           </p>
           <p className="mt-4">
@@ -181,7 +181,7 @@ export function PageEtablissement() {
         </header>
 
         {erreur && (
-          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-lg bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {erreur}
           </p>
         )}

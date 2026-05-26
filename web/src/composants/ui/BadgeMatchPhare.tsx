@@ -20,7 +20,7 @@ export function BadgeMatchPhare({ match, compact = false, className = '' }: Prop
   const raison = raisonMatchPhare(match);
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700 ${className}`}
+      className={`inline-flex items-center gap-1 rounded-full border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-300 ${className}`}
       title={raison}
       aria-label={raison}
     >

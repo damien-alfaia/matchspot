@@ -122,7 +122,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
       </p>
 
       {erreur && (
-        <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p className="mt-3 rounded-md bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300">
           {erreur}
         </p>
       )}
@@ -173,7 +173,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                             type="button"
                             disabled={enTraitement}
                             onClick={() => changerStatut(r.id, 'confirmee')}
-                            className="rounded-md bg-bleu-700 px-2.5 py-1 text-xs font-medium text-white transition hover:bg-bleu-800 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 disabled:opacity-50"
+                            className="rounded-md bg-bleu-700 dark:bg-bleu-600 px-2.5 py-1 text-xs font-medium text-white transition hover:bg-bleu-800 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 disabled:opacity-50"
                           >
                             Confirmer
                           </button>
@@ -193,7 +193,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                             type="button"
                             disabled={enTraitement}
                             onClick={() => changerStatut(r.id, 'annulee')}
-                            className="rounded-md border border-red-300 bg-white dark:bg-marine-800 px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 disabled:opacity-50"
+                            className="rounded-md border border-red-300 bg-white dark:bg-marine-800 px-2.5 py-1 text-xs font-medium text-red-700 dark:text-red-300 transition hover:bg-red-50 dark:bg-red-950/40 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 disabled:opacity-50"
                           >
                             Annuler
                           </button>

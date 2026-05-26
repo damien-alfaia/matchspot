@@ -590,7 +590,7 @@ export function FormulaireEtablissement({
             </div>
 
             {v.mode_reservation === 'telephone' && !v.telephone.trim() && (
-              <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+              <p className="mt-2 rounded-md bg-amber-50 dark:bg-amber-950/40 px-3 py-2 text-xs text-amber-800 dark:text-amber-300">
                 Pensez à renseigner le téléphone ci-dessus, sinon les clients
                 ne sauront pas comment vous joindre.
               </p>
@@ -812,7 +812,7 @@ export function FormulaireEtablissement({
                       <button
                         type="button"
                         onClick={() => retirerEquipe(t)}
-                        className="text-marine-600 dark:text-marine-300 hover:text-red-600"
+                        className="text-marine-600 dark:text-marine-300 hover:text-red-600 dark:text-red-300"
                         aria-label={`Retirer ${t}`}
                       >
                         ×
@@ -922,7 +922,7 @@ export function FormulaireEtablissement({
       )}
 
       {erreur && (
-        <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+        <p className="rounded-md bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300" role="alert">
           {erreur}
         </p>
       )}

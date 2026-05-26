@@ -71,7 +71,7 @@ export function PageTableauDeBord() {
         </div>
 
         {erreur && (
-          <p className="mt-6 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="mt-6 rounded-lg bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-300">
             {erreur}
           </p>
         )}
