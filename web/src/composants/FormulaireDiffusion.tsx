@@ -17,7 +17,9 @@ export function FormulaireDiffusion({
 }: Props) {
   const [matchs, setMatchs] = useState<MatchCdm[]>([]);
   const [matchId, setMatchId] = useState('');
-  const [places, setPlaces] = useState<number>(etablissement.capacite);
+  // Géré en string pour permettre à l'utilisateur d'effacer complètement
+  // le champ sans qu'un 0 se ré-incruste (Number('') === 0).
+  const [places, setPlaces] = useState<string>(String(etablissement.capacite));
   const [enCours, setEnCours] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
 
@@ -43,22 +45,30 @@ export function FormulaireDiffusion({
   async function soumettre(e: FormEvent) {
     e.preventDefault();
     if (!matchId) return;
+    const placesNum = Number(places);
+    if (!Number.isFinite(placesNum) || placesNum < 1) {
+      setErreur('Indiquez un nombre de places valide (au moins 1).');
+      return;
+    }
     setEnCours(true);
     setErreur(null);
 
     const { error } = await supabase.from('diffusions').insert({
       etablissement_id: etablissement.id,
       match_id: matchId,
-      places_disponibles: places,
+      places_disponibles: placesNum,
       statut: 'brouillon',
-      est_publique: false,
+      // Diffusion automatiquement publique : on a supprimé la case à
+      // cocher "Visible sur la page publique" — chaque diffusion publiée
+      // l'est aussi côté page bar.
+      est_publique: true,
     });
 
     if (error) {
       setErreur(error.message);
     } else {
       setMatchId('');
-      setPlaces(etablissement.capacite);
+      setPlaces(String(etablissement.capacite));
       onCree();
     }
     setEnCours(false);
@@ -108,7 +118,7 @@ export function FormulaireDiffusion({
           min={1}
           max={etablissement.capacite}
           value={places}
-          onChange={(e) => setPlaces(Number(e.target.value))}
+          onChange={(e) => setPlaces(e.target.value)}
           className="champ-saisie"
           required
         />

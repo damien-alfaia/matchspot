@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { DiffusionAvecMatch, Etablissement } from '../types/base';
 import { Entete } from '../composants/Entete';
@@ -11,11 +11,33 @@ import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
 
 export function PageEtablissement() {
   const { etablissementId } = useParams<{ etablissementId: string }>();
+  const naviguer = useNavigate();
   const [etablissement, setEtablissement] = useState<Etablissement | null>(null);
   const [diffusions, setDiffusions] = useState<DiffusionAvecMatch[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [editionOuverte, setEditionOuverte] = useState(false);
+  const [enSuppression, setEnSuppression] = useState(false);
+
+  async function supprimerEtablissement() {
+    if (!etablissement) return;
+    const confirme = window.confirm(
+      `Supprimer définitivement « ${etablissement.nom} » ?\n\nCette action est irréversible. Toutes les diffusions et réservations associées seront également supprimées.`,
+    );
+    if (!confirme) return;
+    setEnSuppression(true);
+    setErreur(null);
+    const { error } = await supabase
+      .from('etablissements')
+      .delete()
+      .eq('id', etablissement.id);
+    setEnSuppression(false);
+    if (error) {
+      setErreur(error.message);
+      return;
+    }
+    naviguer('/tableau-de-bord');
+  }
 
   const chargerEtablissement = useCallback(async () => {
     if (!etablissementId) return;
@@ -145,6 +167,14 @@ export function PageEtablissement() {
                 className="bouton-secondaire"
               >
                 {editionOuverte ? 'Fermer l’édition' : 'Éditer le bar'}
+              </button>
+              <button
+                type="button"
+                onClick={supprimerEtablissement}
+                disabled={enSuppression}
+                className="bouton-danger"
+              >
+                {enSuppression ? 'Suppression…' : 'Supprimer le bar'}
               </button>
             </div>
           </div>

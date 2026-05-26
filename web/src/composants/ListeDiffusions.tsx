@@ -23,24 +23,11 @@ export function ListeDiffusions({ etablissement, diffusions, onChangement }: Pro
   async function changerStatut(id: string, statut: StatutDiffusion) {
     setTraitementId(id);
     setErreur(null);
+    // est_publique suit le statut : publié = visible sur la page bar,
+    // brouillon/annulé = masqué. Plus de toggle séparé.
     const { error } = await supabase
       .from('diffusions')
-      .update({ statut })
-      .eq('id', id);
-    if (error) {
-      setErreur(error.message);
-    } else {
-      onChangement();
-    }
-    setTraitementId(null);
-  }
-
-  async function basculerPublique(id: string, valeur: boolean) {
-    setTraitementId(id);
-    setErreur(null);
-    const { error } = await supabase
-      .from('diffusions')
-      .update({ est_publique: valeur })
+      .update({ statut, est_publique: statut === 'publiee' })
       .eq('id', id);
     if (error) {
       setErreur(error.message);
@@ -107,15 +94,6 @@ export function ListeDiffusions({ etablissement, diffusions, onChangement }: Pro
                 <span className="text-sm text-slate-600">
                   {d.places_disponibles} places
                 </span>
-                <label className="flex items-center gap-2 text-sm text-slate-700">
-                  <input
-                    type="checkbox"
-                    checked={d.est_publique}
-                    disabled={enTraitement}
-                    onChange={(e) => basculerPublique(d.id, e.target.checked)}
-                  />
-                  Visible sur la page publique
-                </label>
               </div>
             </div>
 
