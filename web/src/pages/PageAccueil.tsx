@@ -23,7 +23,7 @@ export function PageAccueil() {
         </section>
       </div>
 
-      <main className="relative -mt-16 pb-16">
+      <main id="contenu-principal" tabIndex={-1} className="relative -mt-16 pb-16">
         <div className="mx-auto max-w-3xl px-4">
           <MoteurRecherche />
         </div>

@@ -11,7 +11,7 @@ export function PageConfidentialite() {
         description="Comment MatchSpot collecte, utilise et protège vos données personnelles. Conformité RGPD, finalités, durées de conservation, droits d'accès."
       />
       <Entete />
-      <main className="mx-auto max-w-2xl px-4 py-12">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-12">
         <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
           Légal
         </p>

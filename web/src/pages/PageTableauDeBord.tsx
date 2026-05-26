@@ -44,7 +44,7 @@ export function PageTableauDeBord() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-5xl px-4 py-10">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-10">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">

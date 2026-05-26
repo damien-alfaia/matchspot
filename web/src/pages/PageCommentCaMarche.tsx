@@ -76,7 +76,7 @@ export function PageCommentCaMarche() {
         </header>
       </div>
 
-      <main className="mx-auto max-w-3xl space-y-12 px-4 py-12">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-3xl space-y-12 px-4 py-12">
         <section>
           <h2 className="text-2xl font-bold text-marine-900">
             Comment ça marche, en 4 étapes

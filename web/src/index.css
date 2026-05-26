@@ -28,7 +28,7 @@
   }
 
   .bouton-ghost {
-    @apply inline-flex items-center justify-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-marine-700 transition hover:bg-marine-50;
+    @apply inline-flex items-center justify-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-marine-700 transition hover:bg-marine-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1;
   }
 
   .bouton-danger {
@@ -53,5 +53,10 @@
 
   .pastille-distance {
     @apply inline-flex items-center gap-1 rounded-full bg-bleu-50 px-2.5 py-1 text-xs font-semibold text-bleu-700;
+  }
+
+  /* Skip-link a11y : caché visuellement mais focusable au clavier (Tab). */
+  .lien-evitement {
+    @apply absolute left-4 top-4 z-50 -translate-y-20 rounded-md bg-bleu-700 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2;
   }
 }

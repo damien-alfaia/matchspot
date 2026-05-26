@@ -11,7 +11,7 @@ export function PageAPropos() {
         description="MatchSpot est une plateforme française qui aide bars et clients à se trouver autour des matchs de la Coupe du Monde 2026. Notre histoire, notre mission."
       />
       <Entete />
-      <main className="mx-auto max-w-2xl px-4 py-12">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-12">
         <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
           À propos
         </p>

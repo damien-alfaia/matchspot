@@ -169,7 +169,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                             type="button"
                             disabled={enTraitement}
                             onClick={() => changerStatut(r.id, 'confirmee')}
-                            className="rounded-md bg-bleu-700 px-2.5 py-1 text-xs font-medium text-white transition hover:bg-bleu-800 disabled:opacity-50"
+                            className="rounded-md bg-bleu-700 px-2.5 py-1 text-xs font-medium text-white transition hover:bg-bleu-800 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 disabled:opacity-50"
                           >
                             Confirmer
                           </button>
@@ -179,7 +179,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                             type="button"
                             disabled={enTraitement}
                             onClick={() => changerStatut(r.id, 'en_attente')}
-                            className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                            className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 disabled:opacity-50"
                           >
                             Remettre en attente
                           </button>
@@ -189,7 +189,7 @@ export function PanneauReservations({ diffusionIds, fuseau }: Props) {
                             type="button"
                             disabled={enTraitement}
                             onClick={() => changerStatut(r.id, 'annulee')}
-                            className="rounded-md border border-red-300 bg-white px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50"
+                            className="rounded-md border border-red-300 bg-white px-2.5 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 disabled:opacity-50"
                           >
                             Annuler
                           </button>

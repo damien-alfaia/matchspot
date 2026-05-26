@@ -101,7 +101,7 @@ export function PagePublique() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <main className="mx-auto max-w-3xl px-4 py-12 text-center">
+        <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-3xl px-4 py-12 text-center">
           <h1 className="text-2xl font-bold text-slate-900">
             Établissement introuvable
           </h1>
@@ -213,7 +213,7 @@ export function PagePublique() {
           </div>
         )}
 
-      <main className="mx-auto mt-6 max-w-3xl space-y-6 px-4 pb-16">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto mt-6 max-w-3xl space-y-6 px-4 pb-16">
         {erreur && (
           <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {erreur}
@@ -247,7 +247,7 @@ export function PagePublique() {
                           </p>
                           <h3 className="mt-1 text-xl font-bold text-marine-900">
                             {d.matchs.equipe_domicile}{' '}
-                            <span className="font-normal text-marine-400">vs</span>{' '}
+                            <span className="font-normal text-marine-600">vs</span>{' '}
                             {d.matchs.equipe_exterieur}
                           </h3>
                           <p className="mt-2 text-sm text-marine-800">
@@ -257,7 +257,7 @@ export function PagePublique() {
                                 etablissement.fuseau_horaire,
                               )}
                             </span>{' '}
-                            <span className="text-marine-400">
+                            <span className="text-marine-600">
                               ({libelleFuseau(
                                 d.matchs.coup_envoi_utc,
                                 etablissement.fuseau_horaire,

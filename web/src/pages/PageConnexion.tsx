@@ -46,7 +46,7 @@ export function PageConnexion() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-md px-4 py-12">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-md px-4 py-12">
         <div className="carte">
           <h1 className="text-xl font-semibold text-marine-900">Connexion</h1>
           <p className="mt-1 text-sm text-marine-500">

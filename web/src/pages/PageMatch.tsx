@@ -88,7 +88,7 @@ export function PageMatch() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <main className="mx-auto max-w-2xl px-4 py-16 text-center">
+        <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-16 text-center">
           <p className="text-6xl">⚽</p>
           <h1 className="mt-6 text-3xl font-bold text-marine-900">
             Match introuvable
@@ -161,7 +161,7 @@ export function PageMatch() {
         </header>
       </div>
 
-      <main className="mx-auto -mt-8 max-w-3xl space-y-6 px-4 pb-16">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto -mt-8 max-w-3xl space-y-6 px-4 pb-16">
         {erreur && (
           <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {erreur}
@@ -216,7 +216,7 @@ export function PageMatch() {
                           <span className="font-medium">
                             {formaterDateHeure(match.coup_envoi_utc, b.fuseau_horaire)}
                           </span>{' '}
-                          <span className="text-marine-400">
+                          <span className="text-marine-600">
                             ({libelleFuseau(match.coup_envoi_utc, b.fuseau_horaire)})
                           </span>
                         </p>

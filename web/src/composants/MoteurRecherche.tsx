@@ -336,7 +336,7 @@ function ListeResultats({ resultats, matchSelectionne }: PropsListe) {
                           r.fuseau_horaire,
                         )}
                       </span>{' '}
-                      <span className="text-marine-400">
+                      <span className="text-marine-600">
                         ({libelleFuseau(
                           matchSelectionne.coup_envoi_utc,
                           r.fuseau_horaire,

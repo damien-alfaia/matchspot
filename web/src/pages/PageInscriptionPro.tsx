@@ -115,7 +115,7 @@ export function PageInscriptionPro() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <main className="mx-auto max-w-3xl px-4 py-10">
+        <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-3xl px-4 py-10">
           <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
             Inscription pro — étape 2 sur 2
           </p>
@@ -157,7 +157,7 @@ export function PageInscriptionPro() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-md px-4 py-12">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-md px-4 py-12">
         <div className="carte">
           <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
             Inscription pro — étape 1 sur 2

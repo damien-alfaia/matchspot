@@ -107,7 +107,7 @@ export function PageAdminResultats() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <main className="mx-auto max-w-2xl px-4 py-12">
+        <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-12">
           <div className="carte text-center">
             <h1 className="text-xl font-bold text-marine-900">Accès refusé</h1>
             <p className="mt-2 text-sm text-marine-600">
@@ -126,7 +126,7 @@ export function PageAdminResultats() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-5xl space-y-8 px-4 py-10">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl space-y-8 px-4 py-10">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
             Admin MatchSpot
@@ -244,7 +244,7 @@ export function PageAdminResultats() {
                       </p>
                       <p className="text-marine-700">
                         <span className="font-medium text-bleu-700">{r.gagnant}</span>{' '}
-                        <span className="text-marine-400">bat</span>{' '}
+                        <span className="text-marine-600">bat</span>{' '}
                         {r.perdant}
                       </p>
                     </div>

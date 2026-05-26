@@ -78,7 +78,7 @@ export function PageEtablissement() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <main className="mx-auto max-w-5xl px-4 py-8">
+        <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-8">
           <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
             {erreur ?? 'Établissement introuvable.'}
           </p>
@@ -95,7 +95,7 @@ export function PageEtablissement() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-5xl space-y-8 px-4 py-10">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-5xl space-y-8 px-4 py-10">
         <header>
           <Link
             to="/tableau-de-bord"

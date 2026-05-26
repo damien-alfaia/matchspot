@@ -21,6 +21,9 @@ export function Entete() {
           : 'border-b border-marine-100 bg-white/80 backdrop-blur'
       }
     >
+      <a href="#contenu-principal" className="lien-evitement">
+        Aller au contenu principal
+      </a>
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2.5">
           <img

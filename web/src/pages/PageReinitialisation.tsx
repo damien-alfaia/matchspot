@@ -66,7 +66,7 @@ export function PageReinitialisation() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-md px-4 py-12">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-md px-4 py-12">
         <div className="carte">
           <h1 className="text-xl font-bold text-marine-900">
             {mode === 'demande'

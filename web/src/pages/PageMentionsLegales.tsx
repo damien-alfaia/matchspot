@@ -13,7 +13,7 @@ export function PageMentionsLegales() {
         description="Mentions légales de MatchSpot, plateforme française de gestion de soirées de diffusion des matchs de la Coupe du Monde 2026."
       />
       <Entete />
-      <main className="mx-auto max-w-2xl px-4 py-12">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-12">
         <p className="text-xs font-semibold uppercase tracking-wider text-bleu-600">
           Légal
         </p>

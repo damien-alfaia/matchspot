@@ -5,7 +5,7 @@ export function Page404() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Entete />
-      <main className="mx-auto max-w-xl px-4 py-20 text-center">
+      <main id="contenu-principal" tabIndex={-1} className="mx-auto max-w-xl px-4 py-20 text-center">
         <p className="text-6xl">⚽</p>
         <h1 className="mt-6 text-4xl font-extrabold text-marine-900">
           Page introuvable
