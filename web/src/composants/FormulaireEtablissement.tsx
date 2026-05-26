@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { geocoderAdresse } from '../lib/geocodage';
 import type { Etablissement, ModeReservation, SonAmbiance } from '../types/base';
 import { Spinner } from './ui/Spinner';
+import { JOURS_SEMAINE } from '../utils/libelles';
 
 // Listes prédéfinies pour les multi-choix. L'utilisateur peut aussi ajouter
 // ses propres tags libres dans equipes_habituelles via le champ texte.
@@ -20,16 +21,6 @@ const NIVEAUX_SON: ReadonlyArray<{ valeur: SonAmbiance; libelle: string }> = [
   { valeur: 'normal', libelle: 'Normal (un peu de bruit)' },
   { valeur: 'fort', libelle: 'Fort (faut hausser la voix)' },
   { valeur: 'crowd', libelle: 'Crowd (on ne s\'entend plus quand ça marque)' },
-];
-
-const JOURS_SEMAINE: ReadonlyArray<{ cle: string; libelle: string }> = [
-  { cle: 'lundi', libelle: 'Lundi' },
-  { cle: 'mardi', libelle: 'Mardi' },
-  { cle: 'mercredi', libelle: 'Mercredi' },
-  { cle: 'jeudi', libelle: 'Jeudi' },
-  { cle: 'vendredi', libelle: 'Vendredi' },
-  { cle: 'samedi', libelle: 'Samedi' },
-  { cle: 'dimanche', libelle: 'Dimanche' },
 ];
 
 // Quelques fuseaux courants pour la France et l'Amérique du Nord.

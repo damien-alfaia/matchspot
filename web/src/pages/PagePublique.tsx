@@ -12,7 +12,7 @@ import { BadgeMatchPhare } from '../composants/ui/BadgeMatchPhare';
 import { DrapeauEquipe } from '../composants/ui/DrapeauEquipe';
 import { estMatchPhare } from '../utils/matchPhare';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
-import { libellePhase } from '../utils/libelles';
+import { libellePhase, trierHoraires } from '../utils/libelles';
 import { slugifierMatch } from '../utils/slugMatch';
 import { Link } from 'react-router-dom';
 
@@ -535,10 +535,10 @@ function DetailsBar({ etablissement: e }: DetailsBarProps) {
               Horaires d'ouverture
             </p>
             <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm sm:grid-cols-3">
-              {Object.entries(e.horaires_ouverture!).map(([jour, h]) => (
-                <div key={jour} className="flex justify-between gap-3">
-                  <dt className="capitalize text-marine-600 dark:text-marine-300">{jour}</dt>
-                  <dd className="font-medium text-marine-900 dark:text-marine-50">{h}</dd>
+              {trierHoraires(e.horaires_ouverture!).map(({ cle, libelle, valeur }) => (
+                <div key={cle} className="flex justify-between gap-3">
+                  <dt className="text-marine-600 dark:text-marine-300">{libelle}</dt>
+                  <dd className="font-medium text-marine-900 dark:text-marine-50">{valeur}</dd>
                 </div>
               ))}
             </dl>
