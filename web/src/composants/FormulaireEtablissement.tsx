@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
 import { geocoderAdresse } from '../lib/geocodage';
 import type { Etablissement, SonAmbiance } from '../types/base';
+import { Spinner } from './ui/Spinner';
 
 // Listes prédéfinies pour les multi-choix. L'utilisateur peut aussi ajouter
 // ses propres tags libres dans equipes_habituelles via le champ texte.
@@ -865,7 +866,13 @@ export function FormulaireEtablissement({
             </button>
           )}
           {etape === 4 && (
-            <button type="submit" disabled={enCours} className="bouton-primaire">
+            <button
+              type="submit"
+              disabled={enCours}
+              className="bouton-primaire"
+              aria-busy={enCours}
+            >
+              {enCours && <Spinner className="h-4 w-4" />}
               {enCours
                 ? 'Enregistrement…'
                 : modeEdition

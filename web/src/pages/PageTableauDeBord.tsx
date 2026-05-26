@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import type { Etablissement } from '../types/base';
 import { Entete } from '../composants/Entete';
 import { FormulaireEtablissement } from '../composants/FormulaireEtablissement';
+import { SqueletteListe } from '../composants/ui/Squelette';
 
 export function PageTableauDeBord() {
   const [etablissements, setEtablissements] = useState<Etablissement[]>([]);
@@ -89,7 +90,9 @@ export function PageTableauDeBord() {
         )}
 
         {chargement ? (
-          <p className="mt-10 text-marine-500">Chargement…</p>
+          <div className="mt-10">
+            <SqueletteListe nombre={2} labelChargement="Chargement de vos établissements…" />
+          </div>
         ) : etablissements.length === 0 && !organisationId ? (
           <div className="mt-10 carte text-center">
             <p className="text-base font-semibold text-marine-900">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { MatchCdm } from '../types/base';
 import { Entete } from '../composants/Entete';
+import { SqueletteListe } from '../composants/ui/Squelette';
 import { libellePhase } from '../utils/libelles';
 import { formaterDateHeure } from '../utils/fuseaux';
 
@@ -98,7 +99,14 @@ export function PageAdminResultats() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <p className="mx-auto max-w-5xl px-4 py-8 text-marine-500">Chargement…</p>
+        <main
+          id="contenu-principal"
+          tabIndex={-1}
+          className="mx-auto max-w-5xl px-4 py-8"
+          aria-busy="true"
+        >
+          <SqueletteListe nombre={4} labelChargement="Chargement des résultats…" />
+        </main>
       </div>
     );
   }

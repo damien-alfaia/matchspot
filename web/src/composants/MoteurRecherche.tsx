@@ -7,6 +7,7 @@ import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 import { slugifierMatch } from '../utils/slugMatch';
 import { IconePin, IconeBallon } from './ui/Icone';
+import { Spinner } from './ui/Spinner';
 
 interface ResultatBar {
   etablissement_id: string;
@@ -243,7 +244,9 @@ export function MoteurRecherche() {
           type="submit"
           disabled={!matchId || enRecherche}
           className="bouton-primaire mt-6 w-full text-base"
+          aria-busy={enRecherche}
         >
+          {enRecherche && <Spinner className="h-4 w-4" />}
           {enRecherche ? 'Recherche en cours…' : 'Trouver un bar'}
         </button>
       </form>

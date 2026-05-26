@@ -7,6 +7,7 @@ import { Footer } from '../composants/Footer';
 import { FormulaireReservation } from '../composants/FormulaireReservation';
 import { BoutonPartager } from '../composants/BoutonPartager';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
+import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 import { slugifierMatch } from '../utils/slugMatch';
@@ -92,7 +93,17 @@ export function PagePublique() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <p className="mx-auto max-w-3xl px-4 py-8 text-slate-500">Chargement…</p>
+        <main
+          id="contenu-principal"
+          tabIndex={-1}
+          className="mx-auto max-w-3xl space-y-6 px-4 py-8"
+          aria-busy="true"
+        >
+          <SqueletteLigne width="w-1/3" height="h-3" />
+          <SqueletteLigne width="w-2/3" height="h-8" />
+          <SqueletteLigne width="w-1/2" height="h-4" />
+          <SqueletteListe nombre={2} labelChargement="Chargement du bar…" />
+        </main>
       </div>
     );
   }

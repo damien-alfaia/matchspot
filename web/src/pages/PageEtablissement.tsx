@@ -7,6 +7,7 @@ import { FormulaireDiffusion } from '../composants/FormulaireDiffusion';
 import { FormulaireEtablissement } from '../composants/FormulaireEtablissement';
 import { ListeDiffusions } from '../composants/ListeDiffusions';
 import { PanneauReservations } from '../composants/PanneauReservations';
+import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
 
 export function PageEtablissement() {
   const { etablissementId } = useParams<{ etablissementId: string }>();
@@ -69,7 +70,16 @@ export function PageEtablissement() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <p className="mx-auto max-w-5xl px-4 py-8 text-slate-500">Chargement…</p>
+        <main
+          id="contenu-principal"
+          tabIndex={-1}
+          className="mx-auto max-w-5xl space-y-6 px-4 py-8"
+          aria-busy="true"
+        >
+          <SqueletteLigne width="w-2/3" height="h-8" />
+          <SqueletteLigne width="w-1/3" height="h-4" />
+          <SqueletteListe nombre={3} labelChargement="Chargement de l'établissement…" />
+        </main>
       </div>
     );
   }

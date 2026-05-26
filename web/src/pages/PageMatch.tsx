@@ -5,6 +5,7 @@ import type { MatchCdm } from '../types/base';
 import { Entete } from '../composants/Entete';
 import { Footer } from '../composants/Footer';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
+import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 import { extraireNumeroMatch, slugifierMatch } from '../utils/slugMatch';
@@ -109,7 +110,17 @@ export function PageMatch() {
     return (
       <div className="min-h-screen bg-slate-50">
         <Entete />
-        <p className="mx-auto max-w-3xl px-4 py-12 text-marine-500">Chargement…</p>
+        <main
+          id="contenu-principal"
+          tabIndex={-1}
+          className="mx-auto max-w-3xl space-y-6 px-4 py-12"
+          aria-busy="true"
+        >
+          <SqueletteLigne width="w-1/4" height="h-3" />
+          <SqueletteLigne width="w-3/4" height="h-10" />
+          <SqueletteLigne width="w-1/2" height="h-4" />
+          <SqueletteListe nombre={3} labelChargement="Chargement du match…" />
+        </main>
       </div>
     );
   }

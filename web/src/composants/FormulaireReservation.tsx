@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
+import { Spinner } from './ui/Spinner';
 
 interface Props {
   diffusionId: string;
@@ -134,7 +135,13 @@ export function FormulaireReservation({
         </p>
       )}
 
-      <button type="submit" disabled={enCours} className="bouton-primaire">
+      <button
+        type="submit"
+        disabled={enCours}
+        className="bouton-primaire"
+        aria-busy={enCours}
+      >
+        {enCours && <Spinner className="h-4 w-4" />}
         {enCours ? 'Envoi…' : 'Réserver'}
       </button>
     </form>
