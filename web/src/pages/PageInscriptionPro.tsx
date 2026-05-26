@@ -97,14 +97,26 @@ export function PageInscriptionPro() {
 
     // Optionnel : compléter les champs enrichis qui ne passent pas par la RPC.
     const ligne = Array.isArray(data) ? data[0] : data;
-    if (v.telephone || v.description_courte || v.url_photo) {
+    const champsEnrichis = {
+      telephone: v.telephone || null,
+      description_courte: v.description_courte || null,
+      url_photo: v.url_photo || null,
+      mode_reservation: v.mode_reservation,
+      email_reservation:
+        v.mode_reservation === 'email' && v.email_reservation.trim()
+          ? v.email_reservation.trim()
+          : null,
+    };
+    const doitMettreAJour =
+      v.telephone ||
+      v.description_courte ||
+      v.url_photo ||
+      v.mode_reservation !== 'app' ||
+      v.email_reservation;
+    if (doitMettreAJour) {
       await supabase
         .from('etablissements')
-        .update({
-          telephone: v.telephone || null,
-          description_courte: v.description_courte || null,
-          url_photo: v.url_photo || null,
-        })
+        .update(champsEnrichis)
         .eq('id', ligne.etablissement_id);
     }
 

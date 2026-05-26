@@ -347,6 +347,32 @@ export function PagePublique() {
                         <p className="text-sm text-marine-600">
                           Plus de place disponible pour cette soirée.
                         </p>
+                      ) : etablissement.mode_reservation === 'telephone' ? (
+                        <ContactReservation
+                          icone="☎"
+                          libelle="Réservez par téléphone"
+                          valeur={etablissement.telephone}
+                          href={
+                            etablissement.telephone
+                              ? `tel:${etablissement.telephone.replace(/\s/g, '')}`
+                              : null
+                          }
+                          fallback="Le bar n'a pas renseigné de numéro. Contactez-le directement."
+                        />
+                      ) : etablissement.mode_reservation === 'email' ? (
+                        <ContactReservation
+                          icone="✉"
+                          libelle="Réservez par email"
+                          valeur={etablissement.email_reservation}
+                          href={
+                            etablissement.email_reservation
+                              ? `mailto:${etablissement.email_reservation}?subject=${encodeURIComponent(
+                                  `Réservation ${etablissement.nom} — ${d.matchs.equipe_domicile} vs ${d.matchs.equipe_exterieur}`,
+                                )}`
+                              : null
+                          }
+                          fallback="Le bar n'a pas renseigné d'email de réservation. Contactez-le directement."
+                        />
                       ) : (
                         <FormulaireReservation
                           diffusionId={d.id}
@@ -364,6 +390,42 @@ export function PagePublique() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+interface PropsContactReservation {
+  icone: string;
+  libelle: string;
+  valeur: string | null;
+  href: string | null;
+  fallback: string;
+}
+
+function ContactReservation({
+  icone,
+  libelle,
+  valeur,
+  href,
+  fallback,
+}: PropsContactReservation) {
+  if (!valeur || !href) {
+    return <p className="text-sm text-marine-600">{fallback}</p>;
+  }
+  return (
+    <a
+      href={href}
+      className="inline-flex items-center gap-3 rounded-lg border border-bleu-200 bg-white px-4 py-3 text-sm font-semibold text-bleu-700 transition hover:border-bleu-300 hover:bg-bleu-50 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-2"
+    >
+      <span aria-hidden="true" className="text-xl">
+        {icone}
+      </span>
+      <span className="flex flex-col items-start">
+        <span className="text-xs font-medium uppercase tracking-wider text-marine-600">
+          {libelle}
+        </span>
+        <span>{valeur}</span>
+      </span>
+    </a>
   );
 }
 

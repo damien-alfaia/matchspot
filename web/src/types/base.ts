@@ -34,6 +34,8 @@ export interface Adhesion {
 
 export type SonAmbiance = 'calme' | 'normal' | 'fort' | 'crowd';
 
+export type ModeReservation = 'app' | 'telephone' | 'email';
+
 export interface Etablissement {
   id: string;
   organisation_id: string;
@@ -55,6 +57,8 @@ export interface Etablissement {
   type_ambiance: string[] | null;
   equipes_habituelles: string[] | null;
   photos_supplementaires: string[] | null;
+  mode_reservation: ModeReservation;
+  email_reservation: string | null;
   cree_le: string;
 }
 

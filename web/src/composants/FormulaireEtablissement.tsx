@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
 import { geocoderAdresse } from '../lib/geocodage';
-import type { Etablissement, SonAmbiance } from '../types/base';
+import type { Etablissement, ModeReservation, SonAmbiance } from '../types/base';
 import { Spinner } from './ui/Spinner';
 
 // Listes prédéfinies pour les multi-choix. L'utilisateur peut aussi ajouter
@@ -65,6 +65,8 @@ export interface ValeursEtablissement {
   equipes_habituelles: string[];
   photos_supplementaires: string[];
   horaires_ouverture: Record<string, string>;
+  mode_reservation: ModeReservation;
+  email_reservation: string;
 }
 
 interface Props {
@@ -124,6 +126,8 @@ export function FormulaireEtablissement({
     equipes_habituelles: initial?.equipes_habituelles ?? [],
     photos_supplementaires: initial?.photos_supplementaires ?? [],
     horaires_ouverture: initial?.horaires_ouverture ?? {},
+    mode_reservation: initial?.mode_reservation ?? 'app',
+    email_reservation: initial?.email_reservation ?? '',
   });
   const [equipeEnSaisie, setEquipeEnSaisie] = useState('');
   const [enCours, setEnCours] = useState(false);
@@ -349,6 +353,11 @@ export function FormulaireEtablissement({
         Object.keys(v.horaires_ouverture).length > 0
           ? v.horaires_ouverture
           : null,
+      mode_reservation: v.mode_reservation,
+      email_reservation:
+        v.mode_reservation === 'email' && v.email_reservation.trim()
+          ? v.email_reservation.trim()
+          : null,
     };
 
     let resultat;
@@ -532,6 +541,79 @@ export function FormulaireEtablissement({
               {v.description_courte.length}/280
             </p>
           </label>
+
+          <div className="block sm:col-span-2">
+            <span className="mb-2 block text-sm font-semibold text-marine-800">
+              Comment souhaitez-vous recevoir les réservations&nbsp;?
+            </span>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {[
+                {
+                  valeur: 'app' as const,
+                  titre: 'Formulaire en ligne',
+                  detail: 'Le client réserve directement sur MatchSpot. Recommandé.',
+                },
+                {
+                  valeur: 'telephone' as const,
+                  titre: 'Téléphone',
+                  detail: 'On affiche votre numéro à la place du formulaire.',
+                },
+                {
+                  valeur: 'email' as const,
+                  titre: 'Email',
+                  detail: 'Le client vous écrit. Vous pouvez préciser une adresse dédiée ci-dessous.',
+                },
+              ].map((opt) => (
+                <label
+                  key={opt.valeur}
+                  className={`flex cursor-pointer flex-col gap-1 rounded-lg border p-3 text-xs transition ${
+                    v.mode_reservation === opt.valeur
+                      ? 'border-bleu-500 bg-bleu-50 text-bleu-700'
+                      : 'border-marine-200 bg-white text-marine-700 hover:border-marine-300'
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="mode_reservation"
+                      value={opt.valeur}
+                      checked={v.mode_reservation === opt.valeur}
+                      onChange={() =>
+                        setV({ ...v, mode_reservation: opt.valeur })
+                      }
+                    />
+                    <span className="font-semibold">{opt.titre}</span>
+                  </span>
+                  <span className="text-marine-600">{opt.detail}</span>
+                </label>
+              ))}
+            </div>
+
+            {v.mode_reservation === 'telephone' && !v.telephone.trim() && (
+              <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                Pensez à renseigner le téléphone ci-dessus, sinon les clients
+                ne sauront pas comment vous joindre.
+              </p>
+            )}
+
+            {v.mode_reservation === 'email' && (
+              <label className="mt-3 block">
+                <span className="mb-1 block text-xs font-semibold text-marine-800">
+                  Email pour les réservations (optionnel, sinon votre email
+                  de compte sera utilisé)
+                </span>
+                <input
+                  type="email"
+                  value={v.email_reservation}
+                  onChange={(e) =>
+                    setV({ ...v, email_reservation: e.target.value })
+                  }
+                  className="champ-saisie"
+                  placeholder="resa@monbar.fr"
+                />
+              </label>
+            )}
+          </div>
         </div>
       )}
 
