@@ -32,6 +32,23 @@ matchs de la Coupe du Monde 2026. Cible : France.
   `creer_organisation_bar_initial`, `propager_qualifies`).
 - Migrations idempotentes côté seed (`ON CONFLICT DO NOTHING`).
 
+## Composants UI
+
+- Composants réutilisables dans `web/src/composants/ui/` :
+  - `Icone.tsx` : SVG centralisés (`IconePin`, `IconeBallon`, `IconeFlamme`).
+    Décoratives par défaut (`aria-hidden`), passer `label` pour une icône
+    sémantique (génère `<title>` + `aria-label`).
+  - `Spinner.tsx` : spinner inline pour boutons en cours de soumission.
+  - `Squelette.tsx` : placeholders animés (`SqueletteLigne`, `SqueletteCarte`,
+    `SqueletteListe`) pour remplacer les écrans « Chargement… ».
+- Classes utilitaires partagées dans `web/src/index.css @layer components` :
+  `.bouton-primaire`, `.bouton-secondaire`, `.bouton-ghost`, `.bouton-danger`,
+  `.champ-saisie`, `.carte`, `.carte-interactive`, `.badge`,
+  `.pastille-distance`, `.lien-evitement` (skip-link a11y).
+- **Pas de bibliothèque UI installée** (pas de Radix, shadcn, etc.). À adopter
+  dès qu'on a besoin d'un modal, dropdown, popover ou date-picker accessible —
+  Radix Primitives est le choix par défaut (headless, ~12kb, gold standard a11y).
+
 ## Skill routing
 
 When the user's request matches an available skill, invoke it via the Skill tool. When in doubt, invoke the skill.

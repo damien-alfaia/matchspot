@@ -6,6 +6,7 @@ import type { MatchCdm } from '../types/base';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 import { slugifierMatch } from '../utils/slugMatch';
+import { IconePin, IconeBallon } from './ui/Icone';
 
 interface ResultatBar {
   etablissement_id: string;
@@ -25,42 +26,6 @@ type EtatGeoloc =
   | { type: 'demande' }
   | { type: 'ok'; lat: number; lng: number }
   | { type: 'refusee'; raison: string };
-
-function IconePin({ className = 'h-4 w-4' }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M12 22s-7-6.5-7-12a7 7 0 1 1 14 0c0 5.5-7 12-7 12Z" />
-      <circle cx="12" cy="10" r="2.5" />
-    </svg>
-  );
-}
-
-function IconeBallon({ className = 'h-4 w-4' }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 3v6M12 15v6M3 12h6M15 12h6M5.6 5.6l4.2 4.2M14.2 14.2l4.2 4.2M18.4 5.6l-4.2 4.2M9.8 14.2l-4.2 4.2" />
-    </svg>
-  );
-}
 
 export function MoteurRecherche() {
   const [matchs, setMatchs] = useState<MatchCdm[]>([]);
