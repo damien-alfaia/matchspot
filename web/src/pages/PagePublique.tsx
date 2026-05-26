@@ -9,6 +9,7 @@ import { BoutonPartager } from '../composants/BoutonPartager';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
 import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
 import { BadgeMatchPhare } from '../composants/ui/BadgeMatchPhare';
+import { DrapeauEquipe } from '../composants/ui/DrapeauEquipe';
 import { estMatchPhare } from '../utils/matchPhare';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
@@ -271,10 +272,16 @@ export function PagePublique() {
                             </p>
                             <BadgeMatchPhare match={d.matchs} />
                           </div>
-                          <h3 className="mt-1 text-xl font-bold text-marine-900">
-                            {d.matchs.equipe_domicile}{' '}
-                            <span className="font-normal text-marine-600">vs</span>{' '}
-                            {d.matchs.equipe_exterieur}
+                          <h3 className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xl font-bold text-marine-900">
+                            <span className="inline-flex items-center gap-2">
+                              <DrapeauEquipe nom={d.matchs.equipe_domicile} taille="md" />
+                              {d.matchs.equipe_domicile}
+                            </span>
+                            <span className="font-normal text-marine-600">vs</span>
+                            <span className="inline-flex items-center gap-2">
+                              <DrapeauEquipe nom={d.matchs.equipe_exterieur} taille="md" />
+                              {d.matchs.equipe_exterieur}
+                            </span>
                           </h3>
                           <p className="mt-2 text-sm text-marine-800">
                             <span className="font-semibold">

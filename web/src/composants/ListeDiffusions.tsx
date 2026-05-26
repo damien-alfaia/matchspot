@@ -8,6 +8,7 @@ import {
   libelleStatutDiffusion,
 } from '../utils/libelles';
 import { BadgeMatchPhare } from './ui/BadgeMatchPhare';
+import { DrapeauEquipe } from './ui/DrapeauEquipe';
 
 interface Props {
   etablissement: Etablissement;
@@ -78,9 +79,16 @@ export function ListeDiffusions({ etablissement, diffusions, onChangement }: Pro
                   </p>
                   <BadgeMatchPhare match={m} compact />
                 </div>
-                <h3 className="mt-1 text-base font-semibold text-slate-900">
-                  {m.equipe_domicile} <span className="text-slate-400">vs</span>{' '}
-                  {m.equipe_exterieur}
+                <h3 className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-base font-semibold text-slate-900">
+                  <span className="inline-flex items-center gap-1.5">
+                    <DrapeauEquipe nom={m.equipe_domicile} taille="sm" />
+                    {m.equipe_domicile}
+                  </span>
+                  <span className="text-slate-400">vs</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <DrapeauEquipe nom={m.equipe_exterieur} taille="sm" />
+                    {m.equipe_exterieur}
+                  </span>
                 </h3>
                 <p className="mt-1 text-sm text-slate-600">
                   {formaterDateHeure(m.coup_envoi_utc, etablissement.fuseau_horaire)}{' '}

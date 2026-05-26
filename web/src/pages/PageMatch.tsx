@@ -7,6 +7,7 @@ import { Footer } from '../composants/Footer';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
 import { SqueletteLigne, SqueletteListe } from '../composants/ui/Squelette';
 import { BadgeMatchPhare } from '../composants/ui/BadgeMatchPhare';
+import { DrapeauEquipe } from '../composants/ui/DrapeauEquipe';
 import { formaterDateHeure, libelleFuseau } from '../utils/fuseaux';
 import { libellePhase } from '../utils/libelles';
 import { extraireNumeroMatch, slugifierMatch } from '../utils/slugMatch';
@@ -155,10 +156,16 @@ export function PageMatch() {
             <span>{libellePhase[match.phase]}</span>
             <BadgeMatchPhare match={match} />
           </div>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-            {match.equipe_domicile}{' '}
-            <span className="font-normal text-marine-300">vs</span>{' '}
-            {match.equipe_exterieur}
+          <h1 className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+            <span className="inline-flex items-center gap-2">
+              <DrapeauEquipe nom={match.equipe_domicile} taille="lg" />
+              {match.equipe_domicile}
+            </span>
+            <span className="font-normal text-marine-300">vs</span>
+            <span className="inline-flex items-center gap-2">
+              <DrapeauEquipe nom={match.equipe_exterieur} taille="lg" />
+              {match.equipe_exterieur}
+            </span>
           </h1>
           <p className="mt-3 text-base text-marine-100 sm:text-lg">
             <span className="font-semibold">

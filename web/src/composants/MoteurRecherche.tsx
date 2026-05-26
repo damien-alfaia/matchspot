@@ -9,6 +9,7 @@ import { slugifierMatch } from '../utils/slugMatch';
 import { IconePin, IconeBallon } from './ui/Icone';
 import { Spinner } from './ui/Spinner';
 import { BadgeMatchPhare } from './ui/BadgeMatchPhare';
+import { DrapeauEquipe } from './ui/DrapeauEquipe';
 
 interface ResultatBar {
   etablissement_id: string;
@@ -153,18 +154,31 @@ export function MoteurRecherche() {
             ))}
           </select>
           {matchSelectionne && (
-            <p className="mt-2 text-xs text-marine-500">
-              Coup d'envoi :{' '}
-              {formaterDateHeure(
-                matchSelectionne.coup_envoi_utc,
-                Intl.DateTimeFormat().resolvedOptions().timeZone,
-              )}{' '}
-              ({libelleFuseau(
-                matchSelectionne.coup_envoi_utc,
-                Intl.DateTimeFormat().resolvedOptions().timeZone,
-              )}
-              ) · {matchSelectionne.stade}, {matchSelectionne.ville_hote}.
-            </p>
+            <>
+              <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-marine-800">
+                <span className="inline-flex items-center gap-1.5">
+                  <DrapeauEquipe nom={matchSelectionne.equipe_domicile} taille="sm" />
+                  {matchSelectionne.equipe_domicile}
+                </span>
+                <span className="font-normal text-marine-500">vs</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <DrapeauEquipe nom={matchSelectionne.equipe_exterieur} taille="sm" />
+                  {matchSelectionne.equipe_exterieur}
+                </span>
+              </p>
+              <p className="mt-1 text-xs text-marine-600">
+                Coup d'envoi :{' '}
+                {formaterDateHeure(
+                  matchSelectionne.coup_envoi_utc,
+                  Intl.DateTimeFormat().resolvedOptions().timeZone,
+                )}{' '}
+                ({libelleFuseau(
+                  matchSelectionne.coup_envoi_utc,
+                  Intl.DateTimeFormat().resolvedOptions().timeZone,
+                )}
+                ) · {matchSelectionne.stade}, {matchSelectionne.ville_hote}.
+              </p>
+            </>
           )}
         </label>
 
