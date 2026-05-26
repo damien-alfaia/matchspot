@@ -32,15 +32,34 @@ const EMAIL_EXPEDITEUR =
   Deno.env.get('EMAIL_EXPEDITEUR') ?? 'MatchSpot <onboarding@resend.dev>';
 const URL_APP = Deno.env.get('URL_APP') ?? 'https://matchspot.fr';
 
+// Headers CORS — sans ça, le navigateur bloque l'appel cross-origin au
+// preflight OPTIONS, et la fonction n'est jamais atteinte.
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers':
+    'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+};
+
 Deno.serve(async (req: Request) => {
+  // Préflight CORS : répondre 200 + headers, sans rien faire de plus.
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders });
+  }
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+    return new Response('Method not allowed', {
+      status: 405,
+      headers: corsHeaders,
+    });
   }
 
   try {
     const { reservation_id } = await req.json();
     if (!reservation_id) {
-      return new Response('reservation_id requis', { status: 400 });
+      return new Response('reservation_id requis', {
+        status: 400,
+        headers: corsHeaders,
+      });
     }
 
     const supa = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
@@ -66,6 +85,7 @@ Deno.serve(async (req: Request) => {
     if (error || !r) {
       return new Response(`Réservation introuvable : ${error?.message}`, {
         status: 404,
+        headers: corsHeaders,
       });
     }
 
@@ -153,10 +173,15 @@ Deno.serve(async (req: Request) => {
         envoyes: resultats.filter((x) => x.status === 'fulfilled').length,
         erreurs: erreurs.map(String),
       }),
-      { headers: { 'content-type': 'application/json' } },
+      {
+        headers: { ...corsHeaders, 'content-type': 'application/json' },
+      },
     );
   } catch (err) {
-    return new Response(`Erreur : ${err}`, { status: 500 });
+    return new Response(`Erreur : ${err}`, {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 });
 
