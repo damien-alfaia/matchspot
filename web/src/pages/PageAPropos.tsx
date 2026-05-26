@@ -83,10 +83,10 @@ export function PageAPropos() {
             utilisateurs en direct. Une question, une suggestion, un bug ?
             Écrivez-nous à{' '}
             <a
-              href="mailto:bonjour@matchspot.fr"
+              href="mailto:contact@matchspot.fr"
               className="font-semibold text-bleu-600 hover:underline"
             >
-              bonjour@matchspot.fr
+              contact@matchspot.fr
             </a>{' '}
             — on lit tout et on répond.
           </p>

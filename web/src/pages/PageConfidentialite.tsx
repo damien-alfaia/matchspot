@@ -42,10 +42,10 @@ export function PageConfidentialite() {
                 Vous pouvez à tout moment demander l'accès, la rectification
                 ou la suppression de vos données en écrivant à{' '}
                 <a
-                  href="mailto:bonjour@matchspot.fr"
+                  href="mailto:contact@matchspot.fr"
                   className="font-medium text-bleu-600 hover:underline"
                 >
-                  bonjour@matchspot.fr
+                  contact@matchspot.fr
                 </a>
                 .
               </li>
@@ -183,8 +183,8 @@ export function PageConfidentialite() {
                 final.
               </li>
               <li>
-                <strong>[Vercel ou Netlify, selon hébergement]</strong> —
-                serveur web qui sert l'application front-end.
+                <strong>Hostinger International Ltd</strong> (Chypre) —
+                hébergement du serveur web qui sert l'application front-end.
               </li>
             </ul>
           </section>
@@ -232,10 +232,10 @@ export function PageConfidentialite() {
             <p className="mt-3">
               Pour exercer ces droits, écrivez à{' '}
               <a
-                href="mailto:bonjour@matchspot.fr"
+                href="mailto:contact@matchspot.fr"
                 className="font-medium text-bleu-600 hover:underline"
               >
-                bonjour@matchspot.fr
+                contact@matchspot.fr
               </a>{' '}
               en précisant l'objet de votre demande. Nous nous engageons à
               répondre dans un délai d'un mois maximum.

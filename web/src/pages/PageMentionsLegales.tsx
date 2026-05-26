@@ -2,9 +2,8 @@ import { Entete } from '../composants/Entete';
 import { Footer } from '../composants/Footer';
 import { EnTeteSEO } from '../composants/EnTeteSEO';
 
-// IMPORTANT : les champs entre [crochets] sont des placeholders à remplir
-// par l'éditeur du site avant la mise en production (raison sociale,
-// SIRET, etc.). Voir le commentaire dans le fichier pour la liste exacte.
+// Données légales — éditeur du site : Damien ALFAIA (Entrepreneur Individuel).
+// Champs encore à compléter signalés par « [à compléter : XXX] ».
 
 export function PageMentionsLegales() {
   return (
@@ -29,30 +28,30 @@ export function PageMentionsLegales() {
           <section>
             <h2 className="text-xl font-bold text-marine-900">Éditeur du site</h2>
             <p className="mt-2">
-              MatchSpot — [Raison sociale à compléter]
+              <strong>Damien ALFAIA</strong>
               <br />
-              [Forme juridique] au capital de [Montant] €
+              Entrepreneur Individuel (EI)
               <br />
-              [Adresse postale du siège social]
+              [à compléter : adresse postale du siège]
               <br />
-              [Code postal] [Ville], France
+              France
             </p>
             <p className="mt-2">
-              SIRET : [Numéro SIRET à 14 chiffres]
+              SIRET : 933 001 331 00018
               <br />
-              RCS : [Ville d'immatriculation au RCS] [Numéro RCS]
+              SIREN : 933 001 331
               <br />
-              TVA intracommunautaire : [FR + 11 chiffres]
+              TVA intracommunautaire : [à compléter : numéro FR…]
             </p>
             <p className="mt-2">
-              Directeur de la publication : [Nom Prénom du responsable]
+              Directeur de la publication : Damien ALFAIA
               <br />
               Contact :{' '}
               <a
-                href="mailto:bonjour@matchspot.fr"
+                href="mailto:contact@matchspot.fr"
                 className="font-medium text-bleu-600 hover:underline"
               >
-                bonjour@matchspot.fr
+                contact@matchspot.fr
               </a>
             </p>
           </section>
@@ -64,19 +63,20 @@ export function PageMentionsLegales() {
             </p>
             <ul className="mt-2 list-inside list-disc space-y-1">
               <li>
-                <strong>Application web</strong> : [Vercel Inc. ou Netlify
-                Inc. — à préciser selon le déploiement effectif], adresse :
-                [adresse du siège social de l'hébergeur].
+                <strong>Application web</strong> : Hostinger International
+                Ltd, 61 Lordou Vironos Street, 6023 Larnaca, Chypre.
               </li>
               <li>
                 <strong>Base de données et authentification</strong> :
                 Supabase, Inc., 970 Toa Payoh North #07-04, Singapore
-                318992. Données hébergées sur la région Union Européenne.
+                318992. Données hébergées sur la région Union Européenne
+                (Francfort, Allemagne).
               </li>
               <li>
                 <strong>Envoi d'emails transactionnels</strong> : Resend,
                 Inc., 2261 Market Street #4667, San Francisco, CA 94114,
-                USA.
+                USA. Transferts encadrés par les clauses contractuelles
+                types de la Commission européenne.
               </li>
             </ul>
           </section>
@@ -170,10 +170,10 @@ export function PageMentionsLegales() {
               . Pour toute question ou demande d'exercice de vos droits,
               écrivez à{' '}
               <a
-                href="mailto:bonjour@matchspot.fr"
+                href="mailto:contact@matchspot.fr"
                 className="font-medium text-bleu-600 hover:underline"
               >
-                bonjour@matchspot.fr
+                contact@matchspot.fr
               </a>
               .
             </p>

@@ -65,7 +65,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:bonjour@matchspot.fr"
+                  href="mailto:contact@matchspot.fr"
                   className="hover:text-bleu-600"
                 >
                   Contact
