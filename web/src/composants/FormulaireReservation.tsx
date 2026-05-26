@@ -24,20 +24,28 @@ export function FormulaireReservation({
     setEnCours(true);
     setErreur(null);
 
-    const { data, error } = await supabase
-      .from('reservations')
-      .insert({
-        diffusion_id: diffusionId,
-        nom_client: nom,
-        email_client: email,
-        taille_groupe: taille,
-        statut: 'en_attente',
-      })
-      .select('id')
-      .single();
+    // On génère l'id côté client pour pouvoir le passer à l'Edge Function
+    // de notification SANS faire un .select() après l'insert. Raison :
+    // PostgREST ferait alors un SELECT implicite, et anon n'a pas le
+    // droit de SELECT sur reservations (seul le staff de l'organisation
+    // y a accès). Sans cette précaution, l'INSERT réussit mais PostgREST
+    // renvoie l'erreur RLS 42501 du SELECT, faussant l'UX.
+    const reservationId =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID()
+        : undefined;
 
-    if (error || !data) {
-      setErreur(error?.message ?? 'Erreur inconnue.');
+    const { error } = await supabase.from('reservations').insert({
+      ...(reservationId ? { id: reservationId } : {}),
+      diffusion_id: diffusionId,
+      nom_client: nom,
+      email_client: email,
+      taille_groupe: taille,
+      statut: 'en_attente',
+    });
+
+    if (error) {
+      setErreur(error.message);
       setEnCours(false);
       return;
     }
@@ -53,13 +61,15 @@ export function FormulaireReservation({
     // est down, la résa est sauvegardée dans Supabase et visible via
     // Realtime. On n'affiche pas d'erreur au client pour ne pas le
     // confondre.
-    void supabase.functions
-      .invoke('notifier_reservation', {
-        body: { reservation_id: data.id },
-      })
-      .catch(() => {
-        // Silencieux par design.
-      });
+    if (reservationId) {
+      void supabase.functions
+        .invoke('notifier_reservation', {
+          body: { reservation_id: reservationId },
+        })
+        .catch(() => {
+          // Silencieux par design.
+        });
+    }
   }
 
   if (confirme) {
