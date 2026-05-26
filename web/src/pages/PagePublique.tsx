@@ -168,7 +168,7 @@ export function PagePublique() {
             {etablissement.telephone && (
               <a
                 href={`tel:${etablissement.telephone.replace(/\s/g, '')}`}
-                className="badge bg-white dark:bg-marine-800/10 text-white hover:bg-white dark:bg-marine-800/20"
+                className="badge bg-white/10 text-white hover:bg-white/20"
               >
                 📞 {etablissement.telephone}
               </a>
@@ -178,19 +178,19 @@ export function PagePublique() {
                 href={lienGoogleMaps}
                 target="_blank"
                 rel="noreferrer"
-                className="badge bg-white dark:bg-marine-800/10 text-white hover:bg-white dark:bg-marine-800/20"
+                className="badge bg-white/10 text-white hover:bg-white/20"
               >
                 📍 Itinéraire
               </a>
             )}
-            <span className="badge bg-white dark:bg-marine-800/10 text-white">
+            <span className="badge bg-white/10 text-white">
               🕐 {etablissement.fuseau_horaire}
             </span>
             <BoutonPartager
               url={typeof window !== 'undefined' ? window.location.href : ''}
               titre={`${etablissement.nom} sur MatchSpot`}
               texte={`Découvrez les soirées Coupe du Monde 2026 à ${etablissement.nom}`}
-              className="badge bg-white dark:bg-marine-800 text-marine-900 dark:text-marine-50 hover:bg-marine-50 dark:bg-marine-800"
+              className="badge bg-white text-marine-900 hover:bg-marine-50"
             />
           </div>
         </header>
@@ -339,7 +339,7 @@ export function PagePublique() {
                       </div>
                     </div>
 
-                    <div className="border-t border-marine-50 dark:border-marine-800 bg-marine-50/50 p-5 sm:p-6">
+                    <div className="border-t border-marine-100 bg-marine-50/50 p-5 dark:border-marine-700 dark:bg-marine-900/50 sm:p-6">
                       <h4 className="mb-3 text-sm font-bold text-marine-900 dark:text-marine-50">
                         Réserver pour cette soirée
                       </h4>

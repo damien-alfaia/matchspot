@@ -68,7 +68,7 @@ export function PageCommentCaMarche() {
           <div className="mt-6 flex justify-center gap-3">
             <Link
               to="/inscription-pro"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-white dark:bg-marine-800 px-5 py-3 text-base font-semibold text-marine-900 dark:text-marine-50 shadow-sm transition hover:bg-marine-50 dark:bg-marine-800"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-3 text-base font-semibold text-marine-900 shadow-sm transition hover:bg-marine-50"
             >
               Inscrire mon bar
             </Link>

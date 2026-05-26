@@ -20,7 +20,7 @@ export function BoutonTheme({ className = '' }: Props) {
       onClick={basculer}
       aria-label={libelle}
       title={libelle}
-      className={`inline-flex h-9 w-9 items-center justify-center rounded-md transition hover:bg-white dark:bg-marine-800/10 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 dark:hover:bg-white dark:bg-marine-800/10 ${className}`}
+      className={`inline-flex h-9 w-9 items-center justify-center rounded-md transition hover:bg-marine-100/40 focus:outline-none focus:ring-2 focus:ring-bleu-500 focus:ring-offset-1 dark:hover:bg-marine-800/40 ${className}`}
     >
       {estSombre ? (
         <IconeSoleil className="h-5 w-5" />

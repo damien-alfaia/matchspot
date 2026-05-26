@@ -150,7 +150,7 @@ export function PageMatch() {
         <Entete />
         <header className="mx-auto max-w-3xl px-4 pb-12 pt-8 sm:pb-16">
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-bleu-200">
-            <span className="rounded-full bg-white dark:bg-marine-800/10 px-2.5 py-0.5">
+            <span className="rounded-full bg-white/10 px-2.5 py-0.5">
               Match #{match.numero_match}
             </span>
             <span>{libellePhase[match.phase]}</span>
