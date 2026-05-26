@@ -4,16 +4,19 @@ import { supabase } from '../lib/supabase';
 import { useSession } from '../contexte/SessionContexte';
 import { Entete } from '../composants/Entete';
 
-type Mode = 'connexion' | 'inscription';
+// Page de CONNEXION uniquement. L'inscription d'un nouveau bar passe par
+// /inscription-pro qui crée compte Auth + organisation + premier
+// établissement en une transaction via la RPC creer_organisation_bar_initial.
+// Avoir deux chemins concurrents (signup direct ici + flow pro) créait des
+// comptes orphelins sans organisation, qui se retrouvaient bloqués sur
+// /tableau-de-bord sans bouton de création.
 
 export function PageConnexion() {
   const { session, chargement } = useSession();
   const naviguer = useNavigate();
-  const [mode, setMode] = useState<Mode>('connexion');
   const [email, setEmail] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
   const [enCours, setEnCours] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
 
   if (chargement) {
@@ -27,30 +30,15 @@ export function PageConnexion() {
     e.preventDefault();
     setEnCours(true);
     setErreur(null);
-    setMessage(null);
 
-    if (mode === 'connexion') {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password: motDePasse,
-      });
-      if (error) {
-        setErreur(error.message);
-      } else {
-        naviguer('/tableau-de-bord');
-      }
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password: motDePasse,
+    });
+    if (error) {
+      setErreur(error.message);
     } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password: motDePasse,
-      });
-      if (error) {
-        setErreur(error.message);
-      } else {
-        setMessage(
-          'Compte créé. Si la confirmation par email est activée, vérifiez votre boîte avant de vous connecter.',
-        );
-      }
+      naviguer('/tableau-de-bord');
     }
     setEnCours(false);
   }
@@ -60,16 +48,14 @@ export function PageConnexion() {
       <Entete />
       <main className="mx-auto max-w-md px-4 py-12">
         <div className="carte">
-          <h1 className="text-xl font-semibold text-slate-900">
-            {mode === 'connexion' ? 'Connexion' : 'Création de compte'}
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-xl font-semibold text-marine-900">Connexion</h1>
+          <p className="mt-1 text-sm text-marine-500">
             Espace réservé au staff des bars et restaurants partenaires.
           </p>
 
           <form onSubmit={soumettre} className="mt-6 space-y-4">
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-slate-700">
+              <span className="mb-1 block text-sm font-medium text-marine-700">
                 Email
               </span>
               <input
@@ -82,7 +68,7 @@ export function PageConnexion() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-slate-700">
+              <span className="mb-1 block text-sm font-medium text-marine-700">
                 Mot de passe
               </span>
               <input
@@ -92,9 +78,7 @@ export function PageConnexion() {
                 value={motDePasse}
                 onChange={(e) => setMotDePasse(e.target.value)}
                 className="champ-saisie"
-                autoComplete={
-                  mode === 'connexion' ? 'current-password' : 'new-password'
-                }
+                autoComplete="current-password"
               />
             </label>
 
@@ -103,46 +87,32 @@ export function PageConnexion() {
                 {erreur}
               </p>
             )}
-            {message && (
-              <p className="rounded-md bg-bleu-50 px-3 py-2 text-sm text-bleu-700">
-                {message}
-              </p>
-            )}
 
-            <button type="submit" disabled={enCours} className="bouton-primaire w-full">
-              {enCours
-                ? 'Veuillez patienter…'
-                : mode === 'connexion'
-                  ? 'Se connecter'
-                  : 'Créer mon compte'}
+            <button
+              type="submit"
+              disabled={enCours}
+              className="bouton-primaire w-full"
+            >
+              {enCours ? 'Connexion…' : 'Se connecter'}
             </button>
           </form>
 
-          <div className="mt-4 flex flex-col items-center gap-2 text-center text-sm text-slate-500">
-            {mode === 'connexion' ? (
-              <>
-                <Link
-                  to="/inscription-pro"
-                  className="text-bleu-700 hover:underline"
-                >
-                  Vous êtes un bar ? Créer un compte pro
-                </Link>
-                <Link
-                  to="/mot-de-passe-oublie"
-                  className="text-bleu-700 hover:underline"
-                >
-                  Mot de passe oublié ?
-                </Link>
-              </>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setMode('connexion')}
-                className="text-bleu-700 hover:underline"
+          <div className="mt-4 flex flex-col items-center gap-2 text-center text-sm text-marine-500">
+            <Link
+              to="/mot-de-passe-oublie"
+              className="text-bleu-700 hover:underline"
+            >
+              Mot de passe oublié ?
+            </Link>
+            <p>
+              Vous êtes un bar et pas encore inscrit ?{' '}
+              <Link
+                to="/inscription-pro"
+                className="font-semibold text-bleu-700 hover:underline"
               >
-                Déjà inscrit ? Se connecter
-              </button>
-            )}
+                Créer un compte pro
+              </Link>
+            </p>
           </div>
         </div>
       </main>

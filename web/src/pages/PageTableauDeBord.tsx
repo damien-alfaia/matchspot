@@ -90,6 +90,21 @@ export function PageTableauDeBord() {
 
         {chargement ? (
           <p className="mt-10 text-marine-500">Chargement…</p>
+        ) : etablissements.length === 0 && !organisationId ? (
+          <div className="mt-10 carte text-center">
+            <p className="text-base font-semibold text-marine-900">
+              Finalisez votre inscription pour créer votre premier
+              établissement.
+            </p>
+            <p className="mt-2 text-sm text-marine-600">
+              Votre compte est créé mais aucune organisation n'y est encore
+              rattachée. Continuez votre inscription pour configurer votre
+              bar (nom, adresse, capacité, fuseau).
+            </p>
+            <Link to="/inscription-pro" className="bouton-primaire mt-5 inline-flex">
+              Finaliser mon inscription
+            </Link>
+          </div>
         ) : etablissements.length === 0 ? (
           <div className="mt-10 carte text-center">
             <p className="text-sm text-marine-600">
