@@ -1,0 +1,33 @@
+# Container nginx:alpine dédié à MatchSpot, derrière le Traefik existant
+# du VPS Hostinger.
+#
+# Déploiement :
+#   1. Pousser ce fichier sur le VPS dans /etc/matchspot/docker-compose.yml
+#   2. Pousser deploy/docker/nginx.conf dans /etc/matchspot/nginx.conf
+#   3. Avoir un build front à /var/www/matchspot/dist/
+#   4. Lancer : `docker compose -f /etc/matchspot/docker-compose.yml up -d`
+#
+# Traefik (host network) découvre le container via le socket Docker
+# et le route automatiquement sur HTTPS via les labels ci-dessous.
+
+services:
+  matchspot-web:
+    image: nginx:alpine
+    container_name: matchspot-web
+    restart: unless-stopped
+    volumes:
+      # Build statique généré par GitHub Actions (rsync via user deploy)
+      - /var/www/matchspot/dist:/usr/share/nginx/html:ro
+      # Conf nginx custom (SPA fallback, gzip, headers de sécurité)
+      - /etc/matchspot/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      # Bindé sur localhost uniquement. Traefik est le seul à pouvoir
+      # l'atteindre. Aucune exposition publique directe.
+      - "127.0.0.1:8090:80"
+    labels:
+      # Pattern identique à cedalfaia, qui marche déjà sur ce VPS.
+      - "traefik.enable=true"
+      - "traefik.http.routers.matchspot.entrypoints=websecure"
+      - "traefik.http.routers.matchspot.rule=Host(`matchspot.fr`) || Host(`www.matchspot.fr`)"
+      - "traefik.http.routers.matchspot.tls.certresolver=letsencrypt"
+      - "traefik.http.services.matchspot.loadbalancer.server.port=80"

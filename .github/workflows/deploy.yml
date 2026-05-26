@@ -53,11 +53,13 @@ jobs:
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       - name: Déploiement rsync vers le VPS
+        # Cible : /var/www/matchspot/dist/ (le container nginx monte ce dossier
+        # en lecture seule via /etc/matchspot/docker-compose.yml).
         run: |
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new" \
             web/dist/ \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/matchspot/
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/matchspot/dist/
 
       - name: Smoke test post-déploiement
         run: |
